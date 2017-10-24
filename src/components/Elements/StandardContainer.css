@@ -1,0 +1,4 @@
+.standard-container {
+  display: flex;
+  box-shadow: var(--app-content-box-shadow);
+}

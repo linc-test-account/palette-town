@@ -1,0 +1,28 @@
+.card {
+  min-height: 40px;
+  transition: min-height 0.5s;
+}
+
+.card-container {
+/*box-shadow: 0 0 10px 0 black;*/
+  height: auto;
+  overflow: hidden;
+  max-height: 9999999px;
+  transition: max-height 0.5s;
+}
+
+.palette {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
+
+.card-flipmove {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /*box-shadow: 0 0 10px 0 hsla(0, 0%, 0%, 0.52);*/
+  flex-basis: 1;
+}

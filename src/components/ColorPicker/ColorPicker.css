@@ -1,0 +1,76 @@
+.color-picker-container {
+  background: var(--card-background);
+  display: flex;
+  flex-direction: row;
+  /*margin: 10px 10px 10px 10px;*/
+}
+
+.sliders {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.slider-container {
+  flex-grow: 1;
+  margin: 5px;
+}
+
+.slider-heading {
+  padding: 0;
+  margin: 0 0 5px 5px;
+  font-size: 17px;
+  color: var(--app-text-color);
+  font-size: var(--app-font);
+}
+
+.bar {
+  flex-grow: 1;
+  min-width: 200px;
+  height: 20px;
+}
+
+.bar-container {
+  height: 20px;
+  margin: 0 5px 10px 5px;
+}
+
+.my-handle {
+  background-color: var(--app-text-color);
+  color: black;
+  font-size: 17px;
+  width: 30px;
+  /*height: 60px;*/
+  padding: 5px;
+  margin-top: -6px;
+  text-align: center;
+  line-height: 20px;
+  /*position: absolute;*/
+  /*border-width: 2px;*/
+  /*border-style: solid;*/
+  border-radius: 2px;
+  transition: color ease .5s;
+}
+
+.my-hanle {
+  background: red;
+}
+
+.test-bar {
+  /*background: white;*/
+}
+
+.test-handle:active {
+  background-color: var(--app-brand-color);
+}
+
+.color-picker-buttons {
+  border: none;
+  margin: 10px 10px 10px 5px;
+  width: 70px;
+  height: 40px;
+}

@@ -1,0 +1,36 @@
+:root {
+  /* General App Style */
+  --app-background: hsl(0, 0%, 12%);
+  --app-text-color: hsl(0, 0%, 82%);
+  --app-font: 'PT Sans', sans-serif;
+  --app-brand-color: hsl(201, 96%, 42%);
+  --app-slider-background: hsl(0, 0%, 34%);
+
+  /* Buttons */
+
+
+  /* card */
+  --card-background: hsl(0, 0%, 27%);
+
+  /* Header */
+  --header-background: hsl(0, 0%, 11%);
+  --header-select-background: hsl(0, 0%, 16%);
+  --header-button-background: hsl(0, 0%, 20%);
+  --header-button-color: hsl(0, 0%, 75%);
+  --header-button-border-color: hsl(0, 0%, 24%);
+
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: var(--app-background);
+  font-family: 'PT Sans', sans-serif;
+}
+
+button: focus {outline:0;}
+
+button {
+  outline: none;
+}

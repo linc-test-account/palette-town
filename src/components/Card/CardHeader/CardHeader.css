@@ -1,0 +1,44 @@
+.card-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--card-background);
+}
+
+.card-header-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 40px;
+  background: rgb(82, 82, 82);
+  padding: 0 0 0 5px;
+  flex-grow: 1;
+}
+
+.card-header-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 40px;
+  flex-grow: 1;
+}
+
+.card-info-title {
+  color: var(--app-brand-color);
+  padding: 0;
+  margin: 0 20px 0 0;
+}
+
+.card-info {
+  color: var(--app-text-color);
+}
+
+.card-buttons {
+  background: var(--app-brand-color);
+  width: 100%;
+}

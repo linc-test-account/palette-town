@@ -1,0 +1,80 @@
+.header {
+  background: var(--header-background);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.brand-name {
+  margin: 0 20px 0 20px;
+  padding: 0;
+  font-size: 20px;
+  color: var(--app-brand-color);
+}
+
+.header-select {
+  color: var(--app-text-color);
+  border: none;
+  background: var(--header-select-background);
+  font-family: var(--app-font);
+  padding: 0 10px 0 10px;
+  min-height: 40px;
+}
+
+.header-button {
+  background: var(--header-button-background);
+  color: var(--header-button-color);
+  transition: .3s ease all;
+  width: 70px;
+  height: 40px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-width: 0 1px 0 0;
+  border-color: var(--header-button-border-color);
+  text-align: center;
+  cursor: pointer;
+}
+
+.header-icons {
+  transition: .3s ease all;
+  pointer-events:none;
+  position: absolute;
+  font-size: 15px;
+  opacity: 1;
+  transform: scale(1, 1);
+}
+
+.button-text {
+  transition: .1s ease all;
+  pointer-events:none;
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  font-size: 14px;
+  font-weight: bold;
+  transform: scale(0, 0);
+  font-family: var(--app-font);
+}
+
+.header-button:hover .header-icons {
+  opacity: 0;
+  transform: scale(0, 0);
+  color: hsl(213, 72%, 66%);
+}
+
+.header-button:hover .button-text {
+  opacity: 1;
+  transform: scale(1, 1);
+  color: hsl(332, 76%, 59%);
+}
+
+.header-button:active .button-text {
+  font-size: 12px;
+  color: hsl(213, 72%, 66%);
+}

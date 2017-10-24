@@ -1,18 +1,22 @@
-import { action, observable, computed } from 'mobx';
-import analogous from './ColorLogic/analogous';
-import pentagon from './ColorLogic/pentagon';
-import split from './ColorLogic/split';
-import square from './ColorLogic/square';
-import tetradic from './ColorLogic/tetradic';
-import triadic from './ColorLogic/triadic';
-import oneOff from './ColorLogic/oneOff';
-import shuffle from 'lodash/shuffle';
-import reverse from 'lodash/reverse';
-import uuidv4 from 'uuid/v4';
-import hslToHex from './ColorLogic/hslToHex';
-import namer from 'color-namer';
+import { action, observable, computed, useStrict } from "mobx";
+import {
+  analogous,
+  pentagon,
+  split,
+  square,
+  tetradic,
+  triadic,
+  oneOff,
+  hslToHex
+} from "./ColorLogic";
+import shuffle from "lodash/shuffle";
+import reverse from "lodash/reverse";
+import uuidv4 from "uuid/v4";
+import namer from "color-namer";
 
-const getNameOfColor = hex => namer(hex, { pick: ['ntc'] }).ntc[0].name;
+useStrict(true);
+
+const getNameOfColor = hex => namer(hex, { pick: ["ntc"] }).ntc[0].name;
 
 class Color {
   constructor({ hue, saturation, lightness }) {
@@ -48,25 +52,30 @@ class Color {
 class Data {
   @observable
   allHarmonies = [
-    { harmony: 'analogous', colors: 3 },
-    { harmony: 'pentagon', colors: 5 },
-    { harmony: 'split', colors: 3 },
-    { harmony: 'square', colors: 4 },
-    { harmony: 'tetradic', colors: 4 },
-    { harmony: 'triadic', colors: 3 }
+    { harmony: "analogous", colors: 3 },
+    { harmony: "pentagon", colors: 5 },
+    { harmony: "split", colors: 3 },
+    { harmony: "square", colors: 4 },
+    { harmony: "tetradic", colors: 4 },
+    { harmony: "triadic", colors: 3 }
   ];
   @observable colorPickerVisible = false;
-  @observable palatteFlexDirection = 'row';
+  @observable palatteFlexDirection = "row";
   @observable targetSwatch;
   @observable coolDown = false;
   @observable transitionTime = 300;
-  @observable transitionInterval = this.transitionTime + 70;
   @observable count = 0;
-  @observable currentAction = 'back';
+  @observable currentAction = "back";
   @observable schemes = [];
   @observable shortList = [];
   @observable targetItem = -1;
   @observable selectedHarmony = this.allHarmonies[1];
+
+  @computed
+  get transitionInterval() {
+    return this.transitionTime + 70;
+  }
+
   @computed
   get selectValue() {
     const test = this.allHarmonies.indexOf(this.selectedHarmony);
@@ -81,8 +90,9 @@ class Data {
   }
 
   // GENERATE SWATCHES
-  @action concatColors() {
-    this.currentAction = 'forward';
+  @action
+  concatColors() {
+    this.currentAction = "forward";
     if (this.colorPickerVisible === true) {
       // close color picker if open
       this.closeColorPicker();
@@ -92,22 +102,22 @@ class Data {
 
       let info;
       switch (this.selectedHarmony.harmony) {
-        case 'analogous':
+        case "analogous":
           info = analogous();
           break;
-        case 'split':
+        case "split":
           info = split();
           break;
-        case 'square':
+        case "square":
           info = square();
           break;
-        case 'tetradic':
+        case "tetradic":
           info = tetradic();
           break;
-        case 'triadic':
+        case "triadic":
           info = triadic();
           break;
-        case 'pentagon':
+        case "pentagon":
           info = pentagon();
           break;
         default:
@@ -124,6 +134,7 @@ class Data {
           })
         );
       }
+
       this.schemes = this.schemes.concat({
         scheme: this.selectedHarmony.harmony,
         count: uuidv4(),
@@ -141,7 +152,8 @@ class Data {
   }
 
   // ADD NEW SWATCH TO CURRENT COLOR PALATTE
-  @action addSwatch() {
+  @action
+  addSwatch() {
     const info = oneOff();
     const count = this.schemes[this.targetItem].colors.length;
     if (count < 9) {
@@ -151,20 +163,22 @@ class Data {
         lightness: info[0].lightness
       });
       this.schemes[this.targetItem].colors.push(newSwatch);
-      this.schemes[this.targetItem].scheme = 'custom';
+      this.schemes[this.targetItem].scheme = "custom";
     }
     if (count > 9) {
       return;
     }
   }
 
-  @action changePalatteFlexDirection() {
-    this.palatteFlexDirection === 'row'
-      ? (this.palatteFlexDirection = 'column')
-      : (this.palatteFlexDirection = 'row');
+  @action
+  changePalatteFlexDirection() {
+    this.palatteFlexDirection === "row"
+      ? (this.palatteFlexDirection = "column")
+      : (this.palatteFlexDirection = "row");
   }
 
-  @action closeColorPicker() {
+  @action
+  closeColorPicker() {
     for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
       if (this.schemes[this.targetItem].colors[i].selected === true)
         this.schemes[this.targetItem].colors[i].selected = false;
@@ -172,8 +186,9 @@ class Data {
     this.colorPickerVisible = false;
   }
 
-  @action selectSwatch(index) {
-    console.log('CS');
+  @action
+  selectSwatch(index) {
+    console.log("CS");
     // Reset all swatches to unselected
     for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
       if (this.schemes[this.targetItem].colors[i].selected === true)
@@ -184,29 +199,31 @@ class Data {
     this.schemes[this.targetItem].colors[index].selected = true;
     this.targetSwatch = index;
     this.colorPickerVisible = true;
-
   }
 
-
   // MODIFY SWATCH HSL VALUES
-  @action changeHue(val) {
+  @action
+  changeHue(val) {
     const target = this.schemes[this.targetItem].colors[this.targetSwatch];
     target.hue = val.value;
   }
-  @action changeSaturation(val) {
+  @action
+  changeSaturation(val) {
     const target = this.schemes[this.targetItem].colors[this.targetSwatch];
     target.saturation = val.value;
   }
-  @action changeLightness(val) {
+  @action
+  changeLightness(val) {
     const target = this.schemes[this.targetItem].colors[this.targetSwatch];
     target.lightness = val.value;
   }
 
   // SWAP SWATCHES (MANUAL SWATCH RE-ORDERING)
-  @action swapSwatches(index, direction) {
+  @action
+  swapSwatches(index, direction) {
     const targetArray = this.schemes[this.targetItem].colors.slice();
     const swatchA = index;
-    const swatchB = direction === 'left' ? index - 1 : index + 1;
+    const swatchB = direction === "left" ? index - 1 : index + 1;
     if (swatchB > targetArray.length - 1) {
       return;
     }
@@ -214,7 +231,7 @@ class Data {
       return;
     }
     if (swatchB > -1 && swatchB < targetArray.length) {
-      const swapArrayElements = function (a, x, y) {
+      const swapArrayElements = function(a, x, y) {
         if (a.length === 1) return a;
         a.splice(y, 1, a.splice(x, 1, a[y])[0]);
         return a;
@@ -223,19 +240,22 @@ class Data {
       this.schemes[this.targetItem].colors = output;
     }
     // increment/decrement targetSwatch if target index changes
-    this.targetSwatch = direction === 'left' ? this.targetSwatch - 1 : this.targetSwatch + 1;
+    this.targetSwatch =
+      direction === "left" ? this.targetSwatch - 1 : this.targetSwatch + 1;
   }
 
   // DELETE SWATCH FROM CURRENT COLOR PALATTE
-  @action deleteSwatch(index) {
+  @action
+  deleteSwatch(index) {
     const newArray = this.schemes[this.targetItem].colors.slice();
     newArray.splice(index, 1);
     this.schemes[this.targetItem].colors = newArray;
-    this.schemes[this.targetItem].scheme = 'custom';
+    this.schemes[this.targetItem].scheme = "custom";
     this.closeColorPicker();
   }
 
-  @action deletePalatte() {
+  @action
+  deletePalatte() {
     if (this.colorPickerVisible === true) {
       this.closeColorPicker();
     }
@@ -251,7 +271,8 @@ class Data {
   }
 
   // RANDOMIZE PALATTE SWATCH ORDER
-  @action randomizeSwatches() {
+  @action
+  randomizeSwatches() {
     // close color picker if open
     this.closeColorPicker();
     const newArray = this.schemes[this.targetItem].colors.slice();
@@ -260,7 +281,8 @@ class Data {
   }
 
   // REVERSE PALATTE SWATCH ORDER
-  @action reverseSwatches() {
+  @action
+  reverseSwatches() {
     // close color picker if open
     this.closeColorPicker();
     const newArray = this.schemes[this.targetItem].colors.slice();
@@ -269,7 +291,8 @@ class Data {
   }
 
   // RETRIEVE NEXT COLOR PALATTE
-  @action getNext() {
+  @action
+  getNext() {
     // close color picker if open
     if (this.colorPickerVisible === true) {
       this.closeColorPicker();
@@ -277,10 +300,10 @@ class Data {
 
     if (this.schemes.length === 0) {
       this.concatColors();
-      this.currentAction = 'forward';
+      this.currentAction = "forward";
     }
 
-    this.currentAction = 'forward';
+    this.currentAction = "forward";
     if (this.targetItem === this.count - 1) {
       this.concatColors();
     } else {
@@ -295,17 +318,18 @@ class Data {
   }
 
   // RETRIEVE PREVIOUS COLOR PALATTE
-  @action getPrevious() {
+  @action
+  getPrevious() {
     // close color picker if open
     if (this.colorPickerVisible === true) {
       this.closeColorPicker();
     }
 
-    this.currentAction = 'backward';
+    this.currentAction = "backward";
     if (this.coolDown === false) {
       this.coolDown = true;
       if (this.targetItem === 0) {
-        console.log('Message: Reached start of array!');
+        console.log("Message: Reached start of array!");
       } else {
         this.targetItem = this.targetItem - 1;
       }
@@ -317,20 +341,21 @@ class Data {
   }
 
   // ADD CURRENT COLOR PALATTE TO SHORTLIST ARRAY FOR LATER USE
-  @action addToShortList() {
+  @action
+  addToShortList() {
     let test = false;
     if (this.schemes.length > 0) {
       if (this.shortList.length < 1) {
-        console.log('length < 1');
+        console.log("length < 1");
         test = true;
       }
       if (this.shortList.length > 0) {
-        console.log('length > 0');
+        console.log("length > 0");
         if (
           this.schemes[this.schemes.length - 1].count ===
           this.shortList[this.shortList.length - 1].count
         ) {
-          console.log('Error: already saved!');
+          console.log("Error: already saved!");
         }
         if (
           this.schemes[this.schemes.length - 1].count !==
@@ -341,13 +366,16 @@ class Data {
       }
     }
     if (test === true) {
-      console.log('item saved');
-      this.shortList = this.shortList.concat(this.schemes[this.schemes.length - 1]);
+      console.log("item saved");
+      this.shortList = this.shortList.concat(
+        this.schemes[this.schemes.length - 1]
+      );
     }
   }
 
   // CHANGE SELECTED COLOR PALATTE HARMONY (TRIADIC, ANALOGOUS, ETC.)
-  @action changeHarmony(val) {
+  @action
+  changeHarmony(val) {
     this.selectedHarmony = this.allHarmonies[val];
   }
 }

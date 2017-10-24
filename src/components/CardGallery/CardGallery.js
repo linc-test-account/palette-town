@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
-import FlipMove from 'react-flip-move';
-import Card from '../Card/Card.js';
-import './CardGallery.css';
-// import './css/App.css';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { observer } from "mobx-react";
+import FlipMove from "react-flip-move";
+import Card from "../Card/Card.js";
+import "./CardGallery.css";
 
 function generateCards(dataStore) {
   const schemes = dataStore.schemes;
@@ -13,7 +12,12 @@ function generateCards(dataStore) {
 
   if (schemes.length > 0) {
     return (
-      <Card dataStore={dataStore} key={item.count} scheme={item.scheme} colors={item.colors} />
+      <Card
+        dataStore={dataStore}
+        key={item.count}
+        scheme={item.scheme}
+        colors={item.colors}
+      />
     );
   }
 
@@ -31,29 +35,33 @@ function generateCards(dataStore) {
 class CardGallery extends Component {
   static propTypes = {
     dataStore: PropTypes.object
-  }
+  };
   render() {
     const { dataStore } = this.props;
 
     const customEnterAnimation = {
       from: {
-        transform: `translate(${dataStore.currentAction === 'forward' ? '250px' : '-250px'})`,
-        opacity: '0'
+        transform: `translate(${dataStore.currentAction === "forward"
+          ? "250px"
+          : "-250px"})`,
+        opacity: "0"
       },
       to: {
-        transform: 'translate(0)',
-        opacity: '1'
+        transform: "translate(0)",
+        opacity: "1"
       }
     };
 
     const customLeaveAnimation = {
       from: {
-        transform: 'translate(0)',
-        opacity: '1'
+        transform: "translate(0)",
+        opacity: "1"
       },
       to: {
-        transform: `translate(${dataStore.currentAction === 'forward' ? '-250px' : '250px'})`,
-        opacity: '0'
+        transform: `translate(${dataStore.currentAction === "forward"
+          ? "-250px"
+          : "250px"})`,
+        opacity: "0"
       }
     };
 
@@ -65,7 +73,8 @@ class CardGallery extends Component {
           easing="ease-in-out"
           enterAnimation={customEnterAnimation}
           leaveAnimation={customLeaveAnimation}
-          maintainContainerHeight={true}>
+          maintainContainerHeight={true}
+        >
           {generateCards(dataStore)}
         </FlipMove>
       </div>

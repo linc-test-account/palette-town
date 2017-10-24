@@ -4,10 +4,3 @@
   flex-direction: column;
   justify-content: center;
 }
-
-.slide-test {
-  background: red;
-  height: 50px;
-  width: 200px;
-  color: blue;
-}

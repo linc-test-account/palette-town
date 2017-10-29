@@ -13,10 +13,15 @@ import shuffle from "lodash/shuffle";
 import reverse from "lodash/reverse";
 import uuidv4 from "uuid/v4";
 import namer from "color-namer";
+import { arrayMove } from "react-sortable-hoc";
 
 useStrict(true);
 
 const getNameOfColor = hex => namer(hex, { pick: ["ntc"] }).ntc[0].name;
+
+const TRANSITION_TIME = 200;
+const TRANSITION_INTERVAL = 150;
+const SWATCH_LIMIT = 7;
 
 class Color {
   constructor({ hue, saturation, lightness }) {
@@ -25,6 +30,7 @@ class Color {
     this.lightness = lightness;
   }
   count = uuidv4();
+  transitionTime = 200;
   @observable selected = false;
   @observable hue = 0;
   @observable hexval;
@@ -63,7 +69,6 @@ class Data {
   @observable palatteFlexDirection = "row";
   @observable targetSwatch;
   @observable coolDown = false;
-  @observable transitionTime = 300;
   @observable count = 0;
   @observable currentAction = "back";
   @observable schemes = [];
@@ -72,8 +77,8 @@ class Data {
   @observable selectedHarmony = this.allHarmonies[1];
 
   @computed
-  get transitionInterval() {
-    return this.transitionTime + 70;
+  get transitionTime() {
+    return TRANSITION_TIME;
   }
 
   @computed
@@ -126,6 +131,9 @@ class Data {
 
       const colorArray = [];
       for (let i = 0; i < this.selectedHarmony.colors; i++) {
+        if (info[i].hue === undefined || info[i].hue === null) {
+          console.log(`error: hue === ${info[i].hue}`);
+        }
         colorArray.push(
           new Color({
             hue: info[i].hue,
@@ -141,22 +149,26 @@ class Data {
         colors: colorArray
       });
 
-      this.count = this.count + 1;
-      this.targetItem = this.targetItem + 1;
+      this.count++;
+      this.targetItem++;
 
       // (FlipMove hacky workaround - prevent function completing until FlipMove transition completes
       setTimeout(() => {
         this.coolDown = false;
-      }, this.transitionInterval);
+      }, TRANSITION_TIME + TRANSITION_INTERVAL);
     }
   }
 
   // ADD NEW SWATCH TO CURRENT COLOR PALATTE
   @action
   addSwatch() {
+    if (this.colorPickerVisible === true) {
+      // close color picker if open
+      this.closeColorPicker();
+    }
     const info = oneOff();
     const count = this.schemes[this.targetItem].colors.length;
-    if (count < 9) {
+    if (count < SWATCH_LIMIT) {
       const newSwatch = new Color({
         hue: info[0].hue,
         saturation: info[0].saturation,
@@ -165,16 +177,18 @@ class Data {
       this.schemes[this.targetItem].colors.push(newSwatch);
       this.schemes[this.targetItem].scheme = "custom";
     }
-    if (count > 9) {
+    if (count > SWATCH_LIMIT) {
       return;
     }
   }
 
   @action
   changePalatteFlexDirection() {
-    this.palatteFlexDirection === "row"
-      ? (this.palatteFlexDirection = "column")
-      : (this.palatteFlexDirection = "row");
+    if (this.palatteFlexDirection === "row") {
+      this.palatteFlexDirection = "column";
+    } else {
+      this.palatteFlexDirection = "row";
+    }
   }
 
   @action
@@ -188,14 +202,14 @@ class Data {
 
   @action
   selectSwatch(index) {
-    console.log("CS");
+    console.log(index)
     // Reset all swatches to unselected
     for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
       if (this.schemes[this.targetItem].colors[i].selected === true)
         this.schemes[this.targetItem].colors[i].selected = false;
     }
 
-    // select clicked swatch
+    // Select color based on index parameter
     this.schemes[this.targetItem].colors[index].selected = true;
     this.targetSwatch = index;
     this.colorPickerVisible = true;
@@ -216,32 +230,6 @@ class Data {
   changeLightness(val) {
     const target = this.schemes[this.targetItem].colors[this.targetSwatch];
     target.lightness = val.value;
-  }
-
-  // SWAP SWATCHES (MANUAL SWATCH RE-ORDERING)
-  @action
-  swapSwatches(index, direction) {
-    const targetArray = this.schemes[this.targetItem].colors.slice();
-    const swatchA = index;
-    const swatchB = direction === "left" ? index - 1 : index + 1;
-    if (swatchB > targetArray.length - 1) {
-      return;
-    }
-    if (swatchB < 0) {
-      return;
-    }
-    if (swatchB > -1 && swatchB < targetArray.length) {
-      const swapArrayElements = function(a, x, y) {
-        if (a.length === 1) return a;
-        a.splice(y, 1, a.splice(x, 1, a[y])[0]);
-        return a;
-      };
-      const output = swapArrayElements(targetArray, swatchA, swatchB);
-      this.schemes[this.targetItem].colors = output;
-    }
-    // increment/decrement targetSwatch if target index changes
-    this.targetSwatch =
-      direction === "left" ? this.targetSwatch - 1 : this.targetSwatch + 1;
   }
 
   // DELETE SWATCH FROM CURRENT COLOR PALATTE
@@ -270,24 +258,55 @@ class Data {
     }
   }
 
+  // Method called by react-sortable-hoc after dropping 
+  // a dragged element into new position. Method recieves the
+  // oldIndex of the dragged element and the newIndex of the element
+  @action
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    console.log(oldIndex, newIndex);
+    const targetArray = this.schemes[this.targetItem].colors.slice();
+    const newArr = arrayMove(targetArray, oldIndex, newIndex);
+    this.schemes[this.targetItem].colors = newArr;
+
+    // if color picker is visible, iterate through current colors,  
+    // find new position of the currently selected color, then
+    // pass index position of color to selectSwatch class method
+    if (this.colorPickerVisible === true) {
+      for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
+        if (this.schemes[this.targetItem].colors[i].selected === true)
+        this.selectSwatch(i)
+      }
+    }
+  };
+
   // RANDOMIZE PALATTE SWATCH ORDER
   @action
   randomizeSwatches() {
-    // close color picker if open
-    this.closeColorPicker();
     const newArray = this.schemes[this.targetItem].colors.slice();
     const test = shuffle(newArray);
     this.schemes[this.targetItem].colors = test;
+
+    if (this.colorPickerVisible === true) {
+      for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
+        if (this.schemes[this.targetItem].colors[i].selected === true)
+        this.selectSwatch(i)
+      }
+    }
   }
 
   // REVERSE PALATTE SWATCH ORDER
   @action
   reverseSwatches() {
-    // close color picker if open
-    this.closeColorPicker();
     const newArray = this.schemes[this.targetItem].colors.slice();
     const test = reverse(newArray);
     this.schemes[this.targetItem].colors = test;
+
+    if (this.colorPickerVisible === true) {
+      for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
+        if (this.schemes[this.targetItem].colors[i].selected === true)
+        this.selectSwatch(i)
+      }
+    }
   }
 
   // RETRIEVE NEXT COLOR PALATTE
@@ -312,7 +331,7 @@ class Data {
         this.targetItem = this.targetItem + 1;
         setTimeout(() => {
           this.coolDown = false;
-        }, this.transitionInterval);
+        }, TRANSITION_TIME + TRANSITION_INTERVAL);
       }
     }
   }
@@ -320,6 +339,7 @@ class Data {
   // RETRIEVE PREVIOUS COLOR PALATTE
   @action
   getPrevious() {
+    console.log("cat");
     // close color picker if open
     if (this.colorPickerVisible === true) {
       this.closeColorPicker();
@@ -336,7 +356,7 @@ class Data {
       // prevent function completing until FlipMove transition completes
       setTimeout(() => {
         this.coolDown = false;
-      }, this.transitionInterval);
+      }, TRANSITION_TIME + TRANSITION_INTERVAL);
     }
   }
 

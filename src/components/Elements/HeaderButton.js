@@ -15,15 +15,13 @@ class HeaderButton extends Component {
   render() {
     const { btnFunction, fontAwesomeIcon, buttonText, overlayValue } = this.props;
     return (
-      <div>
-          <button
-            className="header-button"
-            onClick={btnFunction}>
-            <FontAwesome className="header-icons" name={fontAwesomeIcon} size="2x" />
-            {overlayValue > 0 ? <p className="indicator-overlay">{overlayValue}</p> : ''}
-            <p className="button-text">{buttonText}</p>
-          </button>
-      </div>
+      <button
+        className="header-button"
+        onClick={btnFunction}>
+        <FontAwesome className="header-icons" name={fontAwesomeIcon} size="2x" />
+        {overlayValue > 0 ? <p className="indicator-overlay">{overlayValue}</p> : ''}
+        <p className="button-text">{buttonText}</p>
+      </button>
     );
   }
 }

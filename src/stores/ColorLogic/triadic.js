@@ -1,14 +1,17 @@
 const assembleColor = require('./assembleColor');
 
+
 function triadic() {
-  const pos1 = Math.floor(Math.random() * 360);
-  let pos2 = pos1 + 120;
-  let pos3 = pos2 + 120;
-  if (pos2 > 360) {
-    pos2 = pos2 - 360;
+  const HUES = 360;
+  const STEP = 120;
+  const pos1 = Math.floor(Math.random() * HUES);
+  let pos2 = pos1 + STEP;
+  let pos3 = pos2 + STEP;
+  if (pos2 > HUES) {
+    pos2 = pos2 - HUES;
   }
-  if (pos3 > 360) {
-    pos3 = pos3 - 360;
+  if (pos3 > HUES) {
+    pos3 = pos3 - HUES;
   }
   return assembleColor(pos1, pos2, pos3);
 }

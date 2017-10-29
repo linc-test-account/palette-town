@@ -1,19 +1,28 @@
-const assembleColor = require('./assembleColor');
+const assembleColor = require("./assembleColor");
 
 function tetradic() {
-  const pos1 = Math.floor(Math.random() * 360);
-  let pos2 = pos1 + 30;
-  let pos3 = pos2 + 160;
-  let pos4 = pos3 + 30;
-  if (pos2 > 360) {
-    pos2 = pos2 - 360;
+  const HUES = 360;
+  const STEP_ONE = 30;
+  const STEP_TWO = 160;
+
+  const pos1 = Math.floor(Math.random() * HUES);
+
+  let pos2 = pos1 + STEP_ONE;
+  let pos3 = pos2 + STEP_TWO;
+  let pos4 = pos3 + STEP_ONE;
+
+  if (pos2 > HUES) {
+    pos2 = pos2 - HUES;
   }
-  if (pos3 > 360) {
-    pos3 = pos3 - 360;
+
+  if (pos3 > HUES) {
+    pos3 = pos3 - HUES;
   }
-  if (pos4 > 360) {
-    pos4 = pos4 - 360;
+
+  if (pos4 > HUES) {
+    pos4 = pos4 - HUES;
   }
+  
   return assembleColor(pos1, pos2, pos3, pos4);
 }
 

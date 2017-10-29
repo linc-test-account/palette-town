@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-import HeaderButton from '../../Elements/HeaderButton.js';
-import './CardHeader.css';
+import HeaderButton from "../Elements/HeaderButton";
+import './SubHeader.css';
 
 @observer
-class CardHeader extends Component {
+class SubHeader extends Component {
   static propTypes = {
     dataStore: PropTypes.object
   }
   render() {
     const { dataStore } = this.props;
+    console.log(dataStore.schemes);
     return (
       <div className="card-header">
         <div className="card-header-left">
@@ -18,10 +19,10 @@ class CardHeader extends Component {
             <b>Card:</b> <span className="card-info">{dataStore.targetItem + 1}</span>
           </p>
           <p className="card-info-title">
-            <b>Swatches:</b> <span className="card-info">{dataStore.schemes[dataStore.targetItem].colors.length}</span>
+            {/* <b>Swatches:</b> <span className="card-info">{dataStore.schemes[dataStore.targetItem].colors.length}</span> */}
           </p>
           <p className="card-info-title">
-            <b>Palatte:</b> <span className="card-info">{dataStore.schemes[dataStore.targetItem].scheme}</span>
+            {/* <b>Palatte:</b> <span className="card-info">{dataStore.schemes[dataStore.targetItem].scheme}</span> */}
           </p>
         </div>
         <div className="card-header-right">
@@ -66,4 +67,4 @@ class CardHeader extends Component {
   }
 }
 
-export default CardHeader;
+export default SubHeader;

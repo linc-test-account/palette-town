@@ -1,33 +1,54 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
-import Header from '../Header/Header.js';
-import CardGallery from '../CardGallery/CardGallery.js';
-import './App.css';
-
-const factorial = (number) => {
-  return number <= 0 ? 1 : (number * factorial(number - 1));
-};
-console.log(factorial(5));
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { observer } from "mobx-react";
+import Header from "../Header/Header.js";
+import "./App.css";
+import Palette from "../Palette/Palette";
+import FlipMove from "react-flip-move";
+import ColorPicker from "../ColorPicker/ColorPicker";
+import SubHeader from "../SubHeader/SubHeader";
 
 @observer
 class App extends Component {
   static propTypes = {
     dataStore: PropTypes.object
-  }
+  };
   componentDidMount() {
-    console.log(`values: ${this.props.dataStore.schemes}`);
     this.props.dataStore.concatColors();
-
-    const tempArray = JSON.parse(JSON.stringify(this.props.dataStore.schemes));
-    console.log(tempArray);
   }
+
   render() {
     const { dataStore } = this.props;
+    const item = dataStore.schemes[dataStore.targetItem];
     return (
       <div className="App">
         <Header dataStore={dataStore} />
-        {dataStore.schemes.length === 0 ? 'No data' : <CardGallery dataStore={dataStore} />}
+        <SubHeader dataStore={dataStore} />
+
+        {dataStore.schemes.length === 0 ? (
+          "No data"
+        ) : (
+          <FlipMove
+            className="flipmove-container"
+            easing="ease-in-out"
+            duration={dataStore.transitionTime}
+            enterAnimation={"fade"}
+            leaveAnimation={"fade"}
+            maintainContainerHeight={true}
+          >
+            {dataStore.colorPickerVisible === true ? (
+              <ColorPicker key={9} dataStore={dataStore} />
+            ) : (
+              <span key={1} />
+            )}
+            <Palette
+              dataStore={dataStore}
+              key={item.count}
+              scheme={item.scheme}
+              colors={item.colors}
+            />
+          </FlipMove>
+        )}
       </div>
     );
   }

@@ -1,5 +1,6 @@
 function randomHue() {
-  return Math.floor(Math.random() * 360);
+  const HUES = 360;
+  return Math.floor(Math.random() * HUES);
 }
 
 module.exports = randomHue;

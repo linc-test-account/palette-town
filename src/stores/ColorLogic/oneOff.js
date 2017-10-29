@@ -1,7 +1,8 @@
 const assembleColor = require('./assembleColor');
 
 function oneOff() {
-  const pos1 = Math.floor(Math.random() * 360);
+  const HUES = 360;
+  const pos1 = Math.floor(Math.random() * HUES);
   return assembleColor(pos1);
 }
 

@@ -1,9 +1,8 @@
 .header-button {
   background: var(--header-button-background);
-  color: var(--header-button-color);
   transition: .3s ease all;
-  width: 85px;
-  height: 40px;
+  width: 80px;
+  height: 45px;
   overflow: hidden;
   position: relative;
   display: flex;
@@ -17,10 +16,12 @@
 }
 
 .header-icons {
+  /* text-shadow: -1px -1px 0 hsla(0, 0%, 0%, 0.2); */
+  color: var(--app-brand-color);
   transition: .3s ease all;
   pointer-events:none;
   position: absolute;
-  font-size: 17px;
+  font-size: 20px;
   opacity: 1;
   transform: scale(1, 1);
 }

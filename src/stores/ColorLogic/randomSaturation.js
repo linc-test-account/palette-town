@@ -1,5 +1,7 @@
 function randomSaturation() {
-  return Math.floor(Math.random() * (100 - 55) + 55)
+  const MIN = 55;
+  const MAX = 100;
+  return Math.floor(Math.random() * (MAX - MIN) + MIN)
 }
 
 module.exports = randomSaturation;

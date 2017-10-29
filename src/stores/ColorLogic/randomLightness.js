@@ -1,5 +1,7 @@
 function randomLightness() {
-  return Math.floor(Math.random() * (75 - 50) + 50);
+  const MIN = 50;
+  const MAX = 75;
+  return Math.floor(Math.random() * (MAX - MIN) + MIN);
 }
 
 module.exports = randomLightness;

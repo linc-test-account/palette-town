@@ -49,7 +49,6 @@ class Header extends Component {
         />
         <h1 className="brand-name">Palette Town</h1>
 
-        <h3 className="header-drop-down-list-label">Scheme:</h3>
         <DropDownList dataStore={dataStore} />
 
         <HeaderButton

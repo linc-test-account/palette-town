@@ -7,8 +7,10 @@
     border-top: 30px solid var(--card-background);
     opacity: 0;
     transition: 200ms ease all;
+    transform: translateY(-10px);
   }
 
   .arrow-down-show {
     opacity: 1;
+    transform: translateY(0px);
   }

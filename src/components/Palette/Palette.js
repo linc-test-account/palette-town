@@ -24,7 +24,7 @@ const SortableItem = SortableElement(
     };
     const style = {
       background: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
-      boxShadow: `inset 0 0 0 3px ${selected === true
+      boxShadow: `inset 0 0 0 2px ${selected === true
         ? getContrastYIQ(hex, 0.4, false)
         : `hsl(${hue}, ${saturation}%, ${lightness}%)`}`,
       color: getContrastYIQ(hex, 0.3, false)

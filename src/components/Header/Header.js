@@ -76,13 +76,6 @@ class Header extends Component {
           fontAwesomeIcon={"trash-o"}
           buttonText={"Delete"}
         />
-        <HeaderButton
-          className="card-buttons"
-          dataStore={dataStore}
-          btnFunction={() => dataStore.deletePalatte()}
-          fontAwesomeIcon={"download"}
-          buttonText={"Download"}
-        />
       </div>
     );
   }

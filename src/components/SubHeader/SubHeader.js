@@ -55,7 +55,7 @@ class SubHeader extends Component {
           <HeaderButton
             className="card-buttons"
             dataStore={dataStore}
-            btnFunction={() => dataStore.changePalatteFlexDirection()}
+            btnFunction={() => dataStore.changePaletteFlexDirection()}
             fontAwesomeIcon={"bars"}
             buttonText={"Toggle View"}
           />

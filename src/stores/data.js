@@ -66,7 +66,7 @@ class Data {
     { harmony: "triadic", colors: 3 }
   ];
   @observable colorPickerVisible = false;
-  @observable palatteFlexDirection = "row";
+  @observable paletteFlexDirection = "row";
   @observable targetSwatch;
   @observable coolDown = false;
   @observable count = 0;
@@ -199,11 +199,11 @@ class Data {
   }
 
   @action
-  changePalatteFlexDirection() {
-    if (this.palatteFlexDirection === "row") {
-      this.palatteFlexDirection = "column";
+  changePaletteFlexDirection() {
+    if (this.paletteFlexDirection === "row") {
+      this.paletteFlexDirection = "column";
     } else {
-      this.palatteFlexDirection = "row";
+      this.paletteFlexDirection = "row";
     }
   }
 

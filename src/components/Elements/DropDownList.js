@@ -3,17 +3,19 @@ import { observer } from "mobx-react";
 import "./DropDownList.css";
 import PropTypes from "prop-types";
 import FontAwesome from "react-fontawesome";
+import MiniPalette from "./MiniPalette";
 
 function getHarmonies(harmonies, dataStore, toggleShowing) {
   const harmonyList = harmonies.map(
     ({ harmony }, index) =>
       harmony === dataStore.selectedHarmony.harmony ? (
-        <a key={index} value={index} onClick={() => toggleShowing()}>
-          <FontAwesome className="option-checkmark" name={"check"} size="2x" />
+        <a className="drop-down-list-option" key={index} value={index} onClick={() => toggleShowing()}>
           {harmony}
+          <FontAwesome className="option-checkmark" name={"check"} size="2x" />
+          <MiniPalette index={index} harmony={harmony} dataStore={dataStore} />
         </a>
       ) : (
-        <a
+        <a className="drop-down-list-option" 
           key={index}
           value={index}
           onClick={() => {
@@ -22,6 +24,7 @@ function getHarmonies(harmonies, dataStore, toggleShowing) {
           }}
         >
           {harmony}
+          <MiniPalette index={index} harmony={harmony} dataStore={dataStore} />
         </a>
       )
   );
@@ -65,16 +68,13 @@ class DropDownList extends Component {
     }
   };
 
-  // componentDidMount() {
-
-  // }
-
   render() {
     const { dataStore } = this.props;
     return (
       <div className="dropdown">
         <button onClick={this.toggleShowing} className="dropbtn">
-          {dataStore.selectedHarmony.harmony}
+          {dataStore.selectedHarmony.harmony} 
+          <FontAwesome className="dropbtn-caret" name={"caret-down"} size="2x" />
         </button>
         <div
           id="myDropdown"

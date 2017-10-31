@@ -20,10 +20,13 @@ class App extends Component {
   render() {
     const { dataStore } = this.props;
     const item = dataStore.schemes[dataStore.targetItem];
+    // console.log(dataStore.miniPalettes)
     return (
       <div className="App">
         <Header dataStore={dataStore} />
-        <SubHeader dataStore={dataStore} />
+
+        {dataStore !== undefined ? <SubHeader dataStore={dataStore} /> : ''}
+        
 
         {dataStore.schemes.length === 0 ? (
           "No data"

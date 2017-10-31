@@ -3,6 +3,7 @@ const assembleColor = require('./assembleColor');
 function pentagon() {
   const HUES = 360;
   const STEP = 30;
+  const colors = [];
   const pos1 = Math.floor(Math.random() * HUES);
   let pos2 = pos1 + STEP;
   let pos3 = pos2 + STEP;
@@ -20,7 +21,9 @@ function pentagon() {
   if (pos5 > HUES) {
     pos5 = pos5 - HUES;
   }
-  return assembleColor(pos1, pos2, pos3, pos4, pos5);
+  colors.push(pos1, pos2, pos3, pos4, pos5);
+
+  return assembleColor(colors);
 }
 
 module.exports = pentagon;

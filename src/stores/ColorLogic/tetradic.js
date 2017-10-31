@@ -5,6 +5,8 @@ function tetradic() {
   const STEP_ONE = 30;
   const STEP_TWO = 160;
 
+  const colors = [];
+
   const pos1 = Math.floor(Math.random() * HUES);
 
   let pos2 = pos1 + STEP_ONE;
@@ -22,8 +24,9 @@ function tetradic() {
   if (pos4 > HUES) {
     pos4 = pos4 - HUES;
   }
-  
-  return assembleColor(pos1, pos2, pos3, pos4);
+
+  colors.push(pos1, pos2, pos3, pos4);
+  return assembleColor(colors);
 }
 
 module.exports = tetradic;

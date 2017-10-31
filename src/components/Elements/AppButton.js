@@ -30,14 +30,10 @@ class AppButton extends Component {
   render() {
     const { btnFunction, fontAwesomeIcon, buttonText, buttonType } = this.props;
     return (
-      <div>
         <button className={`app-button ${getStyle(buttonType)}`} onClick={btnFunction}>
           <FontAwesome className="app-button-icon" name={fontAwesomeIcon} size="2x" />
-          <p className="">
             {buttonText}
-          </p>
         </button>
-      </div>
     );
   }
 }

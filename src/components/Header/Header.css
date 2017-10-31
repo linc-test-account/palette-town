@@ -30,4 +30,16 @@
   border-style: solid;
 }
 
-
+.header-drop-down-list-label {
+  height: 45px;
+  text-align: center;
+  line-height: 45px;
+  margin: 0;
+  padding: 0 10px 0 10px;
+  color: var(--app-text-color);
+  font-size: 16px;
+  font-weight: normal;
+  border-width: 0 0 0 1px;
+  border-color: var(--header-button-border-color);
+  border-style: solid;
+}

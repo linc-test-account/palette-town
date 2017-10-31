@@ -20,7 +20,7 @@ const SortableItem = SortableElement(
   }) => {
     const buttonTextColor = {
       color: getContrastYIQ(hex, 0.3, false)
-    }
+    };
     const style = {
       background: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
       boxShadow: `inset 0 0 0 3px ${selected === true
@@ -28,27 +28,37 @@ const SortableItem = SortableElement(
         : `hsl(${hue}, ${saturation}%, ${lightness}%)`}`,
       color: getContrastYIQ(hex, 0.3, false)
     };
-    console.log(selected);
     return (
       <div className="palette-swatch" style={style}>
         <p className="palette-swatch-hex noselect">{hex}</p>
         <p className="palette-swatch-name noselect">{colorName}</p>
 
         <div className="palette-swatch-buttons-container">
-          <button style={buttonTextColor} className="palette-swatch-button" onClick={() => dataStore.selectSwatch(uniqueIndex)}>
+          <button
+            style={buttonTextColor}
+            className="palette-swatch-button"
+            onClick={() => dataStore.selectSwatch(uniqueIndex)}
+          >
             <FontAwesome name="sliders" size="2x" />
           </button>
-          <button style={buttonTextColor} className="palette-swatch-button" onClick={() => dataStore.deleteSwatch(uniqueIndex)}>
+          <button
+            style={buttonTextColor}
+            className="palette-swatch-button"
+            onClick={() => dataStore.deleteSwatch(uniqueIndex)}
+          >
             <FontAwesome name="trash" size="2x" />
           </button>
-          <ClipboardButton style={buttonTextColor} className="palette-swatch-button" data-clipboard-text={hex}>
+          <ClipboardButton
+            style={buttonTextColor}
+            className="palette-swatch-button"
+            data-clipboard-text={hex}
+          >
             <FontAwesome name="clipboard" size="2x" />
           </ClipboardButton>
           <button style={buttonTextColor} className="palette-swatch-button">
             <FontAwesome name="info" size="2x" />
           </button>
         </div>
-
       </div>
     );
   }

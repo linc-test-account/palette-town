@@ -1,0 +1,10 @@
+.mini-palette-container {
+    display: flex;
+    flex-direction: row;
+    
+  }
+  
+  .mini-swatch {
+    width: 20px;
+    height: 20px;
+  }

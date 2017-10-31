@@ -94,6 +94,47 @@ class Data {
     }
   }
 
+  @computed
+  get miniPalettes() {
+    const miniPalettes = [];
+    for (let i = 0; i < this.allHarmonies.length; i++) {
+      const paletteData = this.getPalette(this.allHarmonies[i].harmony);
+      const paletteName = this.allHarmonies[i].harmony;
+      miniPalettes.push({
+        [paletteName]: paletteData
+      });
+    }
+
+    return miniPalettes;
+  }
+
+  getPalette(harmony) {
+    let info;
+    switch (harmony) {
+      case "analogous":
+        info = analogous();
+        break;
+      case "split":
+        info = split();
+        break;
+      case "square":
+        info = square();
+        break;
+      case "tetradic":
+        info = tetradic();
+        break;
+      case "triadic":
+        info = triadic();
+        break;
+      case "pentagon":
+        info = pentagon();
+        break;
+      default:
+        console.log("No harmony provided");
+    }
+    return info;
+  }
+
   // GENERATE SWATCHES
   @action
   concatColors() {
@@ -105,35 +146,10 @@ class Data {
     if (this.coolDown === false) {
       this.coolDown = true;
 
-      let info;
-      switch (this.selectedHarmony.harmony) {
-        case "analogous":
-          info = analogous();
-          break;
-        case "split":
-          info = split();
-          break;
-        case "square":
-          info = square();
-          break;
-        case "tetradic":
-          info = tetradic();
-          break;
-        case "triadic":
-          info = triadic();
-          break;
-        case "pentagon":
-          info = pentagon();
-          break;
-        default:
-          console.log("No harmony provided");
-      }
+      const info = this.getPalette(this.selectedHarmony.harmony);
 
       const colorArray = [];
       for (let i = 0; i < this.selectedHarmony.colors; i++) {
-        if (info[i].hue === undefined || info[i].hue === null) {
-          console.log(`error: hue === ${info[i].hue}`);
-        }
         colorArray.push(
           new Color({
             hue: info[i].hue,
@@ -202,7 +218,6 @@ class Data {
 
   @action
   selectSwatch(index) {
-    console.log(index)
     // Reset all swatches to unselected
     for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
       if (this.schemes[this.targetItem].colors[i].selected === true)
@@ -258,23 +273,22 @@ class Data {
     }
   }
 
-  // Method called by react-sortable-hoc after dropping 
+  // Method called by react-sortable-hoc after dropping
   // a dragged element into new position. Method recieves the
   // oldIndex of the dragged element and the newIndex of the element
   @action
   onSortEnd = ({ oldIndex, newIndex }) => {
-    console.log(oldIndex, newIndex);
     const targetArray = this.schemes[this.targetItem].colors.slice();
     const newArr = arrayMove(targetArray, oldIndex, newIndex);
     this.schemes[this.targetItem].colors = newArr;
 
-    // if color picker is visible, iterate through current colors,  
+    // if color picker is visible, iterate through current colors,
     // find new position of the currently selected color, then
     // pass index position of color to selectSwatch class method
     if (this.colorPickerVisible === true) {
       for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
         if (this.schemes[this.targetItem].colors[i].selected === true)
-        this.selectSwatch(i)
+          this.selectSwatch(i);
       }
     }
   };
@@ -289,7 +303,7 @@ class Data {
     if (this.colorPickerVisible === true) {
       for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
         if (this.schemes[this.targetItem].colors[i].selected === true)
-        this.selectSwatch(i)
+          this.selectSwatch(i);
       }
     }
   }
@@ -304,7 +318,7 @@ class Data {
     if (this.colorPickerVisible === true) {
       for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
         if (this.schemes[this.targetItem].colors[i].selected === true)
-        this.selectSwatch(i)
+          this.selectSwatch(i);
       }
     }
   }
@@ -339,7 +353,6 @@ class Data {
   // RETRIEVE PREVIOUS COLOR PALATTE
   @action
   getPrevious() {
-    console.log("cat");
     // close color picker if open
     if (this.colorPickerVisible === true) {
       this.closeColorPicker();
@@ -349,7 +362,7 @@ class Data {
     if (this.coolDown === false) {
       this.coolDown = true;
       if (this.targetItem === 0) {
-        console.log("Message: Reached start of array!");
+        return;
       } else {
         this.targetItem = this.targetItem - 1;
       }
@@ -357,39 +370,6 @@ class Data {
       setTimeout(() => {
         this.coolDown = false;
       }, TRANSITION_TIME + TRANSITION_INTERVAL);
-    }
-  }
-
-  // ADD CURRENT COLOR PALATTE TO SHORTLIST ARRAY FOR LATER USE
-  @action
-  addToShortList() {
-    let test = false;
-    if (this.schemes.length > 0) {
-      if (this.shortList.length < 1) {
-        console.log("length < 1");
-        test = true;
-      }
-      if (this.shortList.length > 0) {
-        console.log("length > 0");
-        if (
-          this.schemes[this.schemes.length - 1].count ===
-          this.shortList[this.shortList.length - 1].count
-        ) {
-          console.log("Error: already saved!");
-        }
-        if (
-          this.schemes[this.schemes.length - 1].count !==
-          this.shortList[this.shortList.length - 1].count
-        ) {
-          test = true;
-        }
-      }
-    }
-    if (test === true) {
-      console.log("item saved");
-      this.shortList = this.shortList.concat(
-        this.schemes[this.schemes.length - 1]
-      );
     }
   }
 

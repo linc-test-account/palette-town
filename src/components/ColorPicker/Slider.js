@@ -22,7 +22,6 @@ class Slider extends Component {
       <div style={backgroundGradient}>
         <ReactSlider
           style
-          className={backgroundGradient}
           handleClassName="test-handle"
           barClassName="test-bar"
           min={min}

@@ -9,13 +9,19 @@ function getHarmonies(harmonies, dataStore, toggleShowing) {
   const harmonyList = harmonies.map(
     ({ harmony }, index) =>
       harmony === dataStore.selectedHarmony.harmony ? (
-        <a className="drop-down-list-option" key={index} value={index} onClick={() => toggleShowing()}>
+        <a
+          className="drop-down-list-option list-option-selected"
+          key={index}
+          value={index}
+          onClick={() => toggleShowing()}
+        >
           {harmony}
           <FontAwesome className="option-checkmark" name={"check"} size="2x" />
           <MiniPalette index={index} harmony={harmony} dataStore={dataStore} />
         </a>
       ) : (
-        <a className="drop-down-list-option" 
+        <a
+          className="drop-down-list-option"
           key={index}
           value={index}
           onClick={() => {
@@ -31,19 +37,6 @@ function getHarmonies(harmonies, dataStore, toggleShowing) {
   return harmonyList;
 }
 
-// window.onclick = function(event) {
-//   if (!event.target.matches(".dropbtn")) {
-//     var dropdowns = document.getElementsByClassName("dropdown-content");
-//     var i;
-//     for (i = 0; i < dropdowns.length; i++) {
-//       var openDropdown = dropdowns[i];
-//       if (openDropdown.classList.contains("show")) {
-//         openDropdown.classList.remove("show");
-//       }
-//     }
-//   }
-// };
-
 @observer
 class DropDownList extends Component {
   constructor(props) {
@@ -54,6 +47,16 @@ class DropDownList extends Component {
   }
   static propTypes = {
     dataStore: PropTypes.object
+  };
+
+  componentDidMount = () => {
+    window.onclick = event => {
+      if (!event.target.matches(".dropbtn")) {
+        this.setState({
+          showing: false
+        });
+      }
+    };
   };
 
   toggleShowing = () => {
@@ -73,8 +76,12 @@ class DropDownList extends Component {
     return (
       <div className="dropdown">
         <button onClick={this.toggleShowing} className="dropbtn">
-          {dataStore.selectedHarmony.harmony} 
-          <FontAwesome className="dropbtn-caret" name={"caret-down"} size="2x" />
+          {dataStore.selectedHarmony.harmony}
+          <FontAwesome
+            className="dropbtn-caret"
+            name={"caret-down"}
+            size="2x"
+          />
         </button>
         <div
           id="myDropdown"

@@ -39,6 +39,7 @@
 
 .card-info {
   color: var(--app-text-color);
+  text-transform: capitalize;
 }
 
 .card-buttons {

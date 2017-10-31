@@ -5,6 +5,7 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import FontAwesome from "react-fontawesome";
 import { getContrastYIQ } from "../../stores/ColorLogic";
 import ClipboardButton from "react-clipboard.js";
+import TriangleDown from "../Elements/TriangleDown";
 import "./Palette.css";
 
 const SortableItem = SortableElement(
@@ -30,6 +31,7 @@ const SortableItem = SortableElement(
     };
     return (
       <div className="palette-swatch" style={style}>
+      <TriangleDown show={selected}/>
         <p className="palette-swatch-hex noselect">{hex}</p>
         <p className="palette-swatch-name noselect">{colorName}</p>
 

@@ -4,7 +4,7 @@ import "./TriangleDown.css";
 
 class TriangleDown extends Component {
   static propTypes = {
-    show: PropTypes.boolean,
+    show: PropTypes.bool,
   };
   render() {
     const { show } = this.props;

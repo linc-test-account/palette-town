@@ -2,12 +2,15 @@ import { action, observable, computed, useStrict } from "mobx";
 import {
   analogous,
   pentagon,
+  random,
   split,
   square,
   tetradic,
   triadic,
   oneOff,
-  hslToHex
+  hexToHsl,
+  hslToHex,
+  hslToRgb
 } from "./ColorLogic";
 import shuffle from "lodash/shuffle";
 import reverse from "lodash/reverse";
@@ -20,17 +23,19 @@ useStrict(true);
 const getNameOfColor = hex => namer(hex, { pick: ["ntc"] }).ntc[0].name;
 
 const TRANSITION_TIME = 200;
-const TRANSITION_INTERVAL = 150;
 const SWATCH_LIMIT = 7;
+const MIN_WIDTH = 700;
 
 class Color {
-  constructor({ hue, saturation, lightness }) {
+  constructor({ hue, saturation, lightness, red, green, blue }) {
     this.hue = hue;
     this.saturation = saturation;
     this.lightness = lightness;
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
   }
   count = uuidv4();
-  transitionTime = 200;
   @observable selected = false;
   @observable hue = 0;
   @observable hexval;
@@ -44,14 +49,33 @@ class Color {
   get colorName() {
     return getNameOfColor(this.hex);
   }
+  @computed
+  get rgb() {
+    return hslToRgb(this.hue, this.saturation, this.lightness);
+  }
+  // HSL
   changeHue(val) {
+    console.log("cat");
     this.hue = val;
   }
   changeSaturation(val) {
+    console.log("cat");
     this.saturation = val;
   }
   changeLightness(val) {
+    console.log("cat");
     this.lightness = val;
+  }
+
+  // RGB
+  changeRed(val) {
+    this.red = val;
+  }
+  changeGreen(val) {
+    this.green = val;
+  }
+  changeBlue(val) {
+    this.blue = val;
   }
 }
 
@@ -60,21 +84,65 @@ class Data {
   allHarmonies = [
     { harmony: "analogous", colors: 3 },
     { harmony: "pentagon", colors: 5 },
+    { harmony: "random", colors: 5 },
     { harmony: "split", colors: 3 },
     { harmony: "square", colors: 4 },
     { harmony: "tetradic", colors: 4 },
     { harmony: "triadic", colors: 3 }
   ];
+  @observable selectedHarmony = this.allHarmonies[1];
+  @observable
+  paletteModifiers = [
+    {
+      modifier: "default",
+      saturationMin: 0,
+      saturationMax: 100,
+      lightnessMin: 20,
+      lightnessMax: 90
+    },
+    {
+      modifier: "pastel",
+      saturationMin: 50,
+      saturationMax: 100,
+      lightnessMin: 60,
+      lightnessMax: 90
+    },
+    {
+      modifier: "somber",
+      saturationMin: 0,
+      saturationMax: 40,
+      lightnessMin: 10,
+      lightnessMax: 40
+    },
+    {
+      modifier: "saturated",
+      saturationMin: 100,
+      saturationMax: 100,
+      lightnessMin: 50,
+      lightnessMax: 50
+    },
+    {
+      modifier: "greyscale",
+      saturationMin: 0,
+      saturationMax: 0,
+      lightnessMin: 20,
+      lightnessMax: 90
+    }
+  ];
+  @observable selectedPaletteModifier = this.paletteModifiers[1];
+  @observable colorSpaces = ["HSL", "RGB", "HSV"];
+  @observable colorSpace = "HSL";
   @observable colorPickerVisible = false;
-  @observable paletteFlexDirection = "row";
   @observable targetSwatch;
   @observable coolDown = false;
   @observable count = 0;
-  @observable currentAction = "back";
   @observable schemes = [];
-  @observable shortList = [];
   @observable targetItem = -1;
-  @observable selectedHarmony = this.allHarmonies[1];
+
+  @computed
+  get minWidth() {
+    return `(min-width: ${MIN_WIDTH}px)`;
+  }
 
   @computed
   get transitionTime() {
@@ -82,15 +150,9 @@ class Data {
   }
 
   @computed
-  get selectValue() {
-    const test = this.allHarmonies.indexOf(this.selectedHarmony);
-    return test;
-  }
-  @computed
-  get currentSwatch() {
+  get currentPalette() {
     if (this.schemes.length > 0) {
-      const rand = this.schemes[this.targetItem].colors;
-      return rand;
+      return this.schemes[this.targetItem].colors;
     }
   }
 
@@ -104,7 +166,6 @@ class Data {
         [paletteName]: paletteData
       });
     }
-
     return miniPalettes;
   }
 
@@ -112,22 +173,25 @@ class Data {
     let info;
     switch (harmony) {
       case "analogous":
-        info = analogous();
+        info = analogous(this.selectedPaletteModifier);
+        break;
+      case "random":
+        info = random(this.selectedPaletteModifier);
         break;
       case "split":
-        info = split();
+        info = split(this.selectedPaletteModifier);
         break;
       case "square":
-        info = square();
+        info = square(this.selectedPaletteModifier);
         break;
       case "tetradic":
-        info = tetradic();
+        info = tetradic(this.selectedPaletteModifier);
         break;
       case "triadic":
-        info = triadic();
+        info = triadic(this.selectedPaletteModifier);
         break;
       case "pentagon":
-        info = pentagon();
+        info = pentagon(this.selectedPaletteModifier);
         break;
       default:
         console.log("No harmony provided");
@@ -138,41 +202,32 @@ class Data {
   // GENERATE SWATCHES
   @action
   concatColors() {
-    this.currentAction = "forward";
+    // close color picker if open
     if (this.colorPickerVisible === true) {
-      // close color picker if open
       this.closeColorPicker();
     }
-    if (this.coolDown === false) {
-      this.coolDown = true;
 
-      const info = this.getPalette(this.selectedHarmony.harmony);
+    const palette = this.getPalette(this.selectedHarmony.harmony);
 
-      const colorArray = [];
-      for (let i = 0; i < this.selectedHarmony.colors; i++) {
-        colorArray.push(
-          new Color({
-            hue: info[i].hue,
-            saturation: info[i].saturation,
-            lightness: info[i].lightness
-          })
-        );
-      }
-
-      this.schemes = this.schemes.concat({
-        scheme: this.selectedHarmony.harmony,
-        count: uuidv4(),
-        colors: colorArray
-      });
-
-      this.count++;
-      this.targetItem++;
-
-      // (FlipMove hacky workaround - prevent function completing until FlipMove transition completes
-      setTimeout(() => {
-        this.coolDown = false;
-      }, TRANSITION_TIME + TRANSITION_INTERVAL);
+    const colorArray = [];
+    for (let i = 0; i < this.selectedHarmony.colors; i++) {
+      colorArray.push(
+        new Color({
+          hue: palette[i].hue,
+          saturation: palette[i].saturation,
+          lightness: palette[i].lightness
+        })
+      );
     }
+
+    this.schemes = this.schemes.concat({
+      scheme: this.selectedHarmony.harmony,
+      count: uuidv4(),
+      colors: colorArray
+    });
+
+    this.count++;
+    this.targetItem++;
   }
 
   // ADD NEW SWATCH TO CURRENT COLOR PALATTE
@@ -195,15 +250,8 @@ class Data {
     }
     if (count > SWATCH_LIMIT) {
       return;
-    }
-  }
-
-  @action
-  changePaletteFlexDirection() {
-    if (this.paletteFlexDirection === "row") {
-      this.paletteFlexDirection = "column";
     } else {
-      this.paletteFlexDirection = "row";
+      return;
     }
   }
 
@@ -230,21 +278,69 @@ class Data {
     this.colorPickerVisible = true;
   }
 
+  // CHANGE SELECTED COLOR SPACE
+
+  @action
+  changeColorSpace(val) {
+    this.colorSpace = val;
+  }
+
+  @action
+  changeHex(val) {
+    const hsl = hexToHsl(val);
+    if (hsl === undefined) {
+      return;
+    } else {
+      this.changeHue(Math.round(hsl.h * 360));
+      this.changeSaturation(Math.round(hsl.s * 100));
+      this.changeLightness(Math.round(hsl.l * 100));
+    }
+  }
+
   // MODIFY SWATCH HSL VALUES
   @action
   changeHue(val) {
-    const target = this.schemes[this.targetItem].colors[this.targetSwatch];
-    target.hue = val.value;
+    if (val === undefined) {
+      return;
+    } else {
+      const target = this.schemes[this.targetItem].colors[this.targetSwatch];
+      target.hue = val;
+    }
   }
   @action
   changeSaturation(val) {
-    const target = this.schemes[this.targetItem].colors[this.targetSwatch];
-    target.saturation = val.value;
+    if (val === undefined) {
+      return;
+    } else {
+      const target = this.schemes[this.targetItem].colors[this.targetSwatch];
+      target.saturation = val;
+    }
   }
   @action
   changeLightness(val) {
+    if (val === undefined) {
+      return;
+    } else {
+      const target = this.schemes[this.targetItem].colors[this.targetSwatch];
+      target.lightness = val;
+    }
+  }
+
+  // MODIFY SWATCH RGB VALUES
+  @action
+  changeRed(val) {
     const target = this.schemes[this.targetItem].colors[this.targetSwatch];
-    target.lightness = val.value;
+    target.red = val.value;
+  }
+  @action
+  changeGreen(val) {
+    const target = this.schemes[this.targetItem].colors[this.targetSwatch];
+    target.green = val.value;
+  }
+  @action
+  changeBlue(val) {
+    const target = this.schemes[this.targetItem].colors[this.targetSwatch];
+    target.blue = val.value;
   }
 
   // DELETE SWATCH FROM CURRENT COLOR PALATTE
@@ -331,22 +427,16 @@ class Data {
       this.closeColorPicker();
     }
 
-    if (this.schemes.length === 0) {
+    if (this.targetItem === 0) {
+      console.log("schemes.length === 0");
       this.concatColors();
-      this.currentAction = "forward";
     }
 
-    this.currentAction = "forward";
     if (this.targetItem === this.count - 1) {
+      console.log("targetItem === count - 1");
       this.concatColors();
     } else {
-      if (this.coolDown === false) {
-        this.coolDown = true;
-        this.targetItem = this.targetItem + 1;
-        setTimeout(() => {
-          this.coolDown = false;
-        }, TRANSITION_TIME + TRANSITION_INTERVAL);
-      }
+      return;
     }
   }
 
@@ -358,18 +448,14 @@ class Data {
       this.closeColorPicker();
     }
 
-    this.currentAction = "backward";
-    if (this.coolDown === false) {
-      this.coolDown = true;
-      if (this.targetItem === 0) {
-        return;
-      } else {
-        this.targetItem = this.targetItem - 1;
-      }
-      // prevent function completing until FlipMove transition completes
-      setTimeout(() => {
-        this.coolDown = false;
-      }, TRANSITION_TIME + TRANSITION_INTERVAL);
+    if (this.targetItem === 0) {
+      return;
+    }
+
+    if (this.targetItem > 0) {
+      this.targetItem--;
+    } else {
+      return;
     }
   }
 
@@ -377,6 +463,11 @@ class Data {
   @action
   changeHarmony(val) {
     this.selectedHarmony = this.allHarmonies[val];
+  }
+
+  @action
+  changeModifier(val) {
+    this.selectedPaletteModifier = this.paletteModifiers[val];
   }
 }
 

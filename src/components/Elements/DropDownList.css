@@ -8,7 +8,7 @@
   color: hsl(0, 0%, 11%);
   padding: 0 10px 0 10px;
   font-size: 16px;
-  height: 45px;
+  max-height: 45px;
   border: none;
   cursor: pointer;
   border-style: solid;
@@ -25,6 +25,7 @@
   margin: 0;
   font-size: 15px;
   color: var(--app-brand-color);
+  pointer-events: none;
 }
 
 .dropbtn:hover,
@@ -83,4 +84,10 @@
 
 .list-option-selected {
   background: hsl(0, 0%, 86%);
+}
+
+@media screen and (max-width: 700px) {
+  .dropbtn {
+    font-size: 13px;
+  }
 }

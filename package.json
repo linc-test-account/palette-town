@@ -45,6 +45,7 @@
     "react-motion": "^0.5.2",
     "react-slider": "^0.8.0",
     "react-sortable-hoc": "^0.6.8",
+    "react-tooltip": "^3.4.0",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.3",
     "url-loader": "0.5.9",

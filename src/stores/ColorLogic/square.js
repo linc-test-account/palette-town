@@ -1,6 +1,6 @@
 const assembleColor = require('./assembleColor');
 
-function square() {
+function square(modifier) {
   const HUES = 360;
   const STEP = 90;
   const colors = []
@@ -18,7 +18,7 @@ function square() {
     pos4 = pos4 - HUES;
   }
   colors.push(pos1, pos2, pos3, pos4)
-  return assembleColor(colors);
+  return assembleColor(colors, modifier);
 }
 
 module.exports = square;

@@ -1,6 +1,6 @@
 const assembleColor = require("./assembleColor");
 
-function tetradic() {
+function tetradic(modifier) {
   const HUES = 360;
   const STEP_ONE = 30;
   const STEP_TWO = 160;
@@ -26,7 +26,7 @@ function tetradic() {
   }
 
   colors.push(pos1, pos2, pos3, pos4);
-  return assembleColor(colors);
+  return assembleColor(colors, modifier);
 }
 
 module.exports = tetradic;

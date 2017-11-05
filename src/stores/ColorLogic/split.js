@@ -1,6 +1,6 @@
 const assembleColor = require('./assembleColor');
 
-function split() {
+function split(modifier) {
   const HUES = 360;
   const STEP = 150;
   const colors = [];
@@ -14,7 +14,7 @@ function split() {
     pos3 = pos3 - HUES;
   }
   colors.push(pos1, pos2, pos3)
-  return assembleColor(colors);
+  return assembleColor(colors, modifier);
 }
 
 module.exports = split;

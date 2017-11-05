@@ -1,6 +1,6 @@
 const assembleColor = require('./assembleColor');
 
-function analogous() {
+function analogous(modifier) {
   const HUES = 360;
   const STEP = 60;
   const colors = [];
@@ -14,7 +14,7 @@ function analogous() {
     pos3 = pos3 - HUES;
   }
   colors.push(pos1, pos2, pos3)
-  return assembleColor(colors);
+  return assembleColor(colors, modifier);
 }
 
 module.exports = analogous;

@@ -1,6 +1,6 @@
 const assembleColor = require('./assembleColor');
 
-function pentagon() {
+function pentagon(modifier) {
   const HUES = 360;
   const STEP = 30;
   const colors = [];
@@ -23,7 +23,7 @@ function pentagon() {
   }
   colors.push(pos1, pos2, pos3, pos4, pos5);
 
-  return assembleColor(colors);
+  return assembleColor(colors, modifier);
 }
 
 module.exports = pentagon;

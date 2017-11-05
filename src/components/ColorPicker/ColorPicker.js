@@ -1,128 +1,109 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
-import ReactSlider from "react-slider";
-import { getContrastYIQ } from "../../stores/ColorLogic";
+import FlipMove from "react-flip-move";
+import HeaderButton from "../Elements/HeaderButton";
+import DropDownList from "../Elements/DropDownList";
+import HslPick from "./HslPick";
+import RgbPick from "./RgbPick";
 import "./ColorPicker.css";
 
-function generateSpectrum(saturation, lightness) {
-  const colors = [];
-  for (let i = 0; i < 18; i++) {
-    colors.push(`hsl(${20 * i}, ${saturation}%, ${lightness}%)`);
+function generateColorSpaceOptions(dataStore, colorSpaces) {
+  const options = [];
+  for (let i = 0; i < colorSpaces.length; i++) {
+    options.push(
+      <a
+        className="drop-down-list-option"
+        key={i}
+        value={i}
+        onClick={() => dataStore.changeColorSpace(colorSpaces[i])}
+      >
+        {colorSpaces[i]}
+      </a>
+    );
   }
-  return colors;
+  return options;
 }
 
 @observer
 class ColorPicker extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showing: false
+    };
+  }
+
   static propTypes = {
     dataStore: PropTypes.object
   };
+
+  componentDidMount = () => {
+    window.onclick = event => {
+      if (!event.target.matches(".dropbtn")) {
+        this.setState({
+          showing: false
+        });
+      }
+    };
+  };
+
+  toggleShowing = () => {
+    if (this.state.showing === true) {
+      this.setState({
+        showing: false
+      });
+    } else {
+      this.setState({
+        showing: true
+      });
+    }
+  };
+
   render() {
     const { dataStore } = this.props;
-    const swatch =
-      dataStore.schemes[dataStore.targetItem].colors[dataStore.targetSwatch];
-    const handleStyle = {
-      background: `hsl(${swatch.hue}, ${swatch.saturation}%, ${swatch.lightness}%)`,
-      color: `${getContrastYIQ(swatch.hex, 0.8, false)}`,
-      borderColor: `${getContrastYIQ(swatch.hex, 0.8, false)}`
-    };
-    const backgroundHue = {
-      background: `
-        linear-gradient(to right, ${generateSpectrum(
-          swatch.saturation,
-          swatch.lightness
-        )})
-          `
-    };
-    const backgroundSaturation = {
-      background: `
-        linear-gradient(to right,
-        hsl(${swatch.hue}, ${0}%, ${swatch.lightness}%),
-        hsl(${swatch.hue}, ${100}%, ${swatch.lightness}%))`
-    };
-    const backgroundLightness = {
-      background: `
-        linear-gradient(to right,
-        hsl(${swatch.hue}, ${swatch.saturation}%, ${0}%),
-        hsl(${swatch.hue}, ${swatch.saturation}%, ${50}%),
-        hsl(${swatch.hue}, ${swatch.saturation}%, ${109}%))`
-    };
+    const { showing } = this.state;
+    const listItems = generateColorSpaceOptions(
+      dataStore,
+      dataStore.colorSpaces
+    );
+    const colorSpace = dataStore.colorSpace;
+
     return (
       <div className="color-picker-container">
-        <div className="sliders">
-          <div className="slider-container">
-            <h2 className="slider-heading">Hue</h2>
-            <div className="bar-container" style={backgroundHue}>
-              <ReactSlider
-                className="bar"
-                style={backgroundHue}
-                handleClassName="test-handle"
-                barClassName="test-bar"
-                min={0}
-                max={360}
-                defaultValue={swatch.hue}
-                withBars={true}
-                pearling={true}
-                value={swatch.hue}
-                onChange={value => dataStore.changeHue({ value })}
-              >
-                <div className="my-handle" style={handleStyle}>
-                  {swatch.hue}
-                </div>
-              </ReactSlider>
-            </div>
-          </div>
+        <DropDownList
+          toggleShowing={() => this.toggleShowing()}
+          showing={showing}
+          listItems={listItems}
+          selectedValue={colorSpace}
+        />
 
-          <div className="slider-container">
-            <h2 className="slider-heading">Saturation</h2>
-            <div className="bar-container" style={backgroundSaturation}>
-              <ReactSlider
-                className="bar"
-                handleClassName="test-handle"
-                barClassName="test-bar"
-                min={0}
-                max={100}
-                defaultValue={swatch.saturation}
-                withBars={true}
-                pearling={true}
-                value={swatch.saturation}
-                onChange={value => dataStore.changeSaturation({ value })}
-              >
-                <div className="my-handle" style={handleStyle}>
-                  {swatch.saturation}
-                </div>
-              </ReactSlider>
-            </div>
-          </div>
-          <div className="slider-container">
-            <h2 className="slider-heading">Lightness</h2>
-            <div className="bar-container" style={backgroundLightness}>
-              <ReactSlider
-                className="bar"
-                handleClassName="test-handle"
-                barClassName="test-bar"
-                min={0}
-                max={100}
-                defaultValue={swatch.lightness}
-                withBars={true}
-                pearling={true}
-                value={swatch.lightness}
-                onChange={value => dataStore.changeLightness({ value })}
-              >
-                <div className="my-handle" style={handleStyle}>
-                  {swatch.lightness}
-                </div>
-              </ReactSlider>
-            </div>
-          </div>
-          <button
-            className="color-picker-buttons"
-            onClick={() => dataStore.closeColorPicker()}
-          >
-            Done
-          </button>
-        </div>
+        <FlipMove
+          className="sliders"
+          easing="ease-in-out"
+          duration={200}
+          enterAnimation={"fade"}
+          leaveAnimation={"fade"}
+          maintainContainerHeight={true}
+        >
+          {colorSpace === "HSL" ? (
+            <HslPick key={801} dataStore={dataStore} />
+          ) : colorSpace === "RGB" ? (
+            <RgbPick key={802} dataStore={dataStore} />
+          ) : colorSpace === "HSV" ? (
+            <HslPick key={803} dataStore={dataStore} />
+          ) : (
+            <span key={804} />
+          )}
+        </FlipMove>
+
+        <HeaderButton
+          className="card-buttons"
+          dataStore={dataStore}
+          btnFunction={() => dataStore.closeColorPicker()}
+          fontAwesomeIcon={"check"}
+          buttonText={"Done"}
+        />
       </div>
     );
   }

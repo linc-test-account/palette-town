@@ -8,6 +8,7 @@ import FlipMove from "react-flip-move";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import SubHeader from "../SubHeader/SubHeader";
 
+
 @observer
 class App extends Component {
   static propTypes = {
@@ -20,13 +21,14 @@ class App extends Component {
   render() {
     const { dataStore } = this.props;
     const item = dataStore.schemes[dataStore.targetItem];
+
     // console.log(dataStore.miniPalettes)
     return (
       <div className="App">
+
         <Header dataStore={dataStore} />
 
-        {dataStore !== undefined ? <SubHeader dataStore={dataStore} /> : ''}
-        
+        {dataStore !== undefined ? <SubHeader dataStore={dataStore} /> : ""}
 
         {dataStore.schemes.length === 0 ? (
           "No data"
@@ -45,10 +47,9 @@ class App extends Component {
               <span key={1} />
             )}
             <Palette
+              currentPalette={dataStore.currentPalette}
               dataStore={dataStore}
               key={item.count}
-              scheme={item.scheme}
-              colors={item.colors}
             />
           </FlipMove>
         )}

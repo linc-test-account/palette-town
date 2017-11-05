@@ -27,6 +27,7 @@ body {
   font-family: sans-serif;
   /* background: var(--app-background); */
   font-family: 'PT Sans', sans-serif;
+  overflow-y: hidden;
 }
 
 button:focus {outline:0;}

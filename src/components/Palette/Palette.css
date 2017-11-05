@@ -4,10 +4,10 @@
     justify-content: center;
     align-items: center;
     font-family: var(--app-font);
-    background: rgb(39, 39, 39);
     height: 100%;
     flex-grow: 1;
 }
+
 
 .palette-swatch {
     height: 100%;
@@ -50,7 +50,7 @@
 }
 
 .palette-swatch-button {
-    font-size: 11px;
+    font-size: 10px;
     background: none;
     border: none;
     transition: 120ms ease all;
@@ -64,3 +64,59 @@
     transform: scale(1,1);
 }
 
+.palette-swatch-handle {
+    font-size: 20px;
+    opacity: 0;
+    transition: 200ms ease all;
+}
+
+.palette-swatch:hover .palette-swatch-handle {
+    opacity: 1;
+}
+
+.palette-swatch:active {
+    opacity: 1;
+    font-size: 30px;
+}
+
+.palette-swatch-input {
+    text-align: center;
+    font-family: var(--app-font);
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    font-size: 25px;
+    text-transform: uppercase;
+    align-self: center;
+    background: none;
+    border: none;
+}
+
+
+@media screen and (max-width: 700px) {
+    .palette-swatch-container {
+        flex-direction: column;
+    }
+    .palette-swatch {
+        height: auto;
+        width: 100%;
+    }
+
+    .palette-swatch-hex {
+        padding: 0;
+        font-size: 15px;
+    }
+    
+    .palette-swatch-name {
+        font-size: 12px;
+        /* margin: 0 0 10px 0; */
+    }
+
+    .palette-swatch-buttons-container {
+        padding: 0 0 10px 0;
+    }
+
+    .palette-swatch-button {
+        font-size: 10px;
+    }
+}

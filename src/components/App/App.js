@@ -8,24 +8,44 @@ import FlipMove from "react-flip-move";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import SubHeader from "../SubHeader/SubHeader";
 
-
 @observer
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      minWidthReached: undefined
+    };
+  }
+
   static propTypes = {
     dataStore: PropTypes.object
   };
+
   componentDidMount() {
-    this.props.dataStore.concatColors();
+    const { dataStore } = this.props;
+    dataStore.concatColors();
+    const mediaQuery = window.matchMedia(dataStore.minWidth);
+    this.handleScreenWidthChange(mediaQuery); // check initial width
+    mediaQuery.addListener(this.handleScreenWidthChange); // listen for width change
   }
+
+  handleScreenWidthChange = mediaQuery => {
+    if (mediaQuery.matches) {
+      this.setState({
+        minWidthReached: false
+      });
+    } else {
+      this.setState({
+        minWidthReached: true
+      });
+    }
+  };
 
   render() {
     const { dataStore } = this.props;
     const item = dataStore.schemes[dataStore.targetItem];
-
-    // console.log(dataStore.miniPalettes)
     return (
       <div className="App">
-
         <Header dataStore={dataStore} />
 
         {dataStore !== undefined ? <SubHeader dataStore={dataStore} /> : ""}

@@ -9,18 +9,16 @@ class HeaderButton extends Component {
   static propTypes = {
     btnFunction: PropTypes.func,
     fontAwesomeIcon: PropTypes.string,
-    buttonText: PropTypes.string,
     overlayValue: PropTypes.string
   }
   render() {
-    const { btnFunction, fontAwesomeIcon, buttonText, overlayValue } = this.props;
+    const { btnFunction, fontAwesomeIcon, overlayValue } = this.props;
     return (
       <button
         className="header-button"
         onClick={btnFunction}>
-        <FontAwesome className="header-icons" name={fontAwesomeIcon} size="2x" />
+        <FontAwesome className="header-icon" name={fontAwesomeIcon} size="2x" />
         {overlayValue > 0 ? <p className="indicator-overlay">{overlayValue}</p> : ''}
-        <p className="button-text">{buttonText}</p>
       </button>
     );
   }

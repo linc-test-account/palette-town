@@ -11,6 +11,8 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showHarmonies: false,
+      showModifiers: false,
       offSet: 0
     };
   }
@@ -122,7 +124,7 @@ class Header extends Component {
                 keyValue="ArrowRight"
                 onKeyHandle={() => dataStore.getNext()}
               />
-              <h1 className="brand-name">Palette Town</h1>
+              <h1 className="brand-name"><span className="brand-name-accent">P</span>alette <span className="brand-name-accent">T</span>own</h1>
 
               <HeaderButton
                 dataStore={dataStore}

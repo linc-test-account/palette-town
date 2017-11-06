@@ -27,7 +27,7 @@ module.exports = {
     "no-unused-vars": 2,
     "no-unreachable": 1,
     "prefer-const": 2,
-    // "class-methods-use-this": 1,
+    "class-methods-use-this": 1,
     "no-useless-constructor": 1,
     "no-unused-expressions": 1,
     "vars-on-top": 1,

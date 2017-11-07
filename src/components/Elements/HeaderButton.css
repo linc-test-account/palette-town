@@ -1,6 +1,5 @@
 .header-button {
   background: var(--header-button-background);
-  /* transition: .3s ease all; */
   width: 60px;
   min-width: 60px;
   height: 45px;
@@ -46,4 +45,10 @@
   height: 20px;
   text-align: center;
   line-height: 20px;
+}
+
+@media screen and (min-width: 700px) {
+  .header-button {
+    width: 80px;
+  }
 }

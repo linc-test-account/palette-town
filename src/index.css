@@ -3,11 +3,10 @@
   --app-background: hsl(0, 0%, 90%);
   --app-text-color: hsl(0, 0%, 15%);
   /* --app-font: 'PT Sans', sans-serif; */
-  --app-font: 'Varela Round', sans-serif;
+  --app-font: "Varela Round", sans-serif;
   --app-brand-color: hsl(204, 96%, 42%);
 
   /* Buttons */
-
 
   /* card */
   --card-background: hsl(0, 0%, 96%);
@@ -18,19 +17,19 @@
   --header-button-background: hsl(0, 0%, 96%);
   --header-button-color: hsl(0, 0%, 15%);
   --header-button-border-color: hsl(0, 0%, 88%);
-
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  /* background: var(--app-background); */
-  font-family: 'PT Sans', sans-serif;
+  font-family: "PT Sans", sans-serif;
   overflow-y: hidden;
 }
 
-button:focus {outline:0;}
+button:focus {
+  outline: 0;
+}
 
 button {
   outline: none;
@@ -42,10 +41,10 @@ button::-moz-focus-inner {
 
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }

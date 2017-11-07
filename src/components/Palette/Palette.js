@@ -6,7 +6,8 @@ import FontAwesome from "react-fontawesome";
 import { getContrastYIQ } from "../../stores/ColorLogic";
 import ClipboardButton from "react-clipboard.js";
 import TriangleDown from "../Elements/TriangleDown";
-import ReactTooltip from "react-tooltip";
+import FlipMove from "react-flip-move";
+
 import "./Palette.css";
 
 const SortableItem = SortableElement(
@@ -30,6 +31,7 @@ const SortableItem = SortableElement(
         : `hsl(${hue}, ${saturation}%, ${lightness}%)`}`,
       color: getContrastYIQ(hex, 0.4, false)
     };
+
     return (
       <div className="palette-swatch" style={style}>
         <TriangleDown show={selected} />
@@ -42,14 +44,11 @@ const SortableItem = SortableElement(
           onChange={event => dataStore.changeHex(event.target.value)}
         /> */}
 
-        {<p className="palette-swatch-hex noselect">{hex}</p>}
-        {/* <DragHandle /> */}
+        <p className="palette-swatch-hex noselect">{hex}</p>
         <p className="palette-swatch-name noselect">{colorName}</p>
 
         <div className="palette-swatch-buttons-container">
           <button
-            data-tip
-            data-for="colorSliders"
             style={buttonTextColor}
             className="palette-swatch-button"
             onClick={() => dataStore.selectSwatch(uniqueIndex)}
@@ -57,19 +56,7 @@ const SortableItem = SortableElement(
             <FontAwesome name="sliders" size="2x" />
           </button>
 
-          <ReactTooltip
-            delayShow={300}
-            id="colorSliders"
-            type="dark"
-            place="top"
-            effect="solid"
-          >
-            <span>Open Color Sliders</span>
-          </ReactTooltip>
-
           <button
-            data-tip
-            data-for="deleteSwatch"
             style={buttonTextColor}
             className="palette-swatch-button"
             onClick={() => dataStore.deleteSwatch(uniqueIndex)}
@@ -77,19 +64,7 @@ const SortableItem = SortableElement(
             <FontAwesome name="trash" size="2x" />
           </button>
 
-          <ReactTooltip
-            delayShow={300}
-            id="deleteSwatch"
-            type="warning"
-            place="top"
-            effect="solid"
-          >
-            <span>Delete swatch from palette</span>
-          </ReactTooltip>
-
           <ClipboardButton
-            data-tip
-            data-for="copySwatch"
             style={buttonTextColor}
             className="palette-swatch-button"
             data-clipboard-text={hex}
@@ -97,34 +72,9 @@ const SortableItem = SortableElement(
             <FontAwesome name="clipboard" size="2x" />
           </ClipboardButton>
 
-          <ReactTooltip
-            delayShow={300}
-            id="copySwatch"
-            type="dark"
-            place="top"
-            effect="solid"
-          >
-            <span>Copy to clipboard</span>
-          </ReactTooltip>
-
-          <button
-            data-tip
-            data-for="swatchInfo"
-            style={buttonTextColor}
-            className="palette-swatch-button"
-          >
+          <button style={buttonTextColor} className="palette-swatch-button">
             <FontAwesome name="info" size="2x" />
           </button>
-
-          <ReactTooltip
-            delayShow={300}
-            id="swatchInfo"
-            type="dark"
-            place="top"
-            effect="solid"
-          >
-            <span>Swatch Info</span>
-          </ReactTooltip>
         </div>
       </div>
     );
@@ -149,7 +99,19 @@ const SortableList = SortableContainer(
         />
       )
     );
-    return <div className="palette-swatch-container">{sortableSwatches}</div>;
+    return (
+      <FlipMove
+        className="palette-swatch-container"
+        easing="ease-in-out"
+        duration={200}
+        enterAnimation={"fade"}
+        leaveAnimation={"fade"}
+        maintainContainerHeight={true}
+      >
+      <span key={2312}></span>
+        {sortableSwatches}
+      </FlipMove>
+    );
   })
 );
 
@@ -167,8 +129,8 @@ class palette extends Component {
   };
 
   componentDidMount() {
-    const {dataStore} = this.props
-    const mediaQuery = window.matchMedia(dataStore.minWidth); 
+    const { dataStore } = this.props;
+    const mediaQuery = window.matchMedia(dataStore.minWidth);
     this.handleScreenWidthChange(mediaQuery); // check initial width
     mediaQuery.addListener(this.handleScreenWidthChange); // listen for width change
   }

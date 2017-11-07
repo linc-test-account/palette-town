@@ -27,6 +27,7 @@
   margin: 0 20px 0 10px;
   padding: 0;
   font-size: 18px;
+  font-weight: bold;
   color: var(--app-brand-color);
   min-width:110px;
   line-height: 45px;

@@ -56,15 +56,12 @@ class Color {
   }
   // HSL
   changeHue(val) {
-    console.log("cat");
     this.hue = val;
   }
   changeSaturation(val) {
-    console.log("cat");
     this.saturation = val;
   }
   changeLightness(val) {
-    console.log("cat");
     this.lightness = val;
   }
 
@@ -201,7 +198,6 @@ class Data {
         info = pentagon(this.selectedPaletteModifier);
         break;
       default:
-        console.log("No harmony provided");
     }
     return info;
   }
@@ -385,44 +381,38 @@ class Data {
     const newArr = arrayMove(targetArray, oldIndex, newIndex);
     this.schemes[this.targetItem].colors = newArr;
 
-    // if color picker is visible, iterate through current colors,
-    // find new position of the currently selected color, then
-    // pass index position of color to selectSwatch class method
     if (this.colorPickerVisible === true) {
-      for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
-        if (this.schemes[this.targetItem].colors[i].selected === true)
-          this.selectSwatch(i);
-      }
+      this.reselectSwatch();
+    } else {
+      return;
     }
   };
 
   // RANDOMIZE PALATTE SWATCH ORDER
   @action
   randomizeSwatches() {
-    const newArray = this.schemes[this.targetItem].colors.slice();
-    const test = shuffle(newArray);
-    this.schemes[this.targetItem].colors = test;
+    const tempArray = this.schemes[this.targetItem].colors.slice();
+    const shuffledArray = shuffle(tempArray);
+    this.schemes[this.targetItem].colors = shuffledArray;
 
     if (this.colorPickerVisible === true) {
-      for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
-        if (this.schemes[this.targetItem].colors[i].selected === true)
-          this.selectSwatch(i);
-      }
+      this.reselectSwatch();
+    } else {
+      return;
     }
   }
 
   // REVERSE PALATTE SWATCH ORDER
   @action
   reverseSwatches() {
-    const newArray = this.schemes[this.targetItem].colors.slice();
-    const test = reverse(newArray);
-    this.schemes[this.targetItem].colors = test;
+    const tempArray = this.schemes[this.targetItem].colors.slice();
+    const reversedArray = reverse(tempArray);
+    this.schemes[this.targetItem].colors = reversedArray;
 
     if (this.colorPickerVisible === true) {
-      for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
-        if (this.schemes[this.targetItem].colors[i].selected === true)
-          this.selectSwatch(i);
-      }
+      this.reselectSwatch();
+    } else {
+      return;
     }
   }
 
@@ -440,21 +430,25 @@ class Data {
       }
 
       if (this.targetItem === 0) {
-        console.log("schemes.length === 0");
         this.concatColors();
       }
 
       if (this.targetItem < this.count - 1) {
-        console.log("targetItem < count");
         this.targetItem++;
       }
 
       if (this.targetItem === this.count - 1) {
-        console.log("targetItem === count - 1");
         this.concatColors();
       } else {
         return;
       }
+    }
+  }
+
+  reselectSwatch() {
+    for (let i = 0; i < this.schemes[this.targetItem].colors.length; i++) {
+      if (this.schemes[this.targetItem].colors[i].selected === true)
+        this.selectSwatch(i);
     }
   }
 

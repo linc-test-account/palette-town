@@ -96,7 +96,6 @@ class SubHeader extends Component {
     };
 
     if (this.subheaderContainer && this.subheaderElement) {
-      console.log(true);
       this.setOffsetWidth(
         this.subheaderContainer.offsetWidth,
         this.subheaderElement.offsetWidth

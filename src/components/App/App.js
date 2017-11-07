@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import Header from "../Header/Header.js";
-import "./App.css";
 import Palette from "../Palette/Palette";
 import FlipMove from "react-flip-move";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import SubHeader from "../SubHeader/SubHeader";
+import "./App.css";
 
 @observer
 class App extends Component {
@@ -54,9 +54,12 @@ class App extends Component {
           "No data"
         ) : (
           <FlipMove
+            appearAnimation={true}
+            onStartAll={() => dataStore.toggleCoolDownActive(true)}
+            onFinishAll={() => dataStore.toggleCoolDownActive(false)}
             className="flipmove-container"
             easing="ease-in-out"
-            duration={dataStore.transitionTime}
+            duration={200}
             enterAnimation={"fade"}
             leaveAnimation={"fade"}
             maintainContainerHeight={true}

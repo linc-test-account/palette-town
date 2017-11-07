@@ -12,6 +12,7 @@ import {
   hslToHex,
   hslToRgb
 } from "./ColorLogic";
+import withCooldown from "./withCooldown";
 import shuffle from "lodash/shuffle";
 import reverse from "lodash/reverse";
 import uuidv4 from "uuid/v4";
@@ -94,11 +95,11 @@ class Data {
   @observable
   paletteModifiers = [
     {
-      modifier: "default",
+      modifier: "none",
       saturationMin: 0,
       saturationMax: 100,
-      lightnessMin: 20,
-      lightnessMax: 90
+      lightnessMin: 0,
+      lightnessMax: 100
     },
     {
       modifier: "pastel",
@@ -129,7 +130,7 @@ class Data {
       lightnessMax: 90
     }
   ];
-  @observable selectedPaletteModifier = this.paletteModifiers[1];
+  @observable selectedPaletteModifier = this.paletteModifiers[0];
   @observable colorSpaces = ["HSL", "RGB", "HSV"];
   @observable colorSpace = "HSL";
   @observable colorPickerVisible = false;
@@ -138,6 +139,7 @@ class Data {
   @observable count = 0;
   @observable schemes = [];
   @observable targetItem = -1;
+  @observable cooldownactive = false;
 
   @computed
   get minWidth() {
@@ -167,6 +169,11 @@ class Data {
       });
     }
     return miniPalettes;
+  }
+
+  @action
+  toggleCoolDownActive(val) {
+    this.cooldownactive = val;
   }
 
   getPalette(harmony) {
@@ -421,41 +428,58 @@ class Data {
 
   // RETRIEVE NEXT COLOR PALATTE
   @action
+  @withCooldown(TRANSITION_TIME)
   getNext() {
-    // close color picker if open
-    if (this.colorPickerVisible === true) {
-      this.closeColorPicker();
-    }
-
-    if (this.targetItem === 0) {
-      console.log("schemes.length === 0");
-      this.concatColors();
-    }
-
-    if (this.targetItem === this.count - 1) {
-      console.log("targetItem === count - 1");
-      this.concatColors();
-    } else {
+    if (this.cooldownactive === true) {
       return;
+    }
+    if (this.cooldownactive === false) {
+      // close color picker if open
+      if (this.colorPickerVisible === true) {
+        this.closeColorPicker();
+      }
+
+      if (this.targetItem === 0) {
+        console.log("schemes.length === 0");
+        this.concatColors();
+      }
+
+      if (this.targetItem < this.count - 1) {
+        console.log("targetItem < count");
+        this.targetItem++;
+      }
+
+      if (this.targetItem === this.count - 1) {
+        console.log("targetItem === count - 1");
+        this.concatColors();
+      } else {
+        return;
+      }
     }
   }
 
   // RETRIEVE PREVIOUS COLOR PALATTE
   @action
+  @withCooldown(TRANSITION_TIME)
   getPrevious() {
-    // close color picker if open
-    if (this.colorPickerVisible === true) {
-      this.closeColorPicker();
-    }
-
-    if (this.targetItem === 0) {
+    if (this.cooldownactive === true) {
       return;
     }
+    if (this.cooldownactive === false) {
+      // close color picker if open
+      if (this.colorPickerVisible === true) {
+        this.closeColorPicker();
+      }
 
-    if (this.targetItem > 0) {
-      this.targetItem--;
-    } else {
-      return;
+      if (this.targetItem === 0) {
+        return;
+      }
+
+      if (this.targetItem > 0) {
+        this.targetItem--;
+      } else {
+        return;
+      }
     }
   }
 

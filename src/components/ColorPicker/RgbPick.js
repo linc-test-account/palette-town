@@ -14,7 +14,7 @@ class RgbPick extends Component {
     const { dataStore } = this.props;
 
     const swatch =
-      dataStore.schemes[dataStore.targetItem].colors[dataStore.targetSwatch];
+      dataStore.currentPalatte[dataStore.targetItem].colors[dataStore.targetSwatch];
 
     const handleStyle = {
       background: `hsl(${swatch.hue}, ${swatch.saturation}%, ${swatch.lightness}%)`,

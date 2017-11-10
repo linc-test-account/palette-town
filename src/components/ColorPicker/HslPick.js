@@ -22,7 +22,7 @@ class HslPick extends Component {
     const { dataStore } = this.props;
 
     const swatch =
-      dataStore.schemes.colors[dataStore.targetSwatch];
+      dataStore.currentPalatte.colors[dataStore.targetSwatch];
 
     const handleStyle = {
       background: `hsl(${swatch.hue}, ${swatch.saturation}%, ${swatch.lightness}%)`,

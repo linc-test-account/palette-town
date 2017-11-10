@@ -25,6 +25,8 @@ module.exports = {
     "one-var": [2, "never"],
     "no-var": 2,
     "no-unused-vars": 2,
+    "no-empty": 1,
+    "no-redeclare": 1,
     "no-unreachable": 1,
     "prefer-const": 2,
     // "class-methods-use-this": 1,
@@ -33,5 +35,6 @@ module.exports = {
     "vars-on-top": 1,
     "block-scoped-var": 1,
     // "no-magic-numbers": ["error", { ignoreArrayIndexes: true, "ignore": [1] }] 
+    "no-dupe-args": 1,
   }
 };

@@ -24,27 +24,36 @@
 }
 
 .header-button:active .header-icon {
-  color: rgb(255, 0, 212);
+  color: hsl(310, 100%, 50%);
   transform: scale(.8,.8);
 }
 
 
 .indicator-overlay {
   font-family: var(--app-font);
-  color: var(--app-text-color);
-  text-shadow: 1px 1px 3px black;
+  color: white;
   z-index: 1;
   position: absolute;
   transform: scale(1, 1);
-  margin: -5px 0 0 22px;
+  margin: -5px 0 0 24px;
   padding: 0;
-  font-size: 14px;
+  font-size: 11px;
   background: hsl(217, 63%, 52%);
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   text-align: center;
-  line-height: 20px;
+  line-height: 22px;
+  transition: 200ms ease all;
+}
+
+.header-button:active .indicator-overlay {
+  background: hsl(310, 100%, 50%);
+  transform: scale(.7,.7);
+}
+
+.header-button-active {
+  color: red;
 }
 
 @media screen and (min-width: 700px) {

@@ -1,15 +1,22 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import hslToHex from "../../stores/ColorLogic/hslToHex";
 import "./MiniPalette.css";
 
-const MiniSwatch = ({ hue, saturation, lightness }) => {
+const MiniSwatch = ({ swatchHover, hue, saturation, lightness }) => {
   const style = {
     background: `hsl(${hue}, ${saturation}%, ${lightness}%)`
   };
-  return <div className="mini-swatch" style={style} />;
+
+  return swatchHover === true ? (
+    <div className="mini-swatch-alt" style={style} title={hslToHex(hue, saturation, lightness)}/>
+  ) : (
+    <div className="mini-swatch" style={style} />
+  );
 };
 
 MiniSwatch.propTypes = {
+  swatchHover: PropTypes.bool,
   hue: PropTypes.number,
   saturation: PropTypes.number,
   lightness: PropTypes.number
@@ -17,16 +24,14 @@ MiniSwatch.propTypes = {
 
 class MiniPalette extends Component {
   static propTypes = {
-    index: PropTypes.number,
-    harmony: PropTypes.string,
-    dataStore: PropTypes.object
-  }
+    harmony: PropTypes.array,
+    swatchHover: PropTypes.bool
+  };
   render() {
-    const { index, harmony, dataStore } = this.props;
-    const miniPalette = dataStore.miniPalettes[index][
-      harmony
-    ].map(({ hue, saturation, lightness }, index) => (
+    const { harmony, swatchHover } = this.props;
+    const miniPalette = harmony.map(({ hue, saturation, lightness }, index) => (
       <MiniSwatch
+        swatchHover={swatchHover}
         key={index}
         hue={hue}
         saturation={saturation}

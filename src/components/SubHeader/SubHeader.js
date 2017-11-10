@@ -3,7 +3,6 @@ import DropDownList from "../Elements/DropDownList.js";
 import MiniPalette from "../Elements/MiniPalette";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
-// import { toJS } from "mobx";
 import Draggable from "react-draggable";
 import FontAwesome from "react-fontawesome";
 import "./SubHeader.css";
@@ -20,7 +19,7 @@ function getHarmonies(harmonies, dataStore, toggleHarmoniesList) {
         >
           {harmony}
           <FontAwesome className="option-checkmark" name={"check"} size="2x" />
-          <MiniPalette index={index} harmony={harmony} dataStore={dataStore} />
+          <MiniPalette harmony={dataStore.miniPalettes[index][harmony]} />
         </a>
       ) : (
         <a
@@ -33,7 +32,7 @@ function getHarmonies(harmonies, dataStore, toggleHarmoniesList) {
           }}
         >
           {harmony}
-          <MiniPalette index={index} harmony={harmony} dataStore={dataStore} />
+          <MiniPalette harmony={dataStore.miniPalettes[index][harmony]} />
         </a>
       )
   );
@@ -70,6 +69,28 @@ function getPaletteModifiers(modifiers, dataStore, togglePaletteModifiersList) {
   return harmonyList;
 }
 
+function getFavorites(favorites, dataStore) {
+  const items = [];
+  for (let i = 0; i < favorites.length; i++) {
+    items.push(
+      <div className="favorite-list-item-container" key={i}>
+        <a
+          className="drop-down-list-option"
+        >
+          <MiniPalette swatchHover={true} harmony={favorites[i]} />
+        </a>
+        <button onClick={() => dataStore.deleteFromFavorites(i)} className="favorite-list-item-button">
+          <FontAwesome name={"trash"} size="2x" />
+        </button>
+        <button onClick={() => dataStore.goToPalette(i)} className="favorite-list-item-button">
+          <FontAwesome name={"pencil"} size="2x" />
+        </button>
+      </div>
+    );
+  }
+  return items;
+}
+
 @observer
 class SubHeader extends Component {
   constructor(props) {
@@ -77,6 +98,7 @@ class SubHeader extends Component {
     this.state = {
       showHarmonies: false,
       showModifiers: false,
+      showFavorites: false,
       offSet: 0
     };
   }
@@ -90,7 +112,8 @@ class SubHeader extends Component {
       if (!event.target.matches(".dropbtn")) {
         this.setState({
           showHarmonies: false,
-          showModifiers: false
+          showModifiers: false,
+          showFavorites: false
         });
       }
     };
@@ -154,6 +177,18 @@ class SubHeader extends Component {
     }
   };
 
+  toggleFavoritesList = () => {
+    if (this.state.showFavorites === true) {
+      this.setState({
+        showFavorites: false
+      });
+    } else {
+      this.setState({
+        showFavorites: true
+      });
+    }
+  };
+
   render() {
     const { dataStore } = this.props;
     const { offSet } = this.state;
@@ -167,6 +202,8 @@ class SubHeader extends Component {
       dataStore,
       this.togglePaletteModifiersList
     );
+
+    const favorites = getFavorites(dataStore.favoritesShortList, dataStore);
     return (
       <div
         ref={subheaderContainer =>
@@ -207,6 +244,15 @@ class SubHeader extends Component {
                 showing={this.state.showModifiers}
                 listItems={paletteModifiers}
                 selectedValue={dataStore.selectedPaletteModifier.modifier}
+              />
+
+              <h3 className="subheader-drop-down-list-label">Favorites</h3>
+
+              <DropDownList
+                toggleShowing={() => this.toggleFavoritesList()}
+                showing={this.state.showFavorites}
+                listItems={favorites}
+                selectedValue={"Favorites"}
               />
             </div>
           </div>

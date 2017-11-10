@@ -1,0 +1,24 @@
+.heading-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 0 10px 0 10px;
+  border-style: solid;
+  border-color: var(--header-button-border-color);
+  border-width: 0 1px 0 0;
+}
+
+.brand-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--app-brand-color);
+    line-height: 45px;
+    font-family: 'Hammersmith One', sans-serif;
+    /* font-weight: 700; */
+  }
+  
+  .brand-name-accent {
+    color: hsl(303, 75%, 54%);
+  }
+  
+  

@@ -117,49 +117,22 @@ const SortableList = SortableContainer(
 
 @observer
 class palette extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      minWidthReached: undefined
-    };
-  }
   static propTypes = {
+    minWidthReached: PropTypes.bool,
     dataStore: PropTypes.object,
-    schemes: PropTypes.object
-  };
-
-  componentDidMount() {
-    const { dataStore } = this.props;
-    const mediaQuery = window.matchMedia(dataStore.minWidth);
-    this.handleScreenWidthChange(mediaQuery); // check initial width
-    mediaQuery.addListener(this.handleScreenWidthChange); // listen for width change
-  }
-
-  handleScreenWidthChange = mediaQuery => {
-    if (mediaQuery.matches) {
-      this.setState({
-        minWidthReached: false
-      });
-    } else {
-      this.setState({
-        minWidthReached: true
-      });
-    }
+    currentPalatte: PropTypes.object
   };
 
   render() {
-    const { dataStore, schemes } = this.props;
-    const { minWidthReached } = this.state;
-
+    const { minWidthReached, dataStore, currentPalatte } = this.props;
     return (
       <SortableList
         axis={minWidthReached === true ? "y" : "x"}
         lockAxis={minWidthReached === true ? "y" : "x"}
         dataStore={dataStore}
-        items={schemes}
+        items={currentPalatte}
         onSortEnd={dataStore.onSortEnd}
         pressDelay={150}
-        helperClass="sortable-test"
       />
     );
   }

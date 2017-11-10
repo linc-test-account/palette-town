@@ -6,7 +6,7 @@ import FontAwesome from "react-fontawesome";
 import { getContrastYIQ } from "../../stores/ColorLogic";
 import ClipboardButton from "react-clipboard.js";
 import TriangleDown from "../Elements/TriangleDown";
-import FlipMove from "react-flip-move";
+// import FlipMove from "react-flip-move";
 
 import "./Palette.css";
 
@@ -100,17 +100,17 @@ const SortableList = SortableContainer(
       )
     );
     return (
-      <FlipMove
+      <div
         className="palette-swatch-container"
-        easing="ease-in-out"
-        duration={200}
-        enterAnimation={"fade"}
-        leaveAnimation={"fade"}
-        maintainContainerHeight={true}
+        // easing="ease-in-out"
+        // duration={200}
+        // appearAnimation={false}
+        // enterAnimation={false}
+        // leaveAnimation={false}
+        // maintainContainerHeight={true}
       >
-      <span key={2312}></span>
         {sortableSwatches}
-      </FlipMove>
+      </div>
     );
   })
 );
@@ -125,7 +125,7 @@ class palette extends Component {
   }
   static propTypes = {
     dataStore: PropTypes.object,
-    currentPalette: PropTypes.object
+    schemes: PropTypes.object
   };
 
   componentDidMount() {
@@ -148,7 +148,7 @@ class palette extends Component {
   };
 
   render() {
-    const { dataStore, currentPalette } = this.props;
+    const { dataStore, schemes } = this.props;
     const { minWidthReached } = this.state;
 
     return (
@@ -156,9 +156,10 @@ class palette extends Component {
         axis={minWidthReached === true ? "y" : "x"}
         lockAxis={minWidthReached === true ? "y" : "x"}
         dataStore={dataStore}
-        items={currentPalette}
+        items={schemes}
         onSortEnd={dataStore.onSortEnd}
         pressDelay={150}
+        helperClass="sortable-test"
       />
     );
   }

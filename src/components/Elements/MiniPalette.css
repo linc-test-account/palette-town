@@ -1,10 +1,23 @@
 .mini-palette-container {
     display: flex;
     flex-direction: row;
-    
+    border-radius: 10px;
+    transition: 200ms ease all;
   }
   
   .mini-swatch {
-    width: 20px;
+    width: 30px;
     height: 20px;
+    transition: 100ms ease all;
+  }
+
+  .mini-swatch-alt {
+    width: 30px;
+    height: 20px;
+    transition: 100ms ease all;
+  }
+
+  .mini-swatch-alt:hover {
+    transform: scale(1.2, 1.2);
+    box-shadow: 0 2px 4px 0 hsla(0, 0%, 0%, 0.2);
   }

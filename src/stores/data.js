@@ -37,8 +37,8 @@ class Color {
     this.blue = blue;
   }
   @observable selected = false;
-  @observable hue = 0;
   @observable hexval;
+  @observable hue = 0;
   @observable saturation = 0;
   @observable lightness = 0;
   @computed
@@ -52,16 +52,6 @@ class Color {
   @computed
   get rgb() {
     return hslToRgb(this.hue, this.saturation, this.lightness);
-  }
-  // HSL
-  changeHue(val) {
-    this.hue = val;
-  }
-  changeSaturation(val) {
-    this.saturation = val;
-  }
-  changeLightness(val) {
-    this.lightness = val;
   }
 }
 
@@ -108,6 +98,13 @@ class Data {
       lightnessMax: 50
     },
     {
+      modifier: "desaturated",
+      saturationMin: 30,
+      saturationMax: 0,
+      lightnessMin: 0,
+      lightnessMax: 100
+    },
+    {
       modifier: "greyscale",
       saturationMin: 0,
       saturationMax: 0,
@@ -118,12 +115,9 @@ class Data {
   @observable selectedPaletteModifier = this.paletteModifiers[0];
   @observable colorPickerVisible = false;
   @observable targetSwatch;
-  @observable coolDown = false;
   @observable count = -1;
   @observable schemes = [];
-  @observable targetItem = -1;
   @observable cooldownactive = false;
-  @observable indexesOfFavorites = [];
   @observable favorites = [];
 
   @computed
@@ -134,15 +128,6 @@ class Data {
   @computed
   get transitionTime() {
     return TRANSITION_TIME;
-  }
-
-  @computed
-  get targetItemFavoriteStatus() {
-    if (this.schemes.length > 0) {
-      return this.schemes[this.targetItem].favorite;
-    } else {
-      return;
-    }
   }
 
   @computed
@@ -174,32 +159,14 @@ class Data {
     return favoritesShortList;
   }
 
-  @computed
-  get favoritesIndexes() {
-    const indexesArr = [];
-    if (this.schemes.length > 0) {
-      for (let i = 0; i < this.schemes.length; i++) {
-        if (this.schemes[i].favorite === true) {
-          indexesArr.push(i);
-        }
-      }
-      return indexesArr;
-    }
-  }
-
-  @action
-  uptateIndexesOfFavorites(indexesArr) {
-    this.indexesOfFavorites = indexesArr;
-  }
-
   @action
   goToPalette(index) {
-    this.schemes = this.favorites[index];
-    // increment this.count - this.count is used as unique key on Palatte
-    // component in App.js. This new unique key will indicate to 
-    // the containing FlipMove component that it should animate 
-    // the change from the previous palatte to the next.
-    this.count++; 
+    if (this.favorites.length > 0) {
+      this.schemes = this.favorites[index];
+      this.count++; 
+    } else {
+      return;
+    }
   }
 
   @action
@@ -245,7 +212,6 @@ class Data {
     }
 
     const palette = this.getPalette(this.selectedHarmony.harmony);
-
     const colorArray = [];
     for (let i = 0; i < this.selectedHarmony.colors; i++) {
       colorArray.push(
@@ -264,15 +230,13 @@ class Data {
     };
 
     this.count++;
-    this.targetItem++;
   }
 
   // ADD NEW SWATCH TO CURRENT COLOR PALATTE
   @action
   addSwatch() {
     if (this.colorPickerVisible === true) {
-      // close color picker if open
-      this.closeColorPicker();
+      this.reselectSwatch()
     }
     const info = oneOff();
     const count = this.schemes.colors.length;
@@ -373,25 +337,10 @@ class Data {
     this.closeColorPicker();
   }
 
-  @action
-  deletePalette() {
-    if (this.colorPickerVisible === true) {
-      this.closeColorPicker();
-    }
-    if (this.schemes.length > 0) {
-      const newArray = this.schemes;
-      newArray.splice(this.targetItem, 1);
-      this.schemes = newArray;
-      this.targetItem = this.targetItem - 1;
-    }
-    if (this.schemes.length === 0) {
-      return;
-    }
-  }
-
   // Method called by react-sortable-hoc after dropping
   // a dragged element into new position. Method recieves the
   // oldIndex of the dragged element and the newIndex of the element
+  // once dropped into its new place
   @action
   onSortEnd = ({ oldIndex, newIndex }) => {
     const targetArray = this.schemes.colors.slice();
@@ -441,11 +390,6 @@ class Data {
       return;
     }
     if (this.cooldownactive === false) {
-      // close color picker if open
-      if (this.colorPickerVisible === true) {
-        this.closeColorPicker();
-      }
-
       this.concatColors();
     }
   }
@@ -453,31 +397,6 @@ class Data {
   reselectSwatch() {
     for (let i = 0; i < this.schemes.colors.length; i++) {
       if (this.schemes.colors[i].selected === true) this.selectSwatch(i);
-    }
-  }
-
-  // RETRIEVE PREVIOUS COLOR PALATTE
-  @action
-  @withCooldown(TRANSITION_TIME)
-  getPrevious() {
-    if (this.cooldownactive === true) {
-      return;
-    }
-    if (this.cooldownactive === false) {
-      // close color picker if open
-      if (this.colorPickerVisible === true) {
-        this.closeColorPicker();
-      }
-
-      if (this.targetItem === 0) {
-        return;
-      }
-
-      if (this.targetItem > 0) {
-        this.targetItem--;
-      } else {
-        return;
-      }
     }
   }
 

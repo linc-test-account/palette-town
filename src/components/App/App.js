@@ -23,7 +23,7 @@ class App extends Component {
 
   componentDidMount() {
     const { dataStore } = this.props;
-    dataStore.concatColors();
+    dataStore.generateNewPalatte();
     const mediaQuery = window.matchMedia(dataStore.minWidth);
     this.handleScreenWidthChange(mediaQuery); // check initial width
     mediaQuery.addListener(this.handleScreenWidthChange); // listen for width change
@@ -43,13 +43,14 @@ class App extends Component {
 
   render() {
     const { dataStore } = this.props;
+    const { minWidthReached } = this.state;
     return (
       <div className="App">
-        <Header dataStore={dataStore} />
+        <Header minWidthReached={minWidthReached} dataStore={dataStore} />
 
         {dataStore !== undefined ? <SubHeader dataStore={dataStore} /> : ""}
 
-        {dataStore.schemes.length === 0 ? (
+        {dataStore.currentPalatte.length === 0 ? (
           "No data"
         ) : (
           <FlipMove
@@ -69,7 +70,8 @@ class App extends Component {
               <span key={`color-picker-${1}`} />
             )}
             <Palette
-              schemes={dataStore.schemes.colors}
+              minWidthReached={minWidthReached}
+              currentPalatte={dataStore.currentPalatte.colors}
               dataStore={dataStore}
               key={`palette-${dataStore.count}`}
             />

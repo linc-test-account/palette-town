@@ -116,22 +116,13 @@ class Header extends Component {
             >
               <KeyHandler
                 keyEventName={KEYDOWN}
-                keyValue="ArrowLeft"
-                onKeyHandle={() => dataStore.getPrevious()}
-              />
-              <KeyHandler
-                keyEventName={KEYDOWN}
                 keyValue="ArrowRight"
                 onKeyHandle={() => dataStore.getNext()}
               />
-              <h1 className="brand-name"><span className="brand-name-accent">P</span>alette <span className="brand-name-accent">T</span>own</h1>
-
-              <HeaderButton
-                dataStore={dataStore}
-                btnFunction={() => dataStore.getPrevious()}
-                fontAwesomeIcon={"arrow-left"}
-                buttonText={"Previous"}
-              />
+              <h1 className="brand-name">
+                <span className="brand-name-accent">P</span>alette{" "}
+                <span className="brand-name-accent">T</span>own
+              </h1>
               <HeaderButton
                 dataStore={dataStore}
                 btnFunction={() => dataStore.getNext()}
@@ -139,32 +130,29 @@ class Header extends Component {
                 buttonText={"Next"}
               />
               <HeaderButton
-                className="card-buttons"
                 dataStore={dataStore}
                 btnFunction={() => dataStore.addSwatch()}
                 fontAwesomeIcon={"plus"}
                 buttonText={"Add Swatch"}
               />
               <HeaderButton
-                className="card-buttons"
                 dataStore={dataStore}
                 btnFunction={() => dataStore.reverseSwatches()}
                 fontAwesomeIcon={"exchange"}
                 buttonText={"Reverse"}
               />
               <HeaderButton
-                className="card-buttons"
                 dataStore={dataStore}
                 btnFunction={() => dataStore.randomizeSwatches()}
                 fontAwesomeIcon={"random"}
                 buttonText={"Shuffle"}
               />
               <HeaderButton
-                className="card-buttons"
                 dataStore={dataStore}
-                btnFunction={() => dataStore.deletePalatte()}
-                fontAwesomeIcon={"trash"}
+                btnFunction={() => dataStore.pushToFavorites()}
+                fontAwesomeIcon={"heart"}
                 buttonText={"Delete"}
+                overlayValue={dataStore.favoritesShortList.length}
               />
             </div>
           </div>

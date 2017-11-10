@@ -6,6 +6,7 @@
     font-family: var(--app-font);
     height: 100%;
     flex-grow: 1;
+    background: hsl(0, 0%, 10%);
 }
 
 
@@ -91,7 +92,6 @@
     background: none;
     border: none;
 }
-
 
 @media screen and (max-width: 700px) {
     .palette-swatch-container {

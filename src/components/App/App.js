@@ -43,7 +43,6 @@ class App extends Component {
 
   render() {
     const { dataStore } = this.props;
-    const item = dataStore.schemes[dataStore.targetItem];
     return (
       <div className="App">
         <Header dataStore={dataStore} />
@@ -54,25 +53,25 @@ class App extends Component {
           "No data"
         ) : (
           <FlipMove
-            appearAnimation={true}
+            appearAnimation={"fade"}
             onStartAll={() => dataStore.toggleCoolDownActive(true)}
             onFinishAll={() => dataStore.toggleCoolDownActive(false)}
             className="flipmove-container"
             easing="ease-in-out"
             duration={200}
-            enterAnimation={"fade"}
+            enterAnimation={false}
             leaveAnimation={"fade"}
             maintainContainerHeight={true}
           >
             {dataStore.colorPickerVisible === true ? (
-              <ColorPicker key={9} dataStore={dataStore} />
+              <ColorPicker key={`color-picker-${0}`} dataStore={dataStore} />
             ) : (
-              <span key={1} />
+              <span key={`color-picker-${1}`} />
             )}
             <Palette
-              currentPalette={dataStore.currentPalette}
+              schemes={dataStore.schemes.colors}
               dataStore={dataStore}
-              key={item.count}
+              key={`palette-${dataStore.count}`}
             />
           </FlipMove>
         )}

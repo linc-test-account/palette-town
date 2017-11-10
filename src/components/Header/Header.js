@@ -4,6 +4,7 @@ import HeaderButton from "../Elements/HeaderButton.js";
 import KeyHandler, { KEYDOWN } from "react-key-handler";
 import Draggable from "react-draggable";
 import PropTypes from "prop-types";
+import Heading from "../Elements/Heading";
 import "./Header.css";
 
 @observer
@@ -18,7 +19,8 @@ class Header extends Component {
   }
 
   static propTypes = {
-    dataStore: PropTypes.object
+    dataStore: PropTypes.object,
+    minWidthReached: PropTypes.bool
   };
 
   componentDidMount = () => {
@@ -91,7 +93,7 @@ class Header extends Component {
   };
 
   render() {
-    const { dataStore } = this.props;
+    const { dataStore, minWidthReached } = this.props;
     const { offSet } = this.state;
     return (
       <div
@@ -119,10 +121,11 @@ class Header extends Component {
                 keyValue="ArrowRight"
                 onKeyHandle={() => dataStore.getNext()}
               />
-              <h1 className="brand-name">
+              <Heading minWidthReached={minWidthReached} />
+              {/* <h1 className="brand-name">
                 <span className="brand-name-accent">P</span>alette{" "}
                 <span className="brand-name-accent">T</span>own
-              </h1>
+              </h1> */}
               <HeaderButton
                 dataStore={dataStore}
                 btnFunction={() => dataStore.getNext()}

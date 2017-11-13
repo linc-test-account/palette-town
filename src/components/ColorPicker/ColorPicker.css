@@ -5,6 +5,11 @@
   flex-direction: row;
 }
 
+.color-picker-inner-container {
+  display: flex;
+  width: 100%;
+}
+
 .sliders {
   height: 45px;
   width: 100%;

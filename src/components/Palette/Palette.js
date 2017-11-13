@@ -6,7 +6,6 @@ import FontAwesome from "react-fontawesome";
 import { getContrastYIQ } from "../../stores/ColorLogic";
 import ClipboardButton from "react-clipboard.js";
 import TriangleDown from "../Elements/TriangleDown";
-// import FlipMove from "react-flip-move";
 
 import "./Palette.css";
 
@@ -35,15 +34,6 @@ const SortableItem = SortableElement(
     return (
       <div className="palette-swatch" style={style}>
         <TriangleDown show={selected} />
-
-        {/* <input
-          style={buttonTextColor}
-          className="palette-swatch-input"
-          placeholder={hex}
-          onClick={() => dataStore.selectSwatch(uniqueIndex)}
-          onChange={event => dataStore.changeHex(event.target.value)}
-        /> */}
-
         <p className="palette-swatch-hex noselect">{hex}</p>
         <p className="palette-swatch-name noselect">{colorName}</p>
 
@@ -99,19 +89,7 @@ const SortableList = SortableContainer(
         />
       )
     );
-    return (
-      <div
-        className="palette-swatch-container"
-        // easing="ease-in-out"
-        // duration={200}
-        // appearAnimation={false}
-        // enterAnimation={false}
-        // leaveAnimation={false}
-        // maintainContainerHeight={true}
-      >
-        {sortableSwatches}
-      </div>
-    );
+    return <div className="palette-swatch-container">{sortableSwatches}</div>;
   })
 );
 

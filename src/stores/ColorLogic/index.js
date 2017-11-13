@@ -10,6 +10,7 @@ export { default as random } from "./random";
 export { default as randomHue } from "./randomHue";
 export { default as randomLightness } from "./randomLightness";
 export { default as randomSaturation } from "./randomSaturation";
+export { default as rgbToHsl } from "./rgbToHsl";
 export { default as split } from "./split";
 export { default as square } from "./square";
 export { default as tetradic } from "./tetradic";

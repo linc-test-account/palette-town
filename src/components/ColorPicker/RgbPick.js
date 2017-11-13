@@ -2,19 +2,63 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import ReactSlider from "react-slider";
-import { getContrastYIQ, hslToRgb } from "../../stores/ColorLogic";
+import { getContrastYIQ } from "../../stores/ColorLogic";
 import "./ColorPicker.css";
 
 @observer
 class RgbPick extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      r: undefined,
+      g: undefined,
+      b: undefined
+    };
+  }
+
+  componentDidMount() {
+    const { dataStore } = this.props;
+    const swatch = dataStore.currentPalatte.colors[dataStore.targetSwatch];
+    this.setState({
+      r: swatch.rgb[0],
+      g: swatch.rgb[1],
+      b: swatch.rgb[2]
+    });
+  }
+
+  updateStore = () => {
+    const { dataStore } = this.props;
+    const { r, g, b } = this.state;
+    dataStore.changeRgb(r, g, b);
+  };
+
+  handleRChange = val => {
+    this.setState({
+      r: val
+    });
+    this.updateStore();
+  };
+  handleGChange = val => {
+    this.setState({
+      g: val
+    });
+    this.updateStore();
+  };
+  handleBChange = val => {
+    this.setState({
+      b: val
+    });
+    this.updateStore();
+  };
+
   static propTypes = {
     dataStore: PropTypes.object
   };
+
   render() {
     const { dataStore } = this.props;
 
-    const swatch =
-      dataStore.currentPalatte[dataStore.targetItem].colors[dataStore.targetSwatch];
+    const swatch = dataStore.currentPalatte.colors[dataStore.targetSwatch];
 
     const handleStyle = {
       background: `hsl(${swatch.hue}, ${swatch.saturation}%, ${swatch.lightness}%)`,
@@ -23,9 +67,9 @@ class RgbPick extends Component {
     };
     const backgroundRed = {
       background: `
-        linear-gradient(to right,
-          rgb(0, 0, 0),
-          rgb(255, 0, 0)`
+      linear-gradient(to right,
+        rgb(0, 0, 0),
+        rgb(255, 0, 0)`
     };
     const backgroundGreen = {
       background: `
@@ -40,17 +84,6 @@ class RgbPick extends Component {
           rgb(0, 0, 255)`
     };
 
-    console.log(swatch.hue, swatch.saturation, swatch.lightness);
-
-    const rgbValues = hslToRgb(
-      swatch.hue,
-      swatch.saturation / 100,
-      swatch.lightness / 100
-    );
-    const red = rgbValues[0];
-    const green = rgbValues[1];
-    const blue = rgbValues[2];
-
     return (
       <div className="sliders">
         <div className="slider-container">
@@ -63,14 +96,14 @@ class RgbPick extends Component {
               barClassName="test-bar"
               min={0}
               max={255}
-              defaultValue={red}
+              defaultValue={swatch.rgb[0]}
               withBars={true}
               pearling={true}
-              value={red}
-              onChange={value => dataStore.changeRed({ value })}
+              value={swatch.rgb[0]}
+              onChange={value => this.handleRChange(value)}
             >
               <div className="my-handle" style={handleStyle}>
-                {red}
+                {swatch.rgb[0]}
               </div>
             </ReactSlider>
           </div>
@@ -85,14 +118,14 @@ class RgbPick extends Component {
               barClassName="test-bar"
               min={0}
               max={255}
-              defaultValue={green}
+              defaultValue={swatch.rgb[1]}
               withBars={true}
               pearling={true}
-              value={green}
-              onChange={value => dataStore.changeGreen({ value })}
+              value={swatch.rgb[1]}
+              onChange={value => this.handleGChange(value)}
             >
               <div className="my-handle" style={handleStyle}>
-                {green}
+                {swatch.rgb[1]}
               </div>
             </ReactSlider>
           </div>
@@ -106,14 +139,14 @@ class RgbPick extends Component {
               barClassName="test-bar"
               min={0}
               max={255}
-              defaultValue={blue}
+              defaultValue={swatch.rgb[2]}
               withBars={true}
               pearling={true}
-              value={blue}
-              onChange={value => dataStore.changeBlue({ value })}
+              value={swatch.rgb[2]}
+              onChange={value => this.handleBChange(value)}
             >
               <div className="my-handle" style={handleStyle}>
-                {blue}
+                {swatch.rgb[2]}
               </div>
             </ReactSlider>
           </div>

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import HeaderButton from "../Elements/HeaderButton.js";
-import KeyHandler, { KEYDOWN } from "react-key-handler";
 import Draggable from "react-draggable";
 import PropTypes from "prop-types";
 import Heading from "../Elements/Heading";
@@ -116,16 +115,7 @@ class Header extends Component {
               ref={headerElement => (this.headerElement = headerElement)}
               className="header-inner"
             >
-              <KeyHandler
-                keyEventName={KEYDOWN}
-                keyValue="ArrowRight"
-                onKeyHandle={() => dataStore.getNext()}
-              />
               <Heading minWidthReached={minWidthReached} />
-              {/* <h1 className="brand-name">
-                <span className="brand-name-accent">P</span>alette{" "}
-                <span className="brand-name-accent">T</span>own
-              </h1> */}
               <HeaderButton
                 dataStore={dataStore}
                 btnFunction={() => dataStore.getNext()}
@@ -154,7 +144,7 @@ class Header extends Component {
                 dataStore={dataStore}
                 btnFunction={() => dataStore.pushToFavorites()}
                 fontAwesomeIcon={"heart"}
-                buttonText={"Delete"}
+                buttonText={"Favorite"}
                 overlayValue={dataStore.favoritesShortList.length}
               />
             </div>

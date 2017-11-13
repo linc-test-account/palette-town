@@ -3,6 +3,7 @@ import {
   analogous,
   pentagon,
   random,
+  rgbToHsl,
   split,
   square,
   tetradic,
@@ -13,6 +14,7 @@ import {
   hslToRgb
 } from "./ColorLogic";
 import withCooldown from "./withCooldown";
+import clipboardData from "./clipboardData";
 import shuffle from "lodash/shuffle";
 import reverse from "lodash/reverse";
 import namer from "color-namer";
@@ -28,13 +30,10 @@ const SWATCH_LIMIT = 7;
 const MIN_WIDTH = 700;
 
 class Color {
-  constructor({ hue, saturation, lightness, red, green, blue }) {
+  constructor({ hue, saturation, lightness }) {
     this.hue = hue;
     this.saturation = saturation;
     this.lightness = lightness;
-    this.red = red;
-    this.green = green;
-    this.blue = blue;
   }
   @observable selected = false;
   @observable hexval;
@@ -51,7 +50,11 @@ class Color {
   }
   @computed
   get rgb() {
-    return hslToRgb(this.hue, this.saturation, this.lightness);
+    return hslToRgb(
+      this.hue / 360,
+      this.saturation / 100,
+      this.lightness / 100
+    );
   }
 }
 
@@ -67,6 +70,8 @@ class Data {
     { harmony: "triadic", colors: 3 }
   ];
   @observable selectedHarmony = this.allHarmonies[1];
+  @observable colorSpaces = [{ colorSpace: "HSL" }, { colorSpace: "RGB" }];
+  @observable selectedColorSpace = this.colorSpaces[0];
   @observable
   paletteModifiers = [
     {
@@ -119,6 +124,7 @@ class Data {
   @observable currentPalatte = [];
   @observable cooldownactive = false;
   @observable favorites = [];
+  @observable clipboardData;
 
   @computed
   get minWidth() {
@@ -157,6 +163,14 @@ class Data {
       favoritesShortList.push(palette);
     }
     return favoritesShortList;
+  }
+
+  @action
+  createClipBoardData() {
+    const data = clipboardData(this.currentPalatte.colors);
+    console.log(data);
+    // TODO
+    // logic to copy contents of data to clipboard
   }
 
   @action
@@ -320,6 +334,15 @@ class Data {
     }
   }
 
+  //  MODIFY SWATCH RGB VALUES
+  @action
+  changeRgb(r, g, b) {
+    const hsl = rgbToHsl(r, g, b);
+    this.changeHue(hsl[0] * 360);
+    this.changeSaturation(hsl[1] * 100);
+    this.changeLightness(hsl[2] * 100);
+  }
+
   // DELETE SWATCH FROM CURRENT COLOR PALATTE
   @action
   deleteSwatch(index) {
@@ -421,13 +444,18 @@ class Data {
 
   // CHANGE SELECTED COLOR PALATTE HARMONY (TRIADIC, ANALOGOUS, ETC.)
   @action
-  changeHarmony(val) {
-    this.selectedHarmony = this.allHarmonies[val];
+  changeHarmony(index) {
+    this.selectedHarmony = this.allHarmonies[index];
   }
 
   @action
-  changeModifier(val) {
-    this.selectedPaletteModifier = this.paletteModifiers[val];
+  changeColorSpace(index) {
+    this.selectedColorSpace = this.colorSpaces[index];
+  }
+
+  @action
+  changeModifier(index) {
+    this.selectedPaletteModifier = this.paletteModifiers[index];
   }
 }
 

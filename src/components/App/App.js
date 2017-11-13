@@ -27,6 +27,16 @@ class App extends Component {
     const mediaQuery = window.matchMedia(dataStore.minWidth);
     this.handleScreenWidthChange(mediaQuery); // check initial width
     mediaQuery.addListener(this.handleScreenWidthChange); // listen for width change
+
+    // left arrow key press event listiner
+    document.addEventListener("keydown", (event) => {
+      const { dataStore } = this.props;
+      if (event.keyCode === 39) {
+        dataStore.getNext();
+      } else {
+        return;
+      }
+    });
   }
 
   handleScreenWidthChange = mediaQuery => {

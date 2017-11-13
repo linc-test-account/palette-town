@@ -21,8 +21,7 @@ class HslPick extends Component {
   render() {
     const { dataStore } = this.props;
 
-    const swatch =
-      dataStore.currentPalatte.colors[dataStore.targetSwatch];
+    const swatch = dataStore.currentPalatte.colors[dataStore.targetSwatch];
 
     const handleStyle = {
       background: `hsl(${swatch.hue}, ${swatch.saturation}%, ${swatch.lightness}%)`,
@@ -54,7 +53,7 @@ class HslPick extends Component {
     return (
       <div className="sliders">
         <div className="slider-container">
-          <h2 className="slider-heading">Hue</h2>
+          <h2 className="slider-heading">H</h2>
           <div className="bar-container" style={backgroundHue}>
             <ReactSlider
               className="bar"
@@ -69,14 +68,14 @@ class HslPick extends Component {
               onChange={value => dataStore.changeHue(value)}
             >
               <div className="my-handle" style={handleStyle}>
-                {swatch.hue}
+                {Math.round(swatch.hue)}
               </div>
             </ReactSlider>
           </div>
         </div>
 
         <div className="slider-container">
-          <h2 className="slider-heading">Saturation</h2>
+          <h2 className="slider-heading">S</h2>
           <div className="bar-container" style={backgroundSaturation}>
             <ReactSlider
               className="bar"
@@ -91,13 +90,13 @@ class HslPick extends Component {
               onChange={value => dataStore.changeSaturation(value)}
             >
               <div className="my-handle" style={handleStyle}>
-                {swatch.saturation}
+                {Math.round(swatch.saturation)}
               </div>
             </ReactSlider>
           </div>
         </div>
         <div className="slider-container">
-          <h2 className="slider-heading">Lightness</h2>
+          <h2 className="slider-heading">L</h2>
           <div className="bar-container" style={backgroundLightness}>
             <ReactSlider
               className="bar"
@@ -112,7 +111,7 @@ class HslPick extends Component {
               onChange={value => dataStore.changeLightness(value)}
             >
               <div className="my-handle" style={handleStyle}>
-                {swatch.lightness}
+                {Math.round(swatch.lightness)}
               </div>
             </ReactSlider>
           </div>

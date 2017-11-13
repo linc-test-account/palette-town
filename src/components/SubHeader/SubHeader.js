@@ -74,15 +74,19 @@ function getFavorites(favorites, dataStore) {
   for (let i = 0; i < favorites.length; i++) {
     items.push(
       <div className="favorite-list-item-container" key={i}>
-        <a
-          className="drop-down-list-option"
-        >
+        <a className="drop-down-list-option">
           <MiniPalette swatchHover={true} harmony={favorites[i]} />
         </a>
-        <button onClick={() => dataStore.deleteFromFavorites(i)} className="favorite-list-item-button">
+        <button
+          onClick={() => dataStore.deleteFromFavorites(i)}
+          className="favorite-list-item-button"
+        >
           <FontAwesome name={"trash"} size="2x" />
         </button>
-        <button onClick={() => dataStore.goToPalette(i)} className="favorite-list-item-button">
+        <button
+          onClick={() => dataStore.goToPalette(i)}
+          className="favorite-list-item-button"
+        >
           <FontAwesome name={"pencil"} size="2x" />
         </button>
       </div>
@@ -113,7 +117,8 @@ class SubHeader extends Component {
         this.setState({
           showHarmonies: false,
           showModifiers: false,
-          showFavorites: false
+          showFavorites: false,
+          offSet: 0
         });
       }
     };
@@ -191,7 +196,7 @@ class SubHeader extends Component {
 
   render() {
     const { dataStore } = this.props;
-    const { offSet } = this.state;
+    const { showHarmonies, showModifiers, showFavorites, offSet } = this.state;
     const harmonies = getHarmonies(
       dataStore.allHarmonies,
       dataStore,
@@ -232,7 +237,7 @@ class SubHeader extends Component {
 
               <DropDownList
                 toggleShowing={() => this.toggleHarmoniesList()}
-                showing={this.state.showHarmonies}
+                showing={showHarmonies}
                 listItems={harmonies}
                 selectedValue={dataStore.selectedHarmony.harmony}
               />
@@ -241,7 +246,7 @@ class SubHeader extends Component {
 
               <DropDownList
                 toggleShowing={() => this.togglePaletteModifiersList()}
-                showing={this.state.showModifiers}
+                showing={showModifiers}
                 listItems={paletteModifiers}
                 selectedValue={dataStore.selectedPaletteModifier.modifier}
               />
@@ -250,7 +255,7 @@ class SubHeader extends Component {
 
               <DropDownList
                 toggleShowing={() => this.toggleFavoritesList()}
-                showing={this.state.showFavorites}
+                showing={showFavorites}
                 listItems={favorites}
                 selectedValue={"Favorites"}
               />

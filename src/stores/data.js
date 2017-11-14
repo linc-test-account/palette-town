@@ -1,29 +1,25 @@
 import { action, observable, computed, useStrict } from "mobx";
 import {
   analogous,
+  getContrastYIQ,
   pentagon,
   random,
-  rgbToHsl,
   split,
   square,
   tetradic,
   triadic,
   oneOff,
-  hexToHsl,
-  hslToHex,
-  hslToRgb
+  hexToHsl
 } from "./ColorLogic";
 import withCooldown from "./withCooldown";
-import clipboardData from "./clipboardData";
 import shuffle from "lodash/shuffle";
 import reverse from "lodash/reverse";
 import namer from "color-namer";
 import { arrayMove } from "react-sortable-hoc";
 import shortid from "shortid";
+import convert from "color-convert";
 
 useStrict(true);
-
-const getNameOfColor = hex => namer(hex, { pick: ["ntc"] }).ntc[0].name;
 
 const TRANSITION_TIME = 200;
 const SWATCH_LIMIT = 7;
@@ -35,26 +31,28 @@ class Color {
     this.saturation = saturation;
     this.lightness = lightness;
   }
+
   @observable selected = false;
-  @observable hexval;
   @observable hue = 0;
   @observable saturation = 0;
   @observable lightness = 0;
+
   @computed
   get hex() {
-    return hslToHex(this.hue, this.saturation, this.lightness);
+    return `#${convert.hsl.hex(this.hue, this.saturation, this.lightness)}`;
   }
   @computed
   get colorName() {
-    return getNameOfColor(this.hex);
+    return namer(this.hex, { pick: ["ntc"] }).ntc[0].name;
   }
   @computed
   get rgb() {
-    return hslToRgb(
-      this.hue / 360,
-      this.saturation / 100,
-      this.lightness / 100
-    );
+    return convert.hsl.rgb(this.hue, this.saturation, this.lightness);
+  }
+
+  @computed
+  get contrastYIQ() {
+    return getContrastYIQ(this.hex);
   }
 }
 
@@ -137,6 +135,15 @@ class Data {
   }
 
   @computed
+  get currentSwatch() {
+    if (this.targetSwatch === undefined) {
+      return;
+    } else {
+      return this.currentPalatte.colors[this.targetSwatch];
+    }
+  }
+
+  @computed
   get miniPalettes() {
     const miniPalettes = [];
     for (let i = 0; i < this.allHarmonies.length; i++) {
@@ -165,12 +172,18 @@ class Data {
     return favoritesShortList;
   }
 
-  @action
-  createClipBoardData() {
-    const data = clipboardData(this.currentPalatte.colors);
-    console.log(data);
-    // TODO
-    // logic to copy contents of data to clipboard
+  @computed
+  get createClipBoardData() {
+    if (this.currentPalatte.length === 0) {
+      return;
+    } else {
+      console.log("shnaps")
+      const hslStrings = this.currentPalatte.colors.map(
+        ({ hue, saturation, lightness }) =>
+          `hsl(${hue}, ${saturation}%, ${lightness}) \n`
+      );
+      return "** HSL **" + "\n" + hslStrings.join("");
+    }
   }
 
   @action
@@ -337,10 +350,10 @@ class Data {
   //  MODIFY SWATCH RGB VALUES
   @action
   changeRgb(r, g, b) {
-    const hsl = rgbToHsl(r, g, b);
-    this.changeHue(hsl[0] * 360);
-    this.changeSaturation(hsl[1] * 100);
-    this.changeLightness(hsl[2] * 100);
+    const hsl = convert.rgb.hsl(r, g, b);
+    this.changeHue(hsl[0]);
+    this.changeSaturation(hsl[1]);
+    this.changeLightness(hsl[2]);
   }
 
   // DELETE SWATCH FROM CURRENT COLOR PALATTE

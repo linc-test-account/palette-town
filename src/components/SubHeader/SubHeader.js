@@ -251,14 +251,16 @@ class SubHeader extends Component {
                 selectedValue={dataStore.selectedPaletteModifier.modifier}
               />
 
-              <h3 className="subheader-drop-down-list-label">Favorites</h3>
-
-              <DropDownList
-                toggleShowing={() => this.toggleFavoritesList()}
-                showing={showFavorites}
-                listItems={favorites}
-                selectedValue={"Favorites"}
-              />
+              {dataStore.favorites.length === 0 ? (
+                ""
+              ) : (
+                <DropDownList
+                  toggleShowing={() => this.toggleFavoritesList()}
+                  showing={showFavorites}
+                  listItems={favorites}
+                  selectedValue={"Favorites"}
+                />
+              )}
             </div>
           </div>
         </Draggable>

@@ -3,8 +3,6 @@ import { observer } from "mobx-react";
 import PropTypes from "prop-types";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import FontAwesome from "react-fontawesome";
-import { getContrastYIQ } from "../../stores/ColorLogic";
-import ClipboardButton from "react-clipboard.js";
 import TriangleDown from "../Elements/TriangleDown";
 
 import "./Palette.css";
@@ -16,20 +14,22 @@ const SortableItem = SortableElement(
     saturation,
     lightness,
     hex,
+    contrastYIQ,
     selected,
     colorName,
     uniqueIndex
   }) => {
     const buttonTextColor = {
-      color: getContrastYIQ(hex, 0.3, false)
+      color: `hsla(0, 0%, ${contrastYIQ}%, .5)`
     };
     const style = {
       background: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
       boxShadow: `inset 0 0 0 2px ${selected === true
-        ? getContrastYIQ(hex, 0.4, false)
+        ? `hsla(0, 0%, ${contrastYIQ}%, .5)`
         : `hsl(${hue}, ${saturation}%, ${lightness}%)`}`,
-      color: getContrastYIQ(hex, 0.4, false)
+      color: `hsla(0, 0%, ${contrastYIQ}%, .4)`
     };
+
 
     return (
       <div className="palette-swatch" style={style}>
@@ -54,14 +54,6 @@ const SortableItem = SortableElement(
             <FontAwesome name="trash" size="2x" />
           </button>
 
-          <ClipboardButton
-            style={buttonTextColor}
-            className="palette-swatch-button"
-            data-clipboard-text={hex}
-          >
-            <FontAwesome name="clipboard" size="2x" />
-          </ClipboardButton>
-
           <button style={buttonTextColor} className="palette-swatch-button">
             <FontAwesome name="info" size="2x" />
           </button>
@@ -74,13 +66,17 @@ const SortableItem = SortableElement(
 const SortableList = SortableContainer(
   observer(({ dataStore, items }) => {
     const sortableSwatches = items.map(
-      ({ hue, saturation, lightness, hex, selected, colorName }, index) => (
+      (
+        { hue, saturation, lightness, hex, contrastYIQ, selected, colorName },
+        index
+      ) => (
         <SortableItem
           dataStore={dataStore}
           hue={hue}
           saturation={saturation}
           lightness={lightness}
           hex={hex}
+          contrastYIQ={contrastYIQ}
           selected={selected}
           colorName={colorName}
           key={`item-${index}`}

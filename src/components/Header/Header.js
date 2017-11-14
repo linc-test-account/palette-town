@@ -4,6 +4,8 @@ import HeaderButton from "../Elements/HeaderButton.js";
 import Draggable from "react-draggable";
 import PropTypes from "prop-types";
 import Heading from "../Elements/Heading";
+import ClipboardButton from "react-clipboard.js";
+import FontAwesome from "react-fontawesome";
 import "./Header.css";
 
 @observer
@@ -147,6 +149,16 @@ class Header extends Component {
                 buttonText={"Favorite"}
                 overlayValue={dataStore.favoritesShortList.length}
               />
+
+              <ClipboardButton
+                className="header-button"
+                data-clipboard-text={dataStore.createClipBoardData}
+                onSuccess={() => console.log("derp")}
+                button-title="Copy colors to clipboard"
+              >
+                <FontAwesome className="header-icon" name="clipboard" size="2x" />
+              </ClipboardButton>
+
             </div>
           </div>
         </Draggable>

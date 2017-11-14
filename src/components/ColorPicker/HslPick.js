@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import ReactSlider from "react-slider";
-import { getContrastYIQ } from "../../stores/ColorLogic";
 import "./ColorPicker.css";
 
 function generateSpectrum(saturation, lightness) {
@@ -18,36 +17,40 @@ class HslPick extends Component {
   static propTypes = {
     dataStore: PropTypes.object
   };
+
   render() {
     const { dataStore } = this.props;
 
-    const swatch = dataStore.currentPalatte.colors[dataStore.targetSwatch];
-
     const handleStyle = {
-      background: `hsl(${swatch.hue}, ${swatch.saturation}%, ${swatch.lightness}%)`,
-      color: `${getContrastYIQ(swatch.hex, 0.8, false)}`,
-      borderColor: `${getContrastYIQ(swatch.hex, 0.8, false)}`
+      background: `hsl(${dataStore.currentSwatch.hue}, ${dataStore.currentSwatch
+        .saturation}%, ${dataStore.currentSwatch.lightness}%)`,
+      color:  `hsla(0, 0%, ${dataStore.currentSwatch.contrastYIQ}%, .8)`,
     };
     const backgroundHue = {
       background: `
         linear-gradient(to right, ${generateSpectrum(
-          swatch.saturation,
-          swatch.lightness
+          dataStore.currentSwatch.saturation,
+          dataStore.currentSwatch.lightness
         )})
           `
     };
     const backgroundSaturation = {
       background: `
         linear-gradient(to right,
-        hsl(${swatch.hue}, ${0}%, ${swatch.lightness}%),
-        hsl(${swatch.hue}, ${100}%, ${swatch.lightness}%))`
+        hsl(${dataStore.currentSwatch.hue}, ${0}%, ${dataStore.currentSwatch
+        .lightness}%),
+        hsl(${dataStore.currentSwatch.hue}, ${100}%, ${dataStore.currentSwatch
+        .lightness}%))`
     };
     const backgroundLightness = {
       background: `
         linear-gradient(to right,
-        hsl(${swatch.hue}, ${swatch.saturation}%, ${0}%),
-        hsl(${swatch.hue}, ${swatch.saturation}%, ${50}%),
-        hsl(${swatch.hue}, ${swatch.saturation}%, ${109}%))`
+        hsl(${dataStore.currentSwatch.hue}, ${dataStore.currentSwatch
+        .saturation}%, ${0}%),
+        hsl(${dataStore.currentSwatch.hue}, ${dataStore.currentSwatch
+        .saturation}%, ${50}%),
+        hsl(${dataStore.currentSwatch.hue}, ${dataStore.currentSwatch
+        .saturation}%, ${109}%))`
     };
 
     return (
@@ -61,14 +64,14 @@ class HslPick extends Component {
               barClassName="test-bar"
               min={0}
               max={360}
-              defaultValue={swatch.hue}
+              defaultValue={dataStore.currentSwatch.hue}
               withBars={true}
               pearling={true}
-              value={swatch.hue}
+              value={dataStore.currentSwatch.hue}
               onChange={value => dataStore.changeHue(value)}
             >
-              <div className="my-handle" style={handleStyle}>
-                {Math.round(swatch.hue)}
+              <div className="my-handle noselect" style={handleStyle}>
+                {dataStore.currentSwatch.hue}
               </div>
             </ReactSlider>
           </div>
@@ -83,14 +86,14 @@ class HslPick extends Component {
               barClassName="test-bar"
               min={0}
               max={100}
-              defaultValue={swatch.saturation}
+              defaultValue={dataStore.currentSwatch.saturation}
               withBars={true}
               pearling={true}
-              value={swatch.saturation}
+              value={dataStore.currentSwatch.saturation}
               onChange={value => dataStore.changeSaturation(value)}
             >
               <div className="my-handle" style={handleStyle}>
-                {Math.round(swatch.saturation)}
+                {dataStore.currentSwatch.saturation}
               </div>
             </ReactSlider>
           </div>
@@ -104,14 +107,14 @@ class HslPick extends Component {
               barClassName="test-bar"
               min={0}
               max={100}
-              defaultValue={swatch.lightness}
+              defaultValue={dataStore.currentSwatch.lightness}
               withBars={true}
               pearling={true}
-              value={swatch.lightness}
+              value={dataStore.currentSwatch.lightness}
               onChange={value => dataStore.changeLightness(value)}
             >
-              <div className="my-handle" style={handleStyle}>
-                {Math.round(swatch.lightness)}
+              <div className="my-handle noselect" style={handleStyle}>
+                {dataStore.currentSwatch.lightness}
               </div>
             </ReactSlider>
           </div>

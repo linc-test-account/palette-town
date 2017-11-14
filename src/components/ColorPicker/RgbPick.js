@@ -18,11 +18,10 @@ class RgbPick extends Component {
 
   componentDidMount() {
     const { dataStore } = this.props;
-    const swatch = dataStore.currentPalatte.colors[dataStore.targetSwatch];
     this.setState({
-      r: swatch.rgb[0],
-      g: swatch.rgb[1],
-      b: swatch.rgb[2]
+      r: dataStore.currentSwatch.rgb[0],
+      g: dataStore.currentSwatch.rgb[1],
+      b: dataStore.currentSwatch.rgb[2]
     });
   }
 
@@ -58,13 +57,19 @@ class RgbPick extends Component {
   render() {
     const { dataStore } = this.props;
 
-    const swatch = dataStore.currentPalatte.colors[dataStore.targetSwatch];
-
-    const handleStyle = {
-      background: `hsl(${swatch.hue}, ${swatch.saturation}%, ${swatch.lightness}%)`,
-      color: `${getContrastYIQ(swatch.hex, 0.8, false)}`,
-      borderColor: `${getContrastYIQ(swatch.hex, 0.8, false)}`
+    const redHandle = {
+      background: "#FF0000",
+      color: `hsla(0, 0%, ${getContrastYIQ("#FF0000")}%, .8)`
     };
+    const greenHandle = {
+      background: "#00FF00",
+      color: `hsla(0, 0%, ${getContrastYIQ("#00FF00")}%, .8)`
+    };
+    const blueHandle = {
+      background: "#0000FF",
+      color: `hsla(0, 0%, ${getContrastYIQ("#0000FF")}%, .8)`
+    };
+
     const backgroundRed = {
       background: `
       linear-gradient(to right,
@@ -92,18 +97,17 @@ class RgbPick extends Component {
             <ReactSlider
               className="bar"
               style={backgroundRed}
-              handleClassName="test-handle"
               barClassName="test-bar"
               min={0}
               max={255}
-              defaultValue={swatch.rgb[0]}
+              defaultValue={dataStore.currentSwatch.rgb[0]}
               withBars={true}
               pearling={true}
-              value={swatch.rgb[0]}
+              value={dataStore.currentSwatch.rgb[0]}
               onChange={value => this.handleRChange(value)}
             >
-              <div className="my-handle" style={handleStyle}>
-                {swatch.rgb[0]}
+              <div className="my-handle noselect" style={redHandle}>
+                {dataStore.currentSwatch.rgb[0]}
               </div>
             </ReactSlider>
           </div>
@@ -114,18 +118,17 @@ class RgbPick extends Component {
           <div className="bar-container" style={backgroundGreen}>
             <ReactSlider
               className="bar"
-              handleClassName="test-handle"
               barClassName="test-bar"
               min={0}
               max={255}
-              defaultValue={swatch.rgb[1]}
+              defaultValue={dataStore.currentSwatch.rgb[1]}
               withBars={true}
               pearling={true}
-              value={swatch.rgb[1]}
+              value={dataStore.currentSwatch.rgb[1]}
               onChange={value => this.handleGChange(value)}
             >
-              <div className="my-handle" style={handleStyle}>
-                {swatch.rgb[1]}
+              <div className="my-handle noselect" style={greenHandle}>
+                {dataStore.currentSwatch.rgb[1]}
               </div>
             </ReactSlider>
           </div>
@@ -135,18 +138,17 @@ class RgbPick extends Component {
           <div className="bar-container" style={backgroundBlue}>
             <ReactSlider
               className="bar"
-              handleClassName="test-handle"
               barClassName="test-bar"
               min={0}
               max={255}
-              defaultValue={swatch.rgb[2]}
+              defaultValue={dataStore.currentSwatch.rgb[2]}
               withBars={true}
               pearling={true}
-              value={swatch.rgb[2]}
+              value={dataStore.currentSwatch.rgb[2]}
               onChange={value => this.handleBChange(value)}
             >
-              <div className="my-handle" style={handleStyle}>
-                {swatch.rgb[2]}
+              <div className="my-handle noselect" style={blueHandle}>
+                {dataStore.currentSwatch.rgb[2]}
               </div>
             </ReactSlider>
           </div>

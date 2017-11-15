@@ -58,15 +58,11 @@ class App extends Component {
     const { minWidthReached } = this.state;
     return (
       <div className="App">
-        {dataStore.currentPalatte.length === 0 ? (
-          "No Data"
-        ) : (
-          <Header minWidthReached={minWidthReached} dataStore={dataStore} />
-        )}
+        <Header minWidthReached={minWidthReached} dataStore={dataStore} />
 
         <SubHeader dataStore={dataStore} />
 
-        {dataStore.currentPalatte.length === 0 ? (
+        {dataStore.currentPalette.length === 0 ? (
           "No data"
         ) : (
           <FlipMove
@@ -87,7 +83,7 @@ class App extends Component {
             )}
             <Palette
               minWidthReached={minWidthReached}
-              currentPalatte={dataStore.currentPalatte.colors}
+              currentPalette={dataStore.currentPalette.colors}
               dataStore={dataStore}
               key={`palette-${dataStore.count}`}
             />

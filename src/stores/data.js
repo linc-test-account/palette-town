@@ -1,7 +1,6 @@
 import { action, observable, computed, useStrict } from "mobx";
 import {
   analogous,
-  getContrastYIQ,
   pentagon,
   random,
   split,
@@ -14,47 +13,16 @@ import {
 import withCooldown from "./withCooldown";
 import shuffle from "lodash/shuffle";
 import reverse from "lodash/reverse";
-import namer from "color-namer";
 import { arrayMove } from "react-sortable-hoc";
 import shortid from "shortid";
 import convert from "color-convert";
-
+import { NotificationManager } from "react-notifications";
+import Color from "./Color.js";
 useStrict(true);
 
 const TRANSITION_TIME = 200;
 const SWATCH_LIMIT = 7;
 const MIN_WIDTH = 700;
-
-class Color {
-  constructor({ hue, saturation, lightness }) {
-    this.hue = hue;
-    this.saturation = saturation;
-    this.lightness = lightness;
-  }
-
-  @observable selected = false;
-  @observable hue = 0;
-  @observable saturation = 0;
-  @observable lightness = 0;
-
-  @computed
-  get hex() {
-    return `#${convert.hsl.hex(this.hue, this.saturation, this.lightness)}`;
-  }
-  @computed
-  get colorName() {
-    return namer(this.hex, { pick: ["ntc"] }).ntc[0].name;
-  }
-  @computed
-  get rgb() {
-    return convert.hsl.rgb(this.hue, this.saturation, this.lightness);
-  }
-
-  @computed
-  get contrastYIQ() {
-    return getContrastYIQ(this.hex);
-  }
-}
 
 class Data {
   @observable
@@ -68,7 +36,12 @@ class Data {
     { harmony: "triadic", colors: 3 }
   ];
   @observable selectedHarmony = this.allHarmonies[1];
-  @observable colorSpaces = [{ colorSpace: "HSL" }, { colorSpace: "RGB" }];
+  @observable
+  colorSpaces = [
+    { colorSpace: "HSL" },
+    { colorSpace: "RGB" },
+    { colorSpace: "CMYK" }
+  ];
   @observable selectedColorSpace = this.colorSpaces[0];
   @observable
   paletteModifiers = [
@@ -119,7 +92,7 @@ class Data {
   @observable colorPickerVisible = false;
   @observable targetSwatch;
   @observable count = -1;
-  @observable currentPalatte = [];
+  @observable currentPalette = [];
   @observable cooldownactive = false;
   @observable favorites = [];
   @observable clipboardData;
@@ -139,7 +112,7 @@ class Data {
     if (this.targetSwatch === undefined) {
       return;
     } else {
-      return this.currentPalatte.colors[this.targetSwatch];
+      return this.currentPalette.colors[this.targetSwatch];
     }
   }
 
@@ -174,11 +147,10 @@ class Data {
 
   @computed
   get createClipBoardData() {
-    if (this.currentPalatte.length === 0) {
+    if (this.currentPalette.length === 0) {
       return;
     } else {
-      console.log("shnaps")
-      const hslStrings = this.currentPalatte.colors.map(
+      const hslStrings = this.currentPalette.colors.map(
         ({ hue, saturation, lightness }) =>
           `hsl(${hue}, ${saturation}%, ${lightness}) \n`
       );
@@ -189,7 +161,7 @@ class Data {
   @action
   goToPalette(index) {
     if (this.favorites.length > 0) {
-      this.currentPalatte = this.favorites[index];
+      this.currentPalette = this.favorites[index];
       this.count++;
     } else {
       return;
@@ -242,17 +214,19 @@ class Data {
     const colorArray = [];
     for (let i = 0; i < this.selectedHarmony.colors; i++) {
       colorArray.push(
-        new Color({
-          hue: palette[i].hue,
-          saturation: palette[i].saturation,
-          lightness: palette[i].lightness
-        })
+        new Color(
+          "hsl",
+          palette[i].hue,
+          palette[i].saturation,
+          palette[i].lightness
+        )
       );
     }
 
-    this.currentPalatte = {
+    this.currentPalette = {
       scheme: this.selectedHarmony.harmony,
       id: shortid.generate(),
+      favorited: false,
       colors: colorArray
     };
 
@@ -266,15 +240,16 @@ class Data {
       this.reselectSwatch();
     }
     const newSwatchValues = oneOff();
-    const count = this.currentPalatte.colors.length;
+    const count = this.currentPalette.colors.length;
     if (count < SWATCH_LIMIT) {
-      const newSwatch = new Color({
-        hue: newSwatchValues[0].hue,
-        saturation: newSwatchValues[0].saturation,
-        lightness: newSwatchValues[0].lightness
-      });
-      this.currentPalatte.colors.push(newSwatch);
-      this.currentPalatte.scheme = "custom";
+      const newSwatch = new Color(
+        "hsl",
+        newSwatchValues[0].hue,
+        newSwatchValues[0].saturation,
+        newSwatchValues[0].lightness
+      );
+      this.currentPalette.colors.push(newSwatch);
+      this.currentPalette.scheme = "custom";
     }
     if (count > SWATCH_LIMIT) {
       return;
@@ -285,9 +260,9 @@ class Data {
 
   @action
   closeColorPicker() {
-    for (let i = 0; i < this.currentPalatte.colors.length; i++) {
-      if (this.currentPalatte.colors[i].selected === true)
-        this.currentPalatte.colors[i].selected = false;
+    for (let i = 0; i < this.currentPalette.colors.length; i++) {
+      if (this.currentPalette.colors[i].selected === true)
+        this.currentPalette.colors[i].selected = false;
     }
     this.colorPickerVisible = false;
   }
@@ -295,13 +270,13 @@ class Data {
   @action
   selectSwatch(index) {
     // Reset all swatches to unselected
-    for (let i = 0; i < this.currentPalatte.colors.length; i++) {
-      if (this.currentPalatte.colors[i].selected === true)
-        this.currentPalatte.colors[i].selected = false;
+    for (let i = 0; i < this.currentPalette.colors.length; i++) {
+      if (this.currentPalette.colors[i].selected === true)
+        this.currentPalette.colors[i].selected = false;
     }
 
     // Select color based on index parameter
-    this.currentPalatte.colors[index].selected = true;
+    this.currentPalette.colors[index].selected = true;
     this.targetSwatch = index;
     this.colorPickerVisible = true;
   }
@@ -324,8 +299,8 @@ class Data {
     if (val === undefined) {
       return;
     } else {
-      const target = this.currentPalatte.colors[this.targetSwatch];
-      target.hue = val;
+      const target = this.currentPalette.colors[this.targetSwatch];
+      target.setHue(val);
     }
   }
   @action
@@ -333,8 +308,8 @@ class Data {
     if (val === undefined) {
       return;
     } else {
-      const target = this.currentPalatte.colors[this.targetSwatch];
-      target.saturation = val;
+      const target = this.currentPalette.colors[this.targetSwatch];
+      target.setSaturation(val);
     }
   }
   @action
@@ -342,15 +317,92 @@ class Data {
     if (val === undefined) {
       return;
     } else {
-      const target = this.currentPalatte.colors[this.targetSwatch];
-      target.lightness = val;
+      const target = this.currentPalette.colors[this.targetSwatch];
+      target.setLightness(val);
+    }
+  }
+
+  // MODIFY SWATCH RGB VALUES
+  @action
+  changeRed(val) {
+    if (val === undefined) {
+      return;
+    } else {
+      const target = this.currentPalette.colors[this.targetSwatch];
+      target.setRed(val);
+    }
+  }
+  @action
+  changeGreen(val) {
+    if (val === undefined) {
+      return;
+    } else {
+      const target = this.currentPalette.colors[this.targetSwatch];
+      target.setGreen(val);
+    }
+  }
+  @action
+  changeBlue(val) {
+    if (val === undefined) {
+      return;
+    } else {
+      const target = this.currentPalette.colors[this.targetSwatch];
+      target.setBlue(val);
+    }
+  }
+
+  @action
+  changeCyan(val) {
+    if (val === undefined) {
+      return;
+    } else {
+      const target = this.currentPalette.colors[this.targetSwatch];
+      target.setCyan(val);
+    }
+  }
+
+  @action
+  changeMagenta(val) {
+    if (val === undefined) {
+      return;
+    } else {
+      const target = this.currentPalette.colors[this.targetSwatch];
+      target.setMagenta(val);
+    }
+  }
+
+  @action
+  changeYellow(val) {
+    if (val === undefined) {
+      return;
+    } else {
+      const target = this.currentPalette.colors[this.targetSwatch];
+      target.setYellow(val);
+    }
+  }
+
+  @action
+  changeKey(val) {
+    if (val === undefined) {
+      return;
+    } else {
+      const target = this.currentPalette.colors[this.targetSwatch];
+      target.setKey(val);
     }
   }
 
   //  MODIFY SWATCH RGB VALUES
   @action
   changeRgb(r, g, b) {
-    const hsl = convert.rgb.hsl(r, g, b);
+    const hsl = convert.rgb.hsl.raw(r, g, b);
+    this.changeHue(hsl[0]);
+    this.changeSaturation(hsl[1]);
+    this.changeLightness(hsl[2]);
+  }
+
+  @action
+  changeCmyk(c, m, y, k) {
+    const hsl = convert.cmyk.hsl(c, m, y, k);
     this.changeHue(hsl[0]);
     this.changeSaturation(hsl[1]);
     this.changeLightness(hsl[2]);
@@ -359,10 +411,10 @@ class Data {
   // DELETE SWATCH FROM CURRENT COLOR PALATTE
   @action
   deleteSwatch(index) {
-    const newArray = this.currentPalatte.colors.slice();
+    const newArray = this.currentPalette.colors.slice();
     newArray.splice(index, 1);
-    this.currentPalatte.colors = newArray;
-    this.currentPalatte.scheme = "custom";
+    this.currentPalette.colors = newArray;
+    this.currentPalette.scheme = "custom";
     this.closeColorPicker();
   }
 
@@ -372,9 +424,9 @@ class Data {
   // once dropped into its new place
   @action
   onSortEnd = ({ oldIndex, newIndex }) => {
-    const targetArray = this.currentPalatte.colors.slice();
+    const targetArray = this.currentPalette.colors.slice();
     const newArr = arrayMove(targetArray, oldIndex, newIndex);
-    this.currentPalatte.colors = newArr;
+    this.currentPalette.colors = newArr;
 
     if (this.colorPickerVisible === true) {
       this.reselectSwatch();
@@ -386,9 +438,9 @@ class Data {
   // RANDOMIZE PALATTE SWATCH ORDER
   @action
   randomizeSwatches() {
-    const tempArray = this.currentPalatte.colors.slice();
+    const tempArray = this.currentPalette.colors.slice();
     const shuffledArray = shuffle(tempArray);
-    this.currentPalatte.colors = shuffledArray;
+    this.currentPalette.colors = shuffledArray;
 
     if (this.colorPickerVisible === true) {
       this.reselectSwatch();
@@ -400,9 +452,9 @@ class Data {
   // REVERSE PALATTE SWATCH ORDER
   @action
   reverseSwatches() {
-    const tempArray = this.currentPalatte.colors.slice();
+    const tempArray = this.currentPalette.colors.slice();
     const reversedArray = reverse(tempArray);
-    this.currentPalatte.colors = reversedArray;
+    this.currentPalette.colors = reversedArray;
 
     if (this.colorPickerVisible === true) {
       this.reselectSwatch();
@@ -424,8 +476,8 @@ class Data {
   }
 
   reselectSwatch() {
-    for (let i = 0; i < this.currentPalatte.colors.length; i++) {
-      if (this.currentPalatte.colors[i].selected === true) this.selectSwatch(i);
+    for (let i = 0; i < this.currentPalette.colors.length; i++) {
+      if (this.currentPalette.colors[i].selected === true) this.selectSwatch(i);
     }
   }
 
@@ -433,14 +485,17 @@ class Data {
   pushToFavorites() {
     if (this.favorites.length > 0) {
       for (let i = 0; i < this.favorites.length; i++) {
-        if (this.favorites[i].id === this.currentPalatte.id) {
+        if (this.favorites[i].id === this.currentPalette.id) {
+          this.deleteFromFavorites(i);
           return;
         }
       }
-      this.favorites.push(this.currentPalatte);
+      this.favorites.push(this.currentPalette);
+      this.currentPalette.favorited = true;
     }
     if (this.favorites.length === 0) {
-      this.favorites.push(this.currentPalatte);
+      this.favorites.push(this.currentPalette);
+      this.currentPalette.favorited = true;
     } else {
       return;
     }
@@ -450,6 +505,7 @@ class Data {
   deleteFromFavorites(index) {
     if (this.favorites.length > 0) {
       this.favorites.splice(index, 1);
+      NotificationManager.warning("", "Removed from Favorites", 3000);
     } else {
       return;
     }

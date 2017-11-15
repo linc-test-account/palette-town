@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import Heading from "../Elements/Heading";
 import ClipboardButton from "react-clipboard.js";
 import FontAwesome from "react-fontawesome";
+import { NotificationManager } from "react-notifications";
 import "./Header.css";
 
 @observer
@@ -96,6 +97,7 @@ class Header extends Component {
   render() {
     const { dataStore, minWidthReached } = this.props;
     const { offSet } = this.state;
+    const heartType = dataStore.currentPalette.favorited === true ? "heart" : "heart-o";
     return (
       <div
         ref={headerContainer => (this.headerContainer = headerContainer)}
@@ -145,7 +147,7 @@ class Header extends Component {
               <HeaderButton
                 dataStore={dataStore}
                 btnFunction={() => dataStore.pushToFavorites()}
-                fontAwesomeIcon={"heart"}
+                fontAwesomeIcon={heartType}
                 buttonText={"Favorite"}
                 overlayValue={dataStore.favoritesShortList.length}
               />
@@ -153,12 +155,20 @@ class Header extends Component {
               <ClipboardButton
                 className="header-button"
                 data-clipboard-text={dataStore.createClipBoardData}
-                onSuccess={() => console.log("derp")}
+                onSuccess={() =>
+                  NotificationManager.success(
+                    "Copied palette to clipboard",
+                    "Success",
+                    2000
+                  )}
                 button-title="Copy colors to clipboard"
               >
-                <FontAwesome className="header-icon" name="clipboard" size="2x" />
+                <FontAwesome
+                  className="header-icon"
+                  name="clipboard"
+                  size="2x"
+                />
               </ClipboardButton>
-
             </div>
           </div>
         </Draggable>

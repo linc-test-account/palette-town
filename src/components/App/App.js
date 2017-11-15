@@ -6,6 +6,8 @@ import Palette from "../Palette/Palette";
 import FlipMove from "react-flip-move";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import SubHeader from "../SubHeader/SubHeader";
+import { NotificationContainer } from "react-notifications";
+import "../../../node_modules/react-notifications/dist/react-notifications.css";
 import "./App.css";
 
 @observer
@@ -29,7 +31,7 @@ class App extends Component {
     mediaQuery.addListener(this.handleScreenWidthChange); // listen for width change
 
     // left arrow key press event listiner
-    document.addEventListener("keydown", (event) => {
+    document.addEventListener("keydown", event => {
       const { dataStore } = this.props;
       if (event.keyCode === 39) {
         dataStore.getNext();
@@ -56,9 +58,13 @@ class App extends Component {
     const { minWidthReached } = this.state;
     return (
       <div className="App">
-        <Header minWidthReached={minWidthReached} dataStore={dataStore} />
+        {dataStore.currentPalatte.length === 0 ? (
+          "No Data"
+        ) : (
+          <Header minWidthReached={minWidthReached} dataStore={dataStore} />
+        )}
 
-        {dataStore !== undefined ? <SubHeader dataStore={dataStore} /> : ""}
+        <SubHeader dataStore={dataStore} />
 
         {dataStore.currentPalatte.length === 0 ? (
           "No data"
@@ -87,6 +93,8 @@ class App extends Component {
             />
           </FlipMove>
         )}
+
+        <NotificationContainer />
       </div>
     );
   }

@@ -94,17 +94,17 @@ class palette extends Component {
   static propTypes = {
     minWidthReached: PropTypes.bool,
     dataStore: PropTypes.object,
-    currentPalatte: PropTypes.object
+    currentPalette: PropTypes.object
   };
 
   render() {
-    const { minWidthReached, dataStore, currentPalatte } = this.props;
+    const { minWidthReached, dataStore, currentPalette } = this.props;
     return (
       <SortableList
         axis={minWidthReached === true ? "y" : "x"}
         lockAxis={minWidthReached === true ? "y" : "x"}
         dataStore={dataStore}
-        items={currentPalatte}
+        items={currentPalette}
         onSortEnd={dataStore.onSortEnd}
         pressDelay={150}
       />

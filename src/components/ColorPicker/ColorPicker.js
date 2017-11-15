@@ -5,6 +5,7 @@ import HeaderButton from "../Elements/HeaderButton";
 import DropDownList from "../Elements/DropDownList";
 import HslPick from "./HslPick";
 import RgbPick from "./RgbPick";
+import CmykPick from "./CmykPick";
 import FlipMove from "react-flip-move";
 import FontAwesome from "react-fontawesome";
 import "./ColorPicker.css";
@@ -95,7 +96,7 @@ class ColorPicker extends Component {
         />
 
         <FlipMove
-        className="color-picker-inner-container"
+          className="color-picker-inner-container"
           appearAnimation={"fade"}
           easing="ease-in-out"
           duration={200}
@@ -107,10 +108,11 @@ class ColorPicker extends Component {
             <HslPick key={`color-picker-0`} dataStore={dataStore} />
           ) : colorSpace === "RGB" ? (
             <RgbPick key={`color-picker-1`} dataStore={dataStore} />
+          ) : colorSpace === "CMYK" ? (
+            <CmykPick key={`color-picker-2`} dataStore={dataStore} />
           ) : (
-            <span key={`color-picker-2`}></span>
+            <span key={`color-picker-2`} />
           )}
-          
         </FlipMove>
 
         <HeaderButton

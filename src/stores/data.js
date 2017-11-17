@@ -7,16 +7,13 @@ import {
   square,
   tetradic,
   triadic,
-  oneOff,
-  hexToHsl
+  oneOff
 } from "./ColorLogic";
 import withCooldown from "./withCooldown";
 import shuffle from "lodash/shuffle";
 import reverse from "lodash/reverse";
 import { arrayMove } from "react-sortable-hoc";
 import shortid from "shortid";
-import convert from "color-convert";
-import { NotificationManager } from "react-notifications";
 import Color from "./Color.js";
 useStrict(true);
 
@@ -51,6 +48,13 @@ class Data {
       saturationMax: 100,
       lightnessMin: 0,
       lightnessMax: 100
+    },
+    {
+      modifier: "balanced",
+      saturationMin: 20,
+      saturationMax: 100,
+      lightnessMin: 40,
+      lightnessMax: 90
     },
     {
       modifier: "pastel",
@@ -281,131 +285,16 @@ class Data {
     this.colorPickerVisible = true;
   }
 
-  @action
-  changeHex(val) {
-    const hsl = hexToHsl(val);
-    if (hsl === undefined) {
-      return;
-    } else {
-      this.changeHue(Math.round(hsl.h * 360));
-      this.changeSaturation(Math.round(hsl.s * 100));
-      this.changeLightness(Math.round(hsl.l * 100));
-    }
-  }
-
   // MODIFY SWATCH HSL VALUES
   @action
-  changeHue(val) {
+  changeColorVal(val, name) {
+    const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
     if (val === undefined) {
       return;
     } else {
       const target = this.currentPalette.colors[this.targetSwatch];
-      target.setHue(val);
+      target["set" + capitalizedName](val);
     }
-  }
-  @action
-  changeSaturation(val) {
-    if (val === undefined) {
-      return;
-    } else {
-      const target = this.currentPalette.colors[this.targetSwatch];
-      target.setSaturation(val);
-    }
-  }
-  @action
-  changeLightness(val) {
-    if (val === undefined) {
-      return;
-    } else {
-      const target = this.currentPalette.colors[this.targetSwatch];
-      target.setLightness(val);
-    }
-  }
-
-  // MODIFY SWATCH RGB VALUES
-  @action
-  changeRed(val) {
-    if (val === undefined) {
-      return;
-    } else {
-      const target = this.currentPalette.colors[this.targetSwatch];
-      target.setRed(val);
-    }
-  }
-  @action
-  changeGreen(val) {
-    if (val === undefined) {
-      return;
-    } else {
-      const target = this.currentPalette.colors[this.targetSwatch];
-      target.setGreen(val);
-    }
-  }
-  @action
-  changeBlue(val) {
-    if (val === undefined) {
-      return;
-    } else {
-      const target = this.currentPalette.colors[this.targetSwatch];
-      target.setBlue(val);
-    }
-  }
-
-  @action
-  changeCyan(val) {
-    if (val === undefined) {
-      return;
-    } else {
-      const target = this.currentPalette.colors[this.targetSwatch];
-      target.setCyan(val);
-    }
-  }
-
-  @action
-  changeMagenta(val) {
-    if (val === undefined) {
-      return;
-    } else {
-      const target = this.currentPalette.colors[this.targetSwatch];
-      target.setMagenta(val);
-    }
-  }
-
-  @action
-  changeYellow(val) {
-    if (val === undefined) {
-      return;
-    } else {
-      const target = this.currentPalette.colors[this.targetSwatch];
-      target.setYellow(val);
-    }
-  }
-
-  @action
-  changeKey(val) {
-    if (val === undefined) {
-      return;
-    } else {
-      const target = this.currentPalette.colors[this.targetSwatch];
-      target.setKey(val);
-    }
-  }
-
-  //  MODIFY SWATCH RGB VALUES
-  @action
-  changeRgb(r, g, b) {
-    const hsl = convert.rgb.hsl.raw(r, g, b);
-    this.changeHue(hsl[0]);
-    this.changeSaturation(hsl[1]);
-    this.changeLightness(hsl[2]);
-  }
-
-  @action
-  changeCmyk(c, m, y, k) {
-    const hsl = convert.cmyk.hsl(c, m, y, k);
-    this.changeHue(hsl[0]);
-    this.changeSaturation(hsl[1]);
-    this.changeLightness(hsl[2]);
   }
 
   // DELETE SWATCH FROM CURRENT COLOR PALATTE
@@ -423,7 +312,7 @@ class Data {
   // oldIndex of the dragged element and the newIndex of the element
   // once dropped into its new place
   @action
-  onSortEnd = ({ oldIndex, newIndex }) => {
+  onSortEnd = (oldIndex, newIndex) => {
     const targetArray = this.currentPalette.colors.slice();
     const newArr = arrayMove(targetArray, oldIndex, newIndex);
     this.currentPalette.colors = newArr;
@@ -505,7 +394,7 @@ class Data {
   deleteFromFavorites(index) {
     if (this.favorites.length > 0) {
       this.favorites.splice(index, 1);
-      NotificationManager.warning("", "Removed from Favorites", 3000);
+      this.currentPalette.favorited = false;
     } else {
       return;
     }

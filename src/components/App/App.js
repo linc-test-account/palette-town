@@ -72,7 +72,7 @@ class App extends Component {
             className="flipmove-container"
             easing="ease-in-out"
             duration={200}
-            enterAnimation={false}
+            enterAnimation={"fade"}
             leaveAnimation={"fade"}
             maintainContainerHeight={true}
           >

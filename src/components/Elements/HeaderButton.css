@@ -17,7 +17,7 @@
 
 .header-icon {
   color: var(--app-brand-color);
-  transition: .2s ease transform;
+  transition: 200ms cubic-bezier(.66,-0.06,.24,1.22) transform;
   pointer-events:none;
   font-size: 20px;
   transform: scale(1, 1);

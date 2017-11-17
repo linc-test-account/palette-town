@@ -1,6 +1,7 @@
 export { default as analogous } from "./analogous";
 export { default as assembleColor } from "./assembleColor";
 export { default as getContrastYIQ } from "./getContrastYIQ";
+export { default as getPalette } from "./getPalette";
 export { default as oneOff } from "./oneOff";
 export { default as pentagon } from "./pentagon";
 export { default as random } from "./random";

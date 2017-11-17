@@ -3,6 +3,7 @@ import { getContrastYIQ } from "./ColorLogic";
 import pascalCase from "pascal-case";
 import convert from "color-convert";
 import namer from "color-namer";
+import shortid from "shortid";
 
 const colorSpaces = {
   rgb: ["red", "green", "blue"],
@@ -14,6 +15,7 @@ const colorSpaces = {
 export default class Color {
   @observable properties = [];
   @observable colorSpace = "rgb";
+  @observable id = shortid.generate();
 
   constructor(initialColorSpace, ...properties) {
     this.properties = properties;

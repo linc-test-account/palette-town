@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import hslToHex from "../../stores/ColorLogic/hslToHex";
+import convert from "color-convert";
 import "./MiniPalette.css";
 
 const MiniSwatch = ({ swatchHover, hue, saturation, lightness }) => {
@@ -9,7 +9,7 @@ const MiniSwatch = ({ swatchHover, hue, saturation, lightness }) => {
   };
 
   return swatchHover === true ? (
-    <div className="mini-swatch-alt" style={style} title={hslToHex(hue, saturation, lightness)}/>
+    <div className="mini-swatch-alt" style={style} title={`#${convert.hsl.hex(hue, saturation, lightness)}`}/>
   ) : (
     <div className="mini-swatch" style={style} />
   );

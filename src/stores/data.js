@@ -1,14 +1,5 @@
 import { action, observable, computed, useStrict } from "mobx";
-import {
-  analogous,
-  pentagon,
-  random,
-  split,
-  square,
-  tetradic,
-  triadic,
-  oneOff
-} from "./ColorLogic";
+import { getPalette, oneOff } from "./ColorLogic";
 import withCooldown from "./withCooldown";
 import shuffle from "lodash/shuffle";
 import reverse from "lodash/reverse";
@@ -124,7 +115,7 @@ class Data {
   get miniPalettes() {
     const miniPalettes = [];
     for (let i = 0; i < this.allHarmonies.length; i++) {
-      const paletteData = this.getPalette(this.allHarmonies[i].harmony);
+      const paletteData = getPalette(this.allHarmonies[i].harmony);
       const paletteName = this.allHarmonies[i].harmony;
       miniPalettes.push({
         [paletteName]: paletteData
@@ -177,36 +168,7 @@ class Data {
     this.cooldownactive = val;
   }
 
-  getPalette(harmony) {
-    let info;
-    switch (harmony) {
-      case "analogous":
-        info = analogous(this.selectedPaletteModifier);
-        break;
-      case "random":
-        info = random(this.selectedPaletteModifier);
-        break;
-      case "split":
-        info = split(this.selectedPaletteModifier);
-        break;
-      case "square":
-        info = square(this.selectedPaletteModifier);
-        break;
-      case "tetradic":
-        info = tetradic(this.selectedPaletteModifier);
-        break;
-      case "triadic":
-        info = triadic(this.selectedPaletteModifier);
-        break;
-      case "pentagon":
-        info = pentagon(this.selectedPaletteModifier);
-        break;
-      default:
-    }
-    return info;
-  }
-
-  // GENERATE SWATCHES
+  // GENERATE PALETTE
   @action
   generateNewPalatte() {
     // close color picker if open
@@ -214,7 +176,7 @@ class Data {
       this.closeColorPicker();
     }
 
-    const palette = this.getPalette(this.selectedHarmony.harmony);
+    const palette = getPalette(this.selectedHarmony.harmony);
     const colorArray = [];
     for (let i = 0; i < this.selectedHarmony.colors; i++) {
       colorArray.push(

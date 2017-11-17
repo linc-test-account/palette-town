@@ -97,7 +97,8 @@ class Header extends Component {
   render() {
     const { dataStore, minWidthReached } = this.props;
     const { offSet } = this.state;
-    const heartType = dataStore.currentPalette.favorited === true ? "heart" : "heart-o";
+    const heartType =
+      dataStore.currentPalette.favorited === true ? "heart" : "heart-o";
     return (
       <div
         ref={headerContainer => (this.headerContainer = headerContainer)}
@@ -149,7 +150,7 @@ class Header extends Component {
                 btnFunction={() => dataStore.pushToFavorites()}
                 fontAwesomeIcon={heartType}
                 buttonText={"Favorite"}
-                overlayValue={dataStore.favoritesShortList.length}
+                isActive={dataStore.currentPalette.favorited}
               />
 
               <ClipboardButton

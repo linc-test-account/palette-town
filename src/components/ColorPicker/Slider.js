@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import ReactSlider from 'react-slider';
 import PropTypes from 'prop-types';
-import './Slider.css';
 
 @observer
 class Slider extends Component {

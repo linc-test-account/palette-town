@@ -10,12 +10,20 @@ class HeaderButton extends Component {
     btnFunction: PropTypes.func,
     fontAwesomeIcon: PropTypes.string,
     overlayValue: PropTypes.number,
+    isActive: PropTypes.bool
   };
   render() {
-    const { btnFunction, fontAwesomeIcon, overlayValue } = this.props;
+    const { btnFunction, fontAwesomeIcon, overlayValue, isActive } = this.props;
+    const style = {
+      color: "hsl(310, 100%, 50%)"
+    };
+    const altStyle = {
+
+    }
     return (
       <button className="header-button" onClick={btnFunction}>
         <FontAwesome
+          style={isActive === true ? style : altStyle}
           className="header-icon"
           name={fontAwesomeIcon}
           size="2x"

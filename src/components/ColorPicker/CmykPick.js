@@ -72,7 +72,7 @@ class CmykPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.cyan}
-              onChange={value => dataStore.changeCyan(value)}
+              onChange={value => dataStore.changeColorVal(value, "cyan")}
             >
               <div className="my-handle noselect" style={cyanHandle}>
                 {dataStore.currentSwatch.cyan}
@@ -93,7 +93,7 @@ class CmykPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.magenta}
-              onChange={value => dataStore.changeMagenta(value)}
+              onChange={value => dataStore.changeColorVal(value, "magenta")}
             >
               <div className="my-handle noselect" style={magentaHandle}>
                 {dataStore.currentSwatch.magenta}
@@ -113,7 +113,7 @@ class CmykPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.yellow}
-              onChange={value => dataStore.changeYellow(value)}
+              onChange={value => dataStore.changeColorVal(value, "yellow")}
             >
               <div className="my-handle noselect" style={yellowHandle}>
               {dataStore.currentSwatch.yellow}
@@ -133,7 +133,7 @@ class CmykPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.key}
-              onChange={value => dataStore.changeKey(value)}
+              onChange={value => dataStore.changeColorVal(value, "key")}
             >
               <div className="my-handle noselect" style={keyHandle}>
                 {dataStore.currentSwatch.key}

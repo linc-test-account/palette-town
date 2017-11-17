@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import ReactSlider from "react-slider";
 import "./ColorPicker.css";
 
-function generateSpectrum(saturation, lightness) {
+function generateHueSpectrumGradient(saturation, lightness) {
   const colors = [];
   for (let i = 0; i < 18; i++) {
     colors.push(`hsl(${20 * i}, ${saturation}%, ${lightness}%)`);
@@ -28,7 +28,7 @@ class HslPick extends Component {
     };
     const backgroundHue = {
       background: `
-        linear-gradient(to right, ${generateSpectrum(
+        linear-gradient(to right, ${generateHueSpectrumGradient(
           dataStore.currentSwatch.saturation,
           dataStore.currentSwatch.lightness
         )})
@@ -68,7 +68,7 @@ class HslPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.hue}
-              onChange={value => dataStore.changeHue(value)}
+              onChange={value => dataStore.changeColorVal(value, "hue")}
             >
               <div className="my-handle noselect" style={handleStyle}>
                 {dataStore.currentSwatch.hue}
@@ -90,7 +90,7 @@ class HslPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.saturation}
-              onChange={value => dataStore.changeSaturation(value)}
+              onChange={value => dataStore.changeColorVal(value, "saturation")}
             >
               <div className="my-handle" style={handleStyle}>
                 {dataStore.currentSwatch.saturation}
@@ -111,7 +111,7 @@ class HslPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.lightness}
-              onChange={value => dataStore.changeLightness(value)}
+              onChange={value => dataStore.changeColorVal(value, "lightness")}
             >
               <div className="my-handle noselect" style={handleStyle}>
                 {dataStore.currentSwatch.lightness}

@@ -61,7 +61,7 @@ class RgbPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.red}
-              onChange={value => dataStore.changeRed(value)}
+              onChange={value => dataStore.changeColorVal(value, "red")}
             >
               <div className="my-handle noselect" style={redHandle}>
                 {dataStore.currentSwatch.red}
@@ -82,7 +82,7 @@ class RgbPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.green}
-              onChange={value => dataStore.changeGreen(value)}
+              onChange={value => dataStore.changeColorVal(value, "green")}
             >
               <div className="my-handle noselect" style={greenHandle}>
                 {dataStore.currentSwatch.green}
@@ -102,7 +102,7 @@ class RgbPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.blue}
-              onChange={value => dataStore.changeBlue(value)}
+              onChange={value => dataStore.changeColorVal(value, "blue")}
             >
               <div className="my-handle noselect" style={blueHandle}>
                 {dataStore.currentSwatch.blue}

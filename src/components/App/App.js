@@ -6,16 +6,20 @@ import Palette from "../Palette/Palette";
 import FlipMove from "react-flip-move";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import SubHeader from "../SubHeader/SubHeader";
+import { ModalContainer, ModalDialog } from "react-modal-dialog";
 import { NotificationContainer } from "react-notifications";
+import MiniPalette from "../Elements/MiniPalette";
 import "../../../node_modules/react-notifications/dist/react-notifications.css";
 import "./App.css";
+import ColorDialog from "../Elements/ColorDialog";
 
 @observer
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      minWidthReached: undefined
+      minWidthReached: undefined,
+      isShowingModal: false
     };
   }
 
@@ -53,12 +57,21 @@ class App extends Component {
     }
   };
 
+  handleClick = () => {
+    this.setState({ isShowingModal: true });
+  };
+  handleClose = () => this.setState({ isShowingModal: false });
+
   render() {
     const { dataStore } = this.props;
     const { minWidthReached } = this.state;
     return (
       <div className="App">
-        <Header minWidthReached={minWidthReached} dataStore={dataStore} />
+        <Header
+          minWidthReached={minWidthReached}
+          modalHandleClick={this.handleClick}
+          dataStore={dataStore}
+        />
 
         <SubHeader dataStore={dataStore} />
 
@@ -90,6 +103,38 @@ class App extends Component {
           </FlipMove>
         )}
 
+        {this.state.isShowingModal && (
+          <ModalContainer onClose={this.handleClose}>
+            <ModalDialog onClose={this.handleClose}>
+              <div className="modal-palette-container">
+                <MiniPalette
+                  swatchHover={true}
+                  harmony={dataStore.currentPalette.colors}
+                />
+              </div>
+              <div className="modal-box-container">
+                <ColorDialog
+                  colors={dataStore.currentPalette.colors}
+                  colorSpace="hsl"
+                />
+                <ColorDialog
+                  colors={dataStore.currentPalette.colors}
+                  colorSpace="rgb"
+                />
+              </div>
+              <div className="modal-box-container">
+                <ColorDialog
+                  colors={dataStore.currentPalette.colors}
+                  colorSpace="cmyk"
+                />
+                <ColorDialog
+                  colors={dataStore.currentPalette.colors}
+                  colorSpace="hex"
+                />
+              </div>
+            </ModalDialog>
+          </ModalContainer>
+        )}
         <NotificationContainer />
       </div>
     );

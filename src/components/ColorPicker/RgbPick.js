@@ -49,7 +49,15 @@ class RgbPick extends Component {
     return (
       <div className="sliders">
         <div className="slider-container">
-          <h2 className="slider-heading">R</h2>
+          <input
+            className="slider-input"
+            onChange={event =>
+              dataStore.validateInputs(event.target.value, "red")}
+            min={0}
+            max={255}
+            type="number"
+            value={dataStore.currentSwatch.red}
+          />
           <div className="bar-container" style={backgroundRed}>
             <ReactSlider
               className="bar"
@@ -61,17 +69,25 @@ class RgbPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.red}
-              onChange={value => dataStore.changeColorVal(value, "red")}
+              onChange={value => dataStore.validateInputs(value, "red")}
             >
               <div className="my-handle noselect" style={redHandle}>
-                {dataStore.currentSwatch.red}
+                R
               </div>
             </ReactSlider>
           </div>
         </div>
 
         <div className="slider-container">
-          <h2 className="slider-heading">G</h2>
+          <input
+            className="slider-input"
+            onChange={event =>
+              dataStore.validateInputs(event.target.value, "green")}
+            min={0}
+            max={255}
+            type="number"
+            value={dataStore.currentSwatch.green}
+          />
           <div className="bar-container" style={backgroundGreen}>
             <ReactSlider
               className="bar"
@@ -82,16 +98,24 @@ class RgbPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.green}
-              onChange={value => dataStore.changeColorVal(value, "green")}
+              onChange={value => dataStore.validateInputs(value, "green")}
             >
               <div className="my-handle noselect" style={greenHandle}>
-                {dataStore.currentSwatch.green}
+                G
               </div>
             </ReactSlider>
           </div>
         </div>
         <div className="slider-container">
-          <h2 className="slider-heading">B</h2>
+          <input
+            className="slider-input"
+            onChange={event =>
+              dataStore.validateInputs(event.target.value, "blue")}
+            min={0}
+            max={255}
+            type="number"
+            value={dataStore.currentSwatch.blue}
+          />
           <div className="bar-container" style={backgroundBlue}>
             <ReactSlider
               className="bar"
@@ -102,10 +126,10 @@ class RgbPick extends Component {
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.blue}
-              onChange={value => dataStore.changeColorVal(value, "blue")}
+              onChange={value => dataStore.validateInputs(value, "blue")}
             >
               <div className="my-handle noselect" style={blueHandle}>
-                {dataStore.currentSwatch.blue}
+                B
               </div>
             </ReactSlider>
           </div>

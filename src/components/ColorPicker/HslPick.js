@@ -24,7 +24,7 @@ class HslPick extends Component {
     const handleStyle = {
       background: `hsl(${dataStore.currentSwatch.hue}, ${dataStore.currentSwatch
         .saturation}%, ${dataStore.currentSwatch.lightness}%)`,
-      color:  `hsla(0, 0%, ${dataStore.currentSwatch.contrastYIQ}%, .8)`,
+      color: `hsla(0, 0%, ${dataStore.currentSwatch.contrastYIQ}%, .8)`
     };
     const backgroundHue = {
       background: `
@@ -56,7 +56,15 @@ class HslPick extends Component {
     return (
       <div className="sliders">
         <div className="slider-container">
-          <h2 className="slider-heading">H</h2>
+          <input
+            className="slider-input"
+            onChange={event =>
+              dataStore.validateInputs(event.target.value, "hue")}
+            min={0}
+            max={360}
+            type="number"
+            value={dataStore.currentSwatch.hue}
+          />
           <div className="bar-container" style={backgroundHue}>
             <ReactSlider
               className="bar"
@@ -64,21 +72,28 @@ class HslPick extends Component {
               barClassName="test-bar"
               min={0}
               max={360}
-              defaultValue={dataStore.currentSwatch.hue}
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.hue}
-              onChange={value => dataStore.changeColorVal(value, "hue")}
+              onChange={value => dataStore.validateInputs(value, "hue")}
             >
               <div className="my-handle noselect" style={handleStyle}>
-                {dataStore.currentSwatch.hue}
+                H
               </div>
             </ReactSlider>
           </div>
         </div>
 
         <div className="slider-container">
-          <h2 className="slider-heading">S</h2>
+          <input
+            className="slider-input"
+            onChange={event =>
+              dataStore.validateInputs(event.target.value, "saturation")}
+            min={0}
+            max={100}
+            type="number"
+            value={dataStore.currentSwatch.saturation}
+          />
           <div className="bar-container" style={backgroundSaturation}>
             <ReactSlider
               className="bar"
@@ -86,20 +101,28 @@ class HslPick extends Component {
               barClassName="test-bar"
               min={0}
               max={100}
-              defaultValue={dataStore.currentSwatch.saturation}
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.saturation}
-              onChange={value => dataStore.changeColorVal(value, "saturation")}
+              onChange={value =>
+                dataStore.validateInputs(value, "saturation")}
             >
               <div className="my-handle" style={handleStyle}>
-                {dataStore.currentSwatch.saturation}
+                S
               </div>
             </ReactSlider>
           </div>
         </div>
         <div className="slider-container">
-          <h2 className="slider-heading">L</h2>
+          <input
+            className="slider-input"
+            onChange={event =>
+              dataStore.validateInputs(event.target.value, "lightness")}
+            min={0}
+            max={100}
+            type="number"
+            value={dataStore.currentSwatch.lightness}
+          />
           <div className="bar-container" style={backgroundLightness}>
             <ReactSlider
               className="bar"
@@ -107,14 +130,14 @@ class HslPick extends Component {
               barClassName="test-bar"
               min={0}
               max={100}
-              defaultValue={dataStore.currentSwatch.lightness}
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.lightness}
-              onChange={value => dataStore.changeColorVal(value, "lightness")}
+              onChange={value =>
+                dataStore.validateInputs(value, "lightness")}
             >
               <div className="my-handle noselect" style={handleStyle}>
-                {dataStore.currentSwatch.lightness}
+                L
               </div>
             </ReactSlider>
           </div>

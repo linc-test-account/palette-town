@@ -7,8 +7,6 @@ import "./ColorPicker.css";
 
 @observer
 class CmykPick extends Component {
-  
-
   static propTypes = {
     dataStore: PropTypes.object
   };
@@ -61,82 +59,111 @@ class CmykPick extends Component {
     return (
       <div className="sliders">
         <div className="slider-container">
-          <h2 className="slider-heading">C</h2>
+          <input
+            className="slider-input"
+            onChange={event =>
+              dataStore.validateInputs(event.target.value, "cyan")}
+            min={0}
+            max={100}
+            type="number"
+            value={dataStore.currentSwatch.cyan}
+          />
           <div className="bar-container" style={backgroundCyan}>
             <ReactSlider
               className="bar"
               barClassName="test-bar"
               min={0}
               max={100}
-              defaultValue={dataStore.currentSwatch.cyan}
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.cyan}
-              onChange={value => dataStore.changeColorVal(value, "cyan")}
+              onChange={value => dataStore.validateInputs(value, "cyan")}
             >
               <div className="my-handle noselect" style={cyanHandle}>
-                {dataStore.currentSwatch.cyan}
+                C
               </div>
             </ReactSlider>
           </div>
         </div>
 
         <div className="slider-container">
-          <h2 className="slider-heading">M</h2>
+          <input
+            className="slider-input"
+            onChange={event =>
+              dataStore.validateInputs(event.target.value, "magenta")}
+            min={0}
+            max={100}
+            type="number"
+            value={dataStore.currentSwatch.magenta}
+          />
           <div className="bar-container" style={backgroundMagenta}>
             <ReactSlider
               className="bar"
               barClassName="test-bar"
               min={0}
               max={100}
-              defaultValue={dataStore.currentSwatch.magenta} 
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.magenta}
-              onChange={value => dataStore.changeColorVal(value, "magenta")}
+              onChange={value =>
+                dataStore.validateInputs(value, "magenta")}
             >
               <div className="my-handle noselect" style={magentaHandle}>
-                {dataStore.currentSwatch.magenta}
+                M
               </div>
             </ReactSlider>
           </div>
         </div>
         <div className="slider-container">
-          <h2 className="slider-heading">Y</h2>
+          <input
+            className="slider-input"
+            onChange={event =>
+              dataStore.validateInputs(event.target.value, "yellow")}
+            min={0}
+            max={100}
+            type="number"
+            value={dataStore.currentSwatch.yellow}
+          />
           <div className="bar-container" style={backgroundYellow}>
             <ReactSlider
               className="bar"
               barClassName="test-bar"
               min={0}
               max={100}
-              defaultValue={dataStore.currentSwatch.yellow}
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.yellow}
-              onChange={value => dataStore.changeColorVal(value, "yellow")}
+              onChange={value => dataStore.validateInputs(value, "yellow")}
             >
               <div className="my-handle noselect" style={yellowHandle}>
-              {dataStore.currentSwatch.yellow}
+                Y
               </div>
             </ReactSlider>
           </div>
         </div>
         <div className="slider-container">
-          <h2 className="slider-heading">K</h2>
+          <input
+            className="slider-input"
+            onChange={event =>
+              dataStore.validateInputs(event.target.value, "key")}
+            min={0}
+            max={100}
+            type="number"
+            value={dataStore.currentSwatch.key}
+          />
           <div className="bar-container" style={backgroundKey}>
             <ReactSlider
               className="bar"
               barClassName="test-bar"
               min={0}
               max={100}
-              defaultValue={dataStore.currentSwatch.key}
               withBars={true}
               pearling={true}
               value={dataStore.currentSwatch.key}
-              onChange={value => dataStore.changeColorVal(value, "key")}
+              onChange={value => dataStore.validateInputs(value, "key")}
             >
               <div className="my-handle noselect" style={keyHandle}>
-                {dataStore.currentSwatch.key}
+                K
               </div>
             </ReactSlider>
           </div>

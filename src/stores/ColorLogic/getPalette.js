@@ -6,29 +6,29 @@ const tetradic = require("./tetradic");
 const triadic = require("./triadic");
 const pentagon = require("./pentagon");
 
-function getPalette(harmony) {
+function getPalette(harmony, modifier) {
     let info;
     switch (harmony) {
       case "analogous":
-        info = analogous(this.selectedPaletteModifier);
+        info = analogous(modifier);
         break;
       case "random":
-        info = random(this.selectedPaletteModifier);
+        info = random(modifier);
         break;
       case "split":
-        info = split(this.selectedPaletteModifier);
+        info = split(modifier);
         break;
       case "square":
-        info = square(this.selectedPaletteModifier);
+        info = square(modifier);
         break;
       case "tetradic":
-        info = tetradic(this.selectedPaletteModifier);
+        info = tetradic(modifier);
         break;
       case "triadic":
-        info = triadic(this.selectedPaletteModifier);
+        info = triadic(modifier);
         break;
       case "pentagon":
-        info = pentagon(this.selectedPaletteModifier);
+        info = pentagon(modifier);
         break;
       default:
     }

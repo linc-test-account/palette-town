@@ -4,9 +4,6 @@ import HeaderButton from "../Elements/HeaderButton.js";
 import Draggable from "react-draggable";
 import PropTypes from "prop-types";
 import Heading from "../Elements/Heading";
-import ClipboardButton from "react-clipboard.js";
-import FontAwesome from "react-fontawesome";
-import { NotificationManager } from "react-notifications";
 import "./Header.css";
 
 @observer
@@ -14,27 +11,17 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showHarmonies: false,
-      showModifiers: false,
       offSet: 0
     };
   }
 
   static propTypes = {
-    dataStore: PropTypes.object,
-    minWidthReached: PropTypes.bool
+    minWidthReached: PropTypes.bool,
+    modalHandleClick: PropTypes.func,
+    dataStore: PropTypes.object
   };
 
   componentDidMount = () => {
-    window.onclick = event => {
-      if (!event.target.matches(".dropbtn")) {
-        this.setState({
-          showHarmonies: false,
-          showModifiers: false
-        });
-      }
-    };
-
     if (this.headerContainer && this.headerElement) {
       this.setOffsetWidth(
         this.headerContainer.offsetWidth,
@@ -70,32 +57,8 @@ class Header extends Component {
     }
   };
 
-  toggleHarmoniesList = () => {
-    if (this.state.showHarmonies === true) {
-      this.setState({
-        showHarmonies: false
-      });
-    } else {
-      this.setState({
-        showHarmonies: true
-      });
-    }
-  };
-
-  togglePaletteModifiersList = () => {
-    if (this.state.showModifiers === true) {
-      this.setState({
-        showModifiers: false
-      });
-    } else {
-      this.setState({
-        showModifiers: true
-      });
-    }
-  };
-
   render() {
-    const { dataStore, minWidthReached } = this.props;
+    const { minWidthReached, modalHandleClick, dataStore } = this.props;
     const { offSet } = this.state;
     const heartType =
       dataStore.currentPalette.favorited === true ? "heart" : "heart-o";
@@ -152,24 +115,12 @@ class Header extends Component {
                 buttonText={"Favorite"}
                 isActive={dataStore.currentPalette.favorited}
               />
-
-              <ClipboardButton
-                className="header-button"
-                data-clipboard-text={dataStore.createClipBoardData}
-                onSuccess={() =>
-                  NotificationManager.success(
-                    "Copied palette to clipboard",
-                    "Success",
-                    2000
-                  )}
-                button-title="Copy colors to clipboard"
-              >
-                <FontAwesome
-                  className="header-icon"
-                  name="clipboard"
-                  size="2x"
-                />
-              </ClipboardButton>
+              <HeaderButton
+                dataStore={dataStore}
+                btnFunction={modalHandleClick}
+                fontAwesomeIcon={"download"}
+                buttonText={"Favorite"}
+              />
             </div>
           </div>
         </Draggable>

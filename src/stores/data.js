@@ -44,7 +44,7 @@ class Data {
       modifier: "balanced",
       saturationMin: 20,
       saturationMax: 100,
-      lightnessMin: 40,
+      lightnessMin: 50,
       lightnessMax: 90
     },
     {
@@ -115,7 +115,10 @@ class Data {
   get miniPalettes() {
     const miniPalettes = [];
     for (let i = 0; i < this.allHarmonies.length; i++) {
-      const paletteData = getPalette(this.allHarmonies[i].harmony);
+      const paletteData = getPalette(
+        this.allHarmonies[i].harmony,
+        this.selectedPaletteModifier
+      );
       const paletteName = this.allHarmonies[i].harmony;
       miniPalettes.push({
         [paletteName]: paletteData
@@ -176,7 +179,10 @@ class Data {
       this.closeColorPicker();
     }
 
-    const palette = getPalette(this.selectedHarmony.harmony);
+    const palette = getPalette(
+      this.selectedHarmony.harmony,
+      this.selectedPaletteModifier
+    );
     const colorArray = [];
     for (let i = 0; i < this.selectedHarmony.colors; i++) {
       colorArray.push(
@@ -247,16 +253,64 @@ class Data {
     this.colorPickerVisible = true;
   }
 
-  // MODIFY SWATCH HSL VALUES
-  @action
-  changeColorVal(val, name) {
-    const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
-    if (val === undefined) {
+  validateInputs(value, name) {
+    // HSL max values
+    const hueMax = 360;
+    const saturationMax = 100;
+    const lightnessMax = 100;
+    // RGB max values
+    const rgbMax = 255;
+    // CMYK max values
+    const cmykMax = 100;
+
+    // Validate HSL
+    if (name === "hue" && value > hueMax) {
+      this.changeColorProperty(hueMax, name);
+      return;
+    }
+    if (
+      (name === "saturaton" && value > saturationMax) ||
+      (name === "lightness" && value > lightnessMax)
+    ) {
+      this.changeColorProperty(saturationMax, name);
+      return;
+    }
+    // Validate RGB
+    if (
+      (name === "red" && value > rgbMax) ||
+      (name === "green" && value > rgbMax) ||
+      (name === "blue" && value > rgbMax)
+    ) {
+      this.changeColorProperty(rgbMax, name);
+      return;
+    }
+    // Validate CMYK
+    if (
+      (name === "cyan" && value > cmykMax) ||
+      (name === "magenta" && value > cmykMax) ||
+      (name === "key" && value > cmykMax) ||
+      (name === "yellow" && value > cmykMax)
+    ) {
+      this.changeColorProperty(cmykMax, name);
+      return;
+    }
+    if (value === undefined) {
+      return;
+    }
+    if (value < 0) {
+      this.changeColorProperty(0, name);
       return;
     } else {
-      const target = this.currentPalette.colors[this.targetSwatch];
-      target["set" + capitalizedName](val);
+      this.changeColorProperty(value, name);
     }
+  }
+
+  @action
+  changeColorProperty(value, name) {
+    const capitalizedPropertyName =
+      name.charAt(0).toUpperCase() + name.slice(1);
+    const target = this.currentPalette.colors[this.targetSwatch];
+    target["set" + capitalizedPropertyName](value);
   }
 
   // DELETE SWATCH FROM CURRENT COLOR PALATTE

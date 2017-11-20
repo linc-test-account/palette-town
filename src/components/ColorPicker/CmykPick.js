@@ -58,7 +58,7 @@ class CmykPick extends Component {
 
     return (
       <div className="sliders">
-        <div className="slider-container">
+        <div className="input-container">
           <input
             className="slider-input"
             onChange={event =>
@@ -86,7 +86,7 @@ class CmykPick extends Component {
           </div>
         </div>
 
-        <div className="slider-container">
+        <div className="input-container">
           <input
             className="slider-input"
             onChange={event =>
@@ -114,7 +114,7 @@ class CmykPick extends Component {
             </ReactSlider>
           </div>
         </div>
-        <div className="slider-container">
+        <div className="input-container">
           <input
             className="slider-input"
             onChange={event =>
@@ -141,7 +141,7 @@ class CmykPick extends Component {
             </ReactSlider>
           </div>
         </div>
-        <div className="slider-container">
+        <div className="input-container">
           <input
             className="slider-input"
             onChange={event =>

@@ -54,8 +54,8 @@ class HslPick extends Component {
     };
 
     return (
-      <div className="sliders">
-        <div className="slider-container">
+      <div className="picker-container">
+        <div className="input-container">
           <input
             className="slider-input"
             onChange={event =>
@@ -84,7 +84,7 @@ class HslPick extends Component {
           </div>
         </div>
 
-        <div className="slider-container">
+        <div className="input-container">
           <input
             className="slider-input"
             onChange={event =>
@@ -113,7 +113,7 @@ class HslPick extends Component {
             </ReactSlider>
           </div>
         </div>
-        <div className="slider-container">
+        <div className="input-container">
           <input
             className="slider-input"
             onChange={event =>

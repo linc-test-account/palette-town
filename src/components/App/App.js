@@ -4,7 +4,6 @@ import { observer } from "mobx-react";
 import Header from "../Header/Header.js";
 import Palette from "../Palette/Palette";
 import FlipMove from "react-flip-move";
-import ColorPicker from "../ColorPicker/ColorPicker";
 import SubHeader from "../SubHeader/SubHeader";
 import { ModalContainer, ModalDialog } from "react-modal-dialog";
 import { NotificationContainer } from "react-notifications";
@@ -89,11 +88,6 @@ class App extends Component {
             leaveAnimation={"fade"}
             maintainContainerHeight={true}
           >
-            {dataStore.colorPickerVisible === true ? (
-              <ColorPicker key={`color-picker-${0}`} dataStore={dataStore} />
-            ) : (
-              <span key={`color-picker-${1}`} />
-            )}
             <Palette
               minWidthReached={minWidthReached}
               currentPalette={dataStore.currentPalette.colors}
@@ -114,22 +108,40 @@ class App extends Component {
               </div>
               <div className="modal-box-container">
                 <ColorDialog
+                title="hsl"
                   colors={dataStore.currentPalette.colors}
                   colorSpace="hsl"
                 />
                 <ColorDialog
+                title="rgb"
                   colors={dataStore.currentPalette.colors}
                   colorSpace="rgb"
                 />
               </div>
               <div className="modal-box-container">
                 <ColorDialog
+                title="cmyk"
                   colors={dataStore.currentPalette.colors}
                   colorSpace="cmyk"
                 />
                 <ColorDialog
+                title="hex"
                   colors={dataStore.currentPalette.colors}
                   colorSpace="hex"
+                />
+              </div>
+              <div className="modal-box-container">
+                <ColorDialog
+                title="CSS vars"
+                  colors={dataStore.currentPalette.colors}
+                  colorSpace="hex"
+                  styleSheetType="css"
+                />
+                <ColorDialog
+                title="LESS vars"
+                  colors={dataStore.currentPalette.colors}
+                  colorSpace="hex"
+                  styleSheetType="less"
                 />
               </div>
             </ModalDialog>

@@ -9,6 +9,24 @@
     background: hsl(0, 0%, 10%);
 }
 
+.default-palette-content-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.palette-swatch-information {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-grow: 2;
+}
+
 
 .palette-swatch {
     height: 100%;
@@ -16,19 +34,18 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    flex-grow: 1;
+    flex-grow: 2;
     flex-basis: 0;
 }
 
 .palette-swatch-hex {
     font-family: var(--app-font);
     font-weight: bold;
-    margin: 0;
+    margin: 0 0 10px 0;
     padding: 0;
     font-size: 25px;
     text-transform: uppercase;
     align-self: center;
-    padding: 60px 0 0 0;
 }
 
 .palette-swatch-name {
@@ -71,26 +88,12 @@
     transition: 200ms ease all;
 }
 
-.palette-swatch:hover .palette-swatch-handle {
-    opacity: 1;
-}
-
-.palette-swatch:active {
-    opacity: 1;
-    font-size: 30px;
-}
-
-.palette-swatch-input {
-    text-align: center;
+.palette-draghandle {
     font-family: var(--app-font);
     font-weight: bold;
-    margin: 0;
+    margin: 20px 0 0 0;
     padding: 0;
-    font-size: 25px;
-    text-transform: uppercase;
-    align-self: center;
-    background: none;
-    border: none;
+    font-size: 13px;
 }
 
 @media screen and (max-width: 700px) {

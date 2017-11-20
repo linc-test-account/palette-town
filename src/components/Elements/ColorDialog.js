@@ -1,62 +1,92 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function getHsl(colors) {
-  return colors.map(({ hue, saturation, lightness }, index) => (
-    <p
-      className="modal-color-val"
-      key={index}
-    >{`hsl(${hue}, ${saturation}%, ${lightness}%)`}</p>
-  ));
+function formatColorName(string) {
+  return string.toLowerCase().replace(/\s+/g, "-");
 }
 
-function getRgb(colors) {
-  return colors.map(({ red, green, blue }, index) => (
-    <p
-      className="modal-color-val"
-      key={index}
-    >{`rgb(${red}, ${green}, ${blue})`}</p>
-  ));
+function styleSheetVariableName(type, name) {
+  if (type === "css") {
+    return `--${formatColorName(name)}: `;
+  }
+  if (type === "less") {
+    return `@${formatColorName(name)}: `;
+  } else {
+    return;
+  }
 }
 
-function getCmyk(colors) {
-  return colors.map(({ cyan, magenta, yellow, key }, index) => (
-    <p
-      className="modal-color-val"
-      key={index}
-    >{`cmyk(${cyan}%, ${magenta}%, ${yellow}%, ${key}%)`}</p>
-  ));
-}
-
-function getHex(colors) {
-  return colors.map(({ hex }, index) => (
+function getHsl(colors, styleSheetType) {
+  return colors.map(({ colorName, hue, saturation, lightness }, index) => (
     <p className="modal-color-val" key={index}>
-      #{hex}
+      {styleSheetType !== undefined
+        ? styleSheetVariableName(styleSheetType, colorName)
+        : ""}
+      {`hsl(${hue}, ${saturation}%, ${lightness}%)`}
+      {styleSheetType !== undefined ? ";" : ""}
     </p>
   ));
 }
 
-const DialogBox = ({ colors, colorSpace }) => {
+function getRgb(colors, styleSheetType) {
+  return colors.map(({ colorName, red, green, blue }, index) => (
+    <p className="modal-color-val" key={index}>
+      {styleSheetType !== undefined
+        ? styleSheetVariableName(styleSheetType, colorName)
+        : ""}
+      {`rgb(${red}, ${green}, ${blue})`}
+      {styleSheetType !== undefined ? ";" : ""}
+    </p>
+  ));
+}
+
+function getCmyk(colors, styleSheetType) {
+  return colors.map(({ colorName, cyan, magenta, yellow, key }, index) => (
+    <p className="modal-color-val" key={index}>
+      {styleSheetType !== undefined
+        ? styleSheetVariableName(styleSheetType, colorName)
+        : ""}
+      {`cmyk(${cyan}%, ${magenta}%, ${yellow}%, ${key}%)`}
+      {styleSheetType !== undefined ? ";" : ""}
+    </p>
+  ));
+}
+
+function getHex(colors, styleSheetType) {
+  return colors.map(({ colorName, hex }, index) => (
+    <p className="modal-color-val" key={index}>
+      {styleSheetType !== undefined
+        ? styleSheetVariableName(styleSheetType, colorName)
+        : ""}
+      #{hex}
+      {styleSheetType !== undefined ? ";" : ""}
+    </p>
+  ));
+}
+
+const DialogBox = ({ title, colors, colorSpace, styleSheetType }) => {
   return (
     <div className="modal-box">
-      <h1 className="modal-box-heading">{colorSpace}</h1>
+      <h1 className="modal-box-heading">{title}</h1>
 
       <div className="modal-inner-box">
         {colorSpace === "hsl"
-          ? getHsl(colors)
+          ? getHsl(colors, styleSheetType)
           : colorSpace === "rgb"
-            ? getRgb(colors)
+            ? getRgb(colors, styleSheetType)
             : colorSpace === "cmyk"
-              ? getCmyk(colors)
-              : colorSpace === "hex" ? getHex(colors) : ""}
+              ? getCmyk(colors, styleSheetType)
+              : colorSpace === "hex" ? getHex(colors, styleSheetType) : ""}
       </div>
     </div>
   );
 };
 
 DialogBox.propTypes = {
+  title: PropTypes.string,
   colors: PropTypes.object.isRequired,
-  colorSpace: PropTypes.string.isRequired
+  colorSpace: PropTypes.string.isRequired,
+  styleSheetType: PropTypes.string
 };
 
 export default DialogBox;

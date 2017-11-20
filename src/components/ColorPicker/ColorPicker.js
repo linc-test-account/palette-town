@@ -1,127 +1,110 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
-import HeaderButton from "../Elements/HeaderButton";
-import DropDownList from "../Elements/DropDownList";
 import HslPick from "./HslPick";
 import RgbPick from "./RgbPick";
 import CmykPick from "./CmykPick";
-import FlipMove from "react-flip-move";
-import FontAwesome from "react-fontawesome";
 import "./ColorPicker.css";
-
-function getColorSpaceOptions(colorSpaces, dataStore, toggleColorSpaceOptions) {
-  const colorSpaceOptions = colorSpaces.map(
-    ({ colorSpace }, index) =>
-      colorSpace === dataStore.selectedColorSpace.colorSpace ? (
-        <a
-          className="drop-down-list-option list-option-selected"
-          key={index}
-          value={index}
-          onClick={() => toggleColorSpaceOptions()}
-        >
-          {colorSpace}
-          <FontAwesome className="option-checkmark" name={"check"} size="2x" />
-        </a>
-      ) : (
-        <a
-          className="drop-down-list-option"
-          key={index}
-          value={index}
-          onClick={() => {
-            dataStore.changeColorSpace(index);
-            toggleColorSpaceOptions();
-          }}
-        >
-          {colorSpace}
-        </a>
-      )
-  );
-  return colorSpaceOptions;
-}
+import FontAwesome from "react-fontawesome";
 
 @observer
 class ColorPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showColorSpaceOptions: false
+      showSliders: true,
+      colorSpace: "hsl"
     };
   }
 
+  // Hack to fix handle positions
+  // on react sliders. Causes unmount and 
+  // remount of HslPick componet which 
+  //  redraws the handles and their effective 
+  // range correctly 
   componentDidMount() {
-    window.onclick = event => {
-      if (!event.target.matches(".dropbtn")) {
-        this.setState({
-          showColorSpaceOptions: false
-        });
-      }
-    };
+    setTimeout(() => {
+      this.setState({
+        showSliders: false
+      });
+    }, 301);
+    setTimeout(() => {
+      this.setState({
+        showSliders: true
+      });
+    }, 302);
   }
 
-  toggleColorSpaceOptions = () => {
-    if (this.state.showColorSpaceOptions === true) {
-      this.setState({
-        showColorSpaceOptions: false
-      });
-    } else {
-      this.setState({
-        showColorSpaceOptions: true
-      });
-    }
+  changeColorSpace = val => {
+    this.setState({
+      colorSpace: val
+    });
   };
 
   static propTypes = {
-    dataStore: PropTypes.object
+    dataStore: PropTypes.object,
+    colorSpace: PropTypes.string,
+    hex: PropTypes.string,
+    colorName: PropTypes.string
   };
 
   render() {
-    const { dataStore } = this.props;
-    const { showColorSpaceOptions } = this.state;
-    const colorSpace = dataStore.selectedColorSpace.colorSpace;
-
-    const colorSpaces = getColorSpaceOptions(
-      dataStore.colorSpaces,
-      dataStore,
-      this.toggleColorSpaceOptions
-    );
-
+    const { hex, colorName, dataStore } = this.props;
+    const { showSliders, colorSpace } = this.state;
     return (
       <div className="color-picker-container">
-        <DropDownList
-          toggleShowing={() => this.toggleColorSpaceOptions()}
-          showing={showColorSpaceOptions}
-          listItems={colorSpaces}
-          selectedValue={dataStore.selectedColorSpace.colorSpace}
-        />
+        <p className="palette-swatch-hex noselect">#{hex}</p>
+        <p className="palette-swatch-name noselect">{colorName}</p>
+        <br />
+        <div className="color-picker-inner">
+          <div className="color-picker-header">
+            <button
+              className="color-picker-category"
+              onClick={() => this.changeColorSpace("hsl")}
+            >
+              HSL
+            </button>
+            <button
+              className="color-picker-category"
+              onClick={() => this.changeColorSpace("rgb")}
+            >
+              RGB
+            </button>
+            <button
+              className="color-picker-category"
+              onClick={() => this.changeColorSpace("cmyk")}
+            >
+              CMYK
+            </button>
+            <button
+              className="color-picker-category"
+              onClick={() => dataStore.closeColorPicker()}
+            >
+              DONE
+              <FontAwesome
+                className="color-picker-category-check"
+                name={"check"}
+                size="2x"
+              />
+            </button>
+          </div>
 
-        <FlipMove
-          className="color-picker-inner-container"
-          appearAnimation={"fade"}
-          easing="ease-in-out"
-          duration={200}
-          enterAnimation={false}
-          leaveAnimation={"fade"}
-          maintainContainerHeight={true}
-        >
-          {colorSpace === "HSL" ? (
+          {colorSpace === "hsl" && showSliders === true ? (
             <HslPick key={`color-picker-0`} dataStore={dataStore} />
-          ) : colorSpace === "RGB" ? (
+          ) : (
+            ""
+          )}
+          {colorSpace === "rgb" && showSliders === true ? (
             <RgbPick key={`color-picker-1`} dataStore={dataStore} />
-          ) : colorSpace === "CMYK" ? (
+          ) : (
+            ""
+          )}
+          {colorSpace === "cmyk" && showSliders === true ? (
             <CmykPick key={`color-picker-2`} dataStore={dataStore} />
           ) : (
-            <span key={`color-picker-2`} />
+            ""
           )}
-        </FlipMove>
-
-        <HeaderButton
-          className="card-buttons"
-          dataStore={dataStore}
-          btnFunction={() => dataStore.closeColorPicker()}
-          fontAwesomeIcon={"check"}
-          buttonText={"Done"}
-        />
+        </div>
       </div>
     );
   }

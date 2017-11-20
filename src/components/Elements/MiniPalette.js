@@ -24,7 +24,10 @@ MiniSwatch.propTypes = {
 
 class MiniPalette extends Component {
   static propTypes = {
-    harmony: PropTypes.array,
+    harmony: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array
+    ]),
     swatchHover: PropTypes.bool
   };
   render() {

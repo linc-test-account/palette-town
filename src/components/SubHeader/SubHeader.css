@@ -1,11 +1,10 @@
 .subheader-outer {
-  /* overflow-x: hidden; */
   background: #242424;
   display: flex;
   flex-direction: column;
   min-height: 45px;
   margin: 0 0 2px 0;
-  z-index: 99;
+  z-index: 5;
 }
 
 .subheader-inner {

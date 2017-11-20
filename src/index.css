@@ -2,6 +2,7 @@
   /* General App Style */
   --app-background: hsl(0, 0%, 90%);
   --app-text-color: hsl(0, 0%, 15%);
+
   /* --app-font: 'PT Sans', sans-serif; */
   --app-font: "Varela Round", sans-serif;
   --app-brand-color: hsl(204, 96%, 42%);
@@ -9,7 +10,7 @@
   /* Buttons */
 
   /* card */
-  --card-background: hsl(0, 0%, 96%);
+  --card-background: hsl(0, 0%, 100%);
 
   /* Header */
   --header-background: hsl(0, 0%, 96%);

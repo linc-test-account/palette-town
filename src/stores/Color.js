@@ -14,6 +14,7 @@ const colorSpaces = {
 
 export default class Color {
   @observable properties = [];
+  @observable selected = false;
   @observable colorSpace = "rgb";
   @observable id = shortid.generate();
 

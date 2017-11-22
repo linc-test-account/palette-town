@@ -2,15 +2,14 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import Header from "../Header/Header.js";
+import SideNav from "../SideNav/SideNav";
 import Palette from "../Palette/Palette";
 import FlipMove from "react-flip-move";
-import SubHeader from "../SubHeader/SubHeader";
+import Footer from "../Footer/Footer";
 import { ModalContainer, ModalDialog } from "react-modal-dialog";
-import { NotificationContainer } from "react-notifications";
-import MiniPalette from "../Elements/MiniPalette";
-import "../../../node_modules/react-notifications/dist/react-notifications.css";
-import "./App.css";
+import MiniPalette from "../MiniPalette/MiniPalette";
 import ColorDialog from "../Elements/ColorDialog";
+import "./App.css";
 
 @observer
 class App extends Component {
@@ -18,7 +17,8 @@ class App extends Component {
     super(props);
     this.state = {
       minWidthReached: undefined,
-      isShowingModal: false
+      isShowingModal: false,
+      showSideNav: false
     };
   }
 
@@ -33,7 +33,7 @@ class App extends Component {
     this.handleScreenWidthChange(mediaQuery); // check initial width
     mediaQuery.addListener(this.handleScreenWidthChange); // listen for width change
 
-    // left arrow key press event listiner
+    // right arrow key press event listiner
     document.addEventListener("keydown", event => {
       const { dataStore } = this.props;
       if (event.keyCode === 39) {
@@ -56,6 +56,19 @@ class App extends Component {
     }
   };
 
+  toggleSideNav = val => {
+    if (val === false) {
+      this.setState({
+        showSideNav: false
+      });
+    }
+    if (val === true) {
+      this.setState({
+        showSideNav: true
+      });
+    }
+  };
+
   handleClick = () => {
     this.setState({ isShowingModal: true });
   };
@@ -63,16 +76,20 @@ class App extends Component {
 
   render() {
     const { dataStore } = this.props;
-    const { minWidthReached } = this.state;
+    const { showSideNav, minWidthReached } = this.state;
     return (
       <div className="App">
         <Header
-          minWidthReached={minWidthReached}
+          toggleSideNav={this.toggleSideNav}
           modalHandleClick={this.handleClick}
           dataStore={dataStore}
         />
 
-        <SubHeader dataStore={dataStore} />
+        <SideNav
+          dataStore={dataStore}
+          showSideNav={showSideNav}
+          toggleSideNav={this.toggleSideNav}
+        />
 
         {dataStore.currentPalette.length === 0 ? (
           "No data"
@@ -97,48 +114,52 @@ class App extends Component {
           </FlipMove>
         )}
 
+        <Footer dataStore={dataStore} />
+
         {this.state.isShowingModal && (
           <ModalContainer onClose={this.handleClose}>
             <ModalDialog onClose={this.handleClose}>
               <div className="modal-palette-container">
                 <MiniPalette
+                  swatchWidth={70}
+                  swatchHeight={30}
                   swatchHover={true}
                   harmony={dataStore.currentPalette.colors}
                 />
               </div>
               <div className="modal-box-container">
                 <ColorDialog
-                title="hsl"
+                  title="hsl"
                   colors={dataStore.currentPalette.colors}
                   colorSpace="hsl"
                 />
                 <ColorDialog
-                title="rgb"
+                  title="rgb"
                   colors={dataStore.currentPalette.colors}
                   colorSpace="rgb"
                 />
               </div>
               <div className="modal-box-container">
                 <ColorDialog
-                title="cmyk"
+                  title="cmyk"
                   colors={dataStore.currentPalette.colors}
                   colorSpace="cmyk"
                 />
                 <ColorDialog
-                title="hex"
+                  title="hex"
                   colors={dataStore.currentPalette.colors}
                   colorSpace="hex"
                 />
               </div>
               <div className="modal-box-container">
                 <ColorDialog
-                title="CSS vars"
+                  title="CSS vars"
                   colors={dataStore.currentPalette.colors}
                   colorSpace="hex"
                   styleSheetType="css"
                 />
                 <ColorDialog
-                title="LESS vars"
+                  title="LESS vars"
                   colors={dataStore.currentPalette.colors}
                   colorSpace="hex"
                   styleSheetType="less"
@@ -147,7 +168,6 @@ class App extends Component {
             </ModalDialog>
           </ModalContainer>
         )}
-        <NotificationContainer />
       </div>
     );
   }

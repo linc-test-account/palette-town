@@ -211,7 +211,7 @@ class Data {
     if (this.colorPickerVisible === true) {
       this.reselectSwatch();
     }
-    const newSwatchValues = oneOff();
+    const newSwatchValues = oneOff(this.selectedPaletteModifier);
     const count = this.currentPalette.colors.length;
     if (count < SWATCH_LIMIT) {
       const newSwatch = new Color(

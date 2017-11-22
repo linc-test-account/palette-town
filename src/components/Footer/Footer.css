@@ -1,0 +1,23 @@
+.footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.footer-subheading {
+    font-weight: bold;
+    padding: 0 10px 0 10px;
+    color: var(--app-brand-color);
+}
+
+.footer-subheading-value {
+    text-transform: capitalize;
+    margin: 0 10px 0 0;
+}
+
+
+@media screen and (max-width: 700px) {
+    .footer {
+        display: none;
+    }
+  }

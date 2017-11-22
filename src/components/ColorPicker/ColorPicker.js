@@ -17,24 +17,6 @@ class ColorPicker extends Component {
     };
   }
 
-  // Hack to fix handle positions
-  // on react sliders. Causes unmount and 
-  // remount of HslPick componet which 
-  //  redraws the handles and their effective 
-  // range correctly 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        showSliders: false
-      });
-    }, 301);
-    setTimeout(() => {
-      this.setState({
-        showSliders: true
-      });
-    }, 302);
-  }
-
   changeColorSpace = val => {
     this.setState({
       colorSpace: val

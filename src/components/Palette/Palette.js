@@ -1,72 +1,11 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import PropTypes from "prop-types";
-import {
-  SortableContainer,
-  SortableElement,
-  SortableHandle
-} from "react-sortable-hoc";
-import FontAwesome from "react-fontawesome";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import FlipMove from "react-flip-move";
-import "./Palette.css";
 import ColorPicker from "../ColorPicker/ColorPicker";
-
-const DragHandle = SortableHandle(() => (
-  <p className="palette-draghandle noselect">
-    <FontAwesome name="arrows-h" size="2x" />
-  </p>
-));
-
-const DefaultPaletteContent = ({
-  dataStore,
-  contrastYIQ,
-  uniqueIndex,
-  hex,
-  colorName
-}) => {
-  const buttonTextColor = {
-    color: `hsla(0, 0%, ${contrastYIQ}%, .5)`
-  };
-  return (
-    <div className="default-palette-content-container">
-      <div className="palette-swatch-information">
-        <p className="palette-swatch-hex noselect">#{hex}</p>
-        <p className="palette-swatch-name noselect">{colorName}</p>
-        <DragHandle />
-      </div>
-
-      <div className="palette-swatch-buttons-container">
-        <button
-          style={buttonTextColor}
-          className="palette-swatch-button"
-          onClick={() => dataStore.selectSwatch(uniqueIndex)}
-        >
-          <FontAwesome name="sliders" size="2x" />
-        </button>
-
-        <button
-          style={buttonTextColor}
-          className="palette-swatch-button"
-          onClick={() => dataStore.deleteSwatch(uniqueIndex)}
-        >
-          <FontAwesome name="trash" size="2x" />
-        </button>
-
-        <button style={buttonTextColor} className="palette-swatch-button">
-          <FontAwesome name="info" size="2x" />
-        </button>
-      </div>
-    </div>
-  );
-};
-
-DefaultPaletteContent.propTypes = {
-  dataStore: PropTypes.object,
-  contrastYIQ: PropTypes.number,
-  hex: PropTypes.string,
-  colorName: PropTypes.string,
-  uniqueIndex: PropTypes.number
-};
+import Swatch from "./Swatch";
+import "./Palette.css";
 
 const SortableItem = SortableElement(
   ({
@@ -79,12 +18,14 @@ const SortableItem = SortableElement(
     selected,
     colorName,
     uniqueIndex,
-    sorting
+    sorting,
+    minWidthReached
   }) => {
+    const flexGrowAmmount = minWidthReached === true ? 4 : 2;
     const style = {
       background: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
       color: `hsla(0, 0%, ${contrastYIQ}%, .4)`,
-      flexGrow: selected === false ? 1 : 2,
+      flexGrow: selected === false ? 1 : flexGrowAmmount,
       transition: sorting === false ? ".3s ease flex" : ""
     };
 
@@ -94,7 +35,7 @@ const SortableItem = SortableElement(
         className="palette-swatch"
         leaveAnimation={"elevator"}
         enterAnimation={"elevator"}
-        appearAnimation={"elevator"}
+        appearAnimation={"fade"}
         easing="cubic-bezier(.4,-0.32,.52,1.31)"
         duration={300}
       >
@@ -107,7 +48,7 @@ const SortableItem = SortableElement(
             dataStore={dataStore}
           />
         ) : (
-          <DefaultPaletteContent
+          <Swatch
             key={`swatch-${888}`}
             dataStore={dataStore}
             contrastYIQ={contrastYIQ}
@@ -122,7 +63,7 @@ const SortableItem = SortableElement(
 );
 
 const SortableList = SortableContainer(
-  observer(({ dataStore, items, sorting }) => {
+  observer(({ dataStore, items, sorting, minWidthReached }) => {
     const sortableSwatches = items.map(
       (
         {
@@ -150,6 +91,7 @@ const SortableList = SortableContainer(
           index={index}
           uniqueIndex={index}
           sorting={sorting}
+          minWidthReached={minWidthReached}
         />
       )
     );
@@ -216,6 +158,7 @@ class palette extends Component {
         onSortStart={this.handleSortStart}
         onSortEnd={this.handleSortEnd}
         pressDelay={0}
+        minWidthReached={minWidthReached}
       />
     );
   }

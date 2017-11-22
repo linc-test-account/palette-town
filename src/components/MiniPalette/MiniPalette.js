@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import convert from "color-convert";
 import "./MiniPalette.css";
 
-const MiniSwatch = ({ swatchHover, hue, saturation, lightness }) => {
+const MiniSwatch = ({ swatchWidth, swatchHeight, swatchHover, hue, saturation, lightness }) => {
   const style = {
-    background: `hsl(${hue}, ${saturation}%, ${lightness}%)`
+    background: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
+    width: swatchWidth + "px",
+    height: swatchHeight + "px"
   };
 
   return swatchHover === true ? (
@@ -16,6 +18,8 @@ const MiniSwatch = ({ swatchHover, hue, saturation, lightness }) => {
 };
 
 MiniSwatch.propTypes = {
+  swatchWidth: PropTypes.number,
+  swatchHeight: PropTypes.number,
   swatchHover: PropTypes.bool,
   hue: PropTypes.number,
   saturation: PropTypes.number,
@@ -24,6 +28,8 @@ MiniSwatch.propTypes = {
 
 class MiniPalette extends Component {
   static propTypes = {
+    swatchWidth: PropTypes.number,
+    swatchHeight: PropTypes.number,
     harmony: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.array
@@ -31,9 +37,11 @@ class MiniPalette extends Component {
     swatchHover: PropTypes.bool
   };
   render() {
-    const { harmony, swatchHover } = this.props;
+    const { swatchWidth, swatchHeight, harmony, swatchHover } = this.props;
     const miniPalette = harmony.map(({ hue, saturation, lightness }, index) => (
       <MiniSwatch
+        swatchWidth={swatchWidth}
+        swatchHeight={swatchHeight}
         swatchHover={swatchHover}
         key={index}
         hue={hue}

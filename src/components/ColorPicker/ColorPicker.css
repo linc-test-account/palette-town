@@ -1,30 +1,42 @@
 .color-picker-container {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
   align-items: center;
-  position: absolute;
-  
 }
 
 .color-picker-inner {
   width: 75%;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   background: var(--header-button-background);
-  border-radius: 5px;
+  border-radius: 3px;
   box-shadow: 0 0 25px 0 hsla(0, 0%, 0%, 0.4);
 }
 
 .color-picker-header {
-
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  margin: 0 0 10px 0;
+  border-width: 0 0 1px 0;
+  border-color: var(--header-button-border-color);
+  border-style: solid;
 }
 
 .color-picker-category {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow: hidden;
   background: none;
   color: var(--app-brand-color);
   font-weight: bold;
@@ -33,6 +45,11 @@
   border-width: 0 1px 0 0;
   border-color: var(--header-button-border-color);
   cursor: pointer;
+  transition: .3s ease all;
+}
+
+.category-active {
+  color: hsl(310, 100%, 50%);
 }
 
 .color-picker-category-check {
@@ -45,17 +62,6 @@
   border: none;
 }
 
-.bar {
-  width: 100%;
-  height: 100%;
-}
-
-.bar-container {
-  width: 100%;
-  height: 15px;
-  box-shadow: 0 0 10px 0 hsla(0, 0%, 0%, 0.2);
-}
-
 .input-container {
   display: flex;
   flex-direction: row;
@@ -63,50 +69,6 @@
   align-items: center;
   margin: 0 0 10px 0;
   padding: 0 10px 0 10px;
-}
-
-.my-handle {
-  background-color: var(--app-text-color);
-  color: black;
-  font-size: 15px;
-  width: 20px;
-  height: 20px;
-  margin: -7px 0 0 0;
-  padding: 5px;
-  text-align: center;
-  line-height: 20px;
-  border-radius: 50px;
-  box-shadow: 0 0 5px 0 hsla(0, 0%, 0%, 0.2);
-  cursor: grab;
-}
-
-.my-handle:active {
-  cursor: grabbing;
-}
-
-.test-handle:active {
-  background-color: var(--app-brand-color);
-}
-
-.color-picker-button {
-  border: none;
-  margin: 10px 10px 10px 5px;
-  width: 70px;
-  height: 45px;
-  line-height: 42px;
-  text-align: center;
-  background: none;
-  color: var(--app-brand-color);
-  font-size: 17px;
-  transition: 0.2s ease all;
-}
-
-.color-picker-button:hover {
-  transform: scale(1.1, 1.1);
-}
-
-.color-picker-button:active {
-  transform: scale(0.9.9);
 }
 
 .slider-input {

@@ -72,7 +72,7 @@ function getFavorites(favorites, dataStore) {
     items.push(
       <div key={`favorite-item-${i}`} className="favorite-list-item-container">
         <a className="drop-down-list-option">
-        <MiniPalette
+          <MiniPalette
             swatchWidth={20}
             swatchHeight={15}
             harmony={favorites[i]}
@@ -82,13 +82,21 @@ function getFavorites(favorites, dataStore) {
           onClick={() => dataStore.deleteFromFavorites(i)}
           className="favorite-list-item-button"
         >
-          <FontAwesome className="favorite-list-item-icon" name={"trash"} size="2x" />
+          <FontAwesome
+            className="favorite-list-item-icon"
+            name={"trash"}
+            size="2x"
+          />
         </button>
         <button
           onClick={() => dataStore.goToPalette(i)}
           className="favorite-list-item-button"
         >
-          <FontAwesome className="favorite-list-item-icon" name={"pencil"} size="2x" />
+          <FontAwesome
+            className="favorite-list-item-icon"
+            name={"pencil"}
+            size="2x"
+          />
         </button>
       </div>
     );
@@ -175,6 +183,7 @@ class SideNav extends Component {
             buttonText={"Menu"}
           />
           <h1 className="default-brand-name">Palette Town</h1>
+          <h1 className="mobile-brand-name">PT</h1>
         </div>
 
         <h2
@@ -193,7 +202,7 @@ class SideNav extends Component {
           className="test-container"
           style={showHarmonies === true ? submenuOpen : submenuStyleDefault}
         >
-          {getHarmonies(dataStore.allHarmonies, dataStore)}
+          {getHarmonies(dataStore.colorHarmonies, dataStore)}
         </div>
 
         <h2

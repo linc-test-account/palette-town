@@ -3,8 +3,7 @@ import { observer } from "mobx-react";
 import PropTypes from "prop-types";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import FlipMove from "react-flip-move";
-import ColorPicker from "../ColorPicker/ColorPicker";
-import Swatch from "./Swatch";
+import Swatch from "../Swatch/Swatch";
 import "./Palette.css";
 
 const SortableItem = SortableElement(
@@ -21,43 +20,20 @@ const SortableItem = SortableElement(
     sorting,
     minWidthReached
   }) => {
-    const flexGrowAmmount = minWidthReached === true ? 4 : 2;
-    const style = {
-      background: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
-      color: `hsla(0, 0%, ${contrastYIQ}%, .4)`,
-      flexGrow: selected === false ? 1 : flexGrowAmmount,
-      transition: sorting === false ? ".3s ease flex" : ""
-    };
-
     return (
-      <FlipMove
-        style={style}
-        className="palette-swatch"
-        leaveAnimation={"elevator"}
-        enterAnimation={"elevator"}
-        appearAnimation={"fade"}
-        easing="cubic-bezier(.4,-0.32,.52,1.31)"
-        duration={300}
-      >
-        {selected === true ? (
-          <ColorPicker
-            key={`swatch-${71218}`}
-            hex={hex}
-            colorName={colorName}
-            colorSpace="HSL"
-            dataStore={dataStore}
-          />
-        ) : (
-          <Swatch
-            key={`swatch-${888}`}
-            dataStore={dataStore}
-            contrastYIQ={contrastYIQ}
-            hex={hex}
-            colorName={colorName}
-            uniqueIndex={uniqueIndex}
-          />
-        )}
-      </FlipMove>
+      <Swatch
+        dataStore={dataStore}
+        hue={hue}
+        saturation={saturation}
+        lightness={lightness}
+        hex={hex}
+        contrastYIQ={contrastYIQ}
+        selected={selected}
+        colorName={colorName}
+        uniqueIndex={uniqueIndex}
+        sorting={sorting}
+        minWidthReached={minWidthReached}
+      />
     );
   }
 );
@@ -152,13 +128,13 @@ class palette extends Component {
         axis={minWidthReached === true ? "y" : "x"}
         lockAxis={minWidthReached === true ? "y" : "x"}
         dataStore={dataStore}
-        useDragHandle={true}
         items={currentPalette}
         sorting={sorting}
         onSortStart={this.handleSortStart}
         onSortEnd={this.handleSortEnd}
         pressDelay={0}
         minWidthReached={minWidthReached}
+        useDragHandle={true}
       />
     );
   }

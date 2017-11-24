@@ -4,7 +4,7 @@ import './reset.css';
 import './index.css';
 import App from './components/App/App.js';
 import registerServiceWorker from './registerServiceWorker';
-import Data from './stores/data.js';
+import Data from './stores/Data.js';
 
 const dataStore = new Data();
 

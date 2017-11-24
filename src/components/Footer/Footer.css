@@ -1,7 +1,9 @@
 .footer {
+    grid-area: "footer";
     display: flex;
     flex-direction: row;
     align-items: center;
+    background: var(--header-background);
 }
 
 .footer-subheading {

@@ -1,5 +1,5 @@
 import { action, observable, computed, useStrict } from "mobx";
-import { getPalette, oneOff } from "./ColorLogic";
+import { getPalette, oneOff, colorHarmonies, paletteModifiers } from "./ColorLogic";
 import withCooldown from "./withCooldown";
 import shuffle from "lodash/shuffle";
 import reverse from "lodash/reverse";
@@ -13,17 +13,8 @@ const SWATCH_LIMIT = 7;
 const MIN_WIDTH = 700;
 
 class Data {
-  @observable
-  allHarmonies = [
-    { harmony: "analogous", colors: 3 },
-    { harmony: "pentagon", colors: 5 },
-    { harmony: "random", colors: 5 },
-    { harmony: "split", colors: 3 },
-    { harmony: "square", colors: 4 },
-    { harmony: "tetradic", colors: 4 },
-    { harmony: "triadic", colors: 3 }
-  ];
-  @observable selectedHarmony = this.allHarmonies[1];
+  @observable colorHarmonies = colorHarmonies;
+  @observable selectedHarmony = this.colorHarmonies[1];
   @observable
   colorSpaces = [
     { colorSpace: "HSL" },
@@ -31,58 +22,7 @@ class Data {
     { colorSpace: "CMYK" }
   ];
   @observable selectedColorSpace = this.colorSpaces[0];
-  @observable
-  paletteModifiers = [
-    {
-      modifier: "none",
-      saturationMin: 0,
-      saturationMax: 100,
-      lightnessMin: 0,
-      lightnessMax: 100
-    },
-    {
-      modifier: "balanced",
-      saturationMin: 20,
-      saturationMax: 100,
-      lightnessMin: 50,
-      lightnessMax: 90
-    },
-    {
-      modifier: "pastel",
-      saturationMin: 50,
-      saturationMax: 100,
-      lightnessMin: 60,
-      lightnessMax: 90
-    },
-    {
-      modifier: "somber",
-      saturationMin: 0,
-      saturationMax: 40,
-      lightnessMin: 10,
-      lightnessMax: 40
-    },
-    {
-      modifier: "saturated",
-      saturationMin: 100,
-      saturationMax: 100,
-      lightnessMin: 50,
-      lightnessMax: 50
-    },
-    {
-      modifier: "desaturated",
-      saturationMin: 30,
-      saturationMax: 0,
-      lightnessMin: 0,
-      lightnessMax: 100
-    },
-    {
-      modifier: "greyscale",
-      saturationMin: 0,
-      saturationMax: 0,
-      lightnessMin: 20,
-      lightnessMax: 90
-    }
-  ];
+  @observable paletteModifiers = paletteModifiers;
   @observable selectedPaletteModifier = this.paletteModifiers[0];
   @observable colorPickerVisible = false;
   @observable targetSwatch;
@@ -114,12 +54,12 @@ class Data {
   @computed
   get miniPalettes() {
     const miniPalettes = [];
-    for (let i = 0; i < this.allHarmonies.length; i++) {
+    for (let i = 0; i < this.colorHarmonies.length; i++) {
       const paletteData = getPalette(
-        this.allHarmonies[i].harmony,
+        this.colorHarmonies[i].harmony,
         this.selectedPaletteModifier
       );
-      const paletteName = this.allHarmonies[i].harmony;
+      const paletteName = this.colorHarmonies[i].harmony;
       miniPalettes.push({
         [paletteName]: paletteData
       });
@@ -131,29 +71,16 @@ class Data {
   get favoritesShortList() {
     const favoritesShortList = [];
     for (let i = 0; i < this.favorites.length; i++) {
-      const palette = this.favorites[
-        i
-      ].colors.map(({ hue, saturation, lightness }) => ({
-        hue: hue,
-        saturation: saturation,
-        lightness: lightness
-      }));
+      const palette = this.favorites[i].colors.map(
+        ({ hue, saturation, lightness }) => ({
+          hue: hue,
+          saturation: saturation,
+          lightness: lightness
+        })
+      );
       favoritesShortList.push(palette);
     }
     return favoritesShortList;
-  }
-
-  @computed
-  get createClipBoardData() {
-    if (this.currentPalette.length === 0) {
-      return;
-    } else {
-      const hslStrings = this.currentPalette.colors.map(
-        ({ hue, saturation, lightness }) =>
-          `hsl(${hue}, ${saturation}%, ${lightness}) \n`
-      );
-      return "** HSL **" + "\n" + hslStrings.join("");
-    }
   }
 
   @action
@@ -254,6 +181,7 @@ class Data {
   }
 
   validateInputs(value, name) {
+    value = parseInt(value);
     // HSL max values
     const hueMax = 360;
     const saturationMax = 100;
@@ -262,6 +190,18 @@ class Data {
     const rgbMax = 255;
     // CMYK max values
     const cmykMax = 100;
+    if (isNaN(value) === true) {
+      this.changeColorProperty(0, name);
+      return;
+    }
+    if (value === 0) {
+      this.changeColorProperty(0, name);
+      return;
+    }
+    if (/[^\d\.]/.test(value)) {
+      this.changeColorProperty(0, name);
+      return;
+    }
 
     // Validate HSL
     if (name === "hue" && value > hueMax) {
@@ -294,14 +234,19 @@ class Data {
       this.changeColorProperty(cmykMax, name);
       return;
     }
-    if (value === undefined) {
-      return;
-    }
+
     if (value < 0) {
       this.changeColorProperty(0, name);
       return;
-    } else {
+    }
+
+    if (value >= 0) {
       this.changeColorProperty(value, name);
+      return
+    }
+    
+    else {
+      return;
     }
   }
 
@@ -419,7 +364,7 @@ class Data {
   // CHANGE SELECTED COLOR PALATTE HARMONY (TRIADIC, ANALOGOUS, ETC.)
   @action
   changeHarmony(index) {
-    this.selectedHarmony = this.allHarmonies[index];
+    this.selectedHarmony = this.colorHarmonies[index];
   }
 
   @action

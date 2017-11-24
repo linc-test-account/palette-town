@@ -25,41 +25,42 @@ class ColorPicker extends Component {
 
   static propTypes = {
     dataStore: PropTypes.object,
-    colorSpace: PropTypes.string,
-    hex: PropTypes.string,
-    colorName: PropTypes.string
+    colorSpace: PropTypes.string
   };
 
   render() {
-    const { hex, colorName, dataStore } = this.props;
+    const { dataStore } = this.props;
     const { showSliders, colorSpace } = this.state;
     return (
       <div className="color-picker-container">
-        <p className="palette-swatch-hex noselect">#{hex}</p>
-        <p className="palette-swatch-name noselect">{colorName}</p>
-        <br />
         <div className="color-picker-inner">
           <div className="color-picker-header">
             <button
-              className="color-picker-category"
+              className={`color-picker-category ${
+                colorSpace === "hsl" ? "category-active" : ""
+              }`}
               onClick={() => this.changeColorSpace("hsl")}
             >
               HSL
             </button>
             <button
-              className="color-picker-category"
+              className={`color-picker-category ${
+                colorSpace === "rgb" ? "category-active" : ""
+              }`}
               onClick={() => this.changeColorSpace("rgb")}
             >
               RGB
             </button>
             <button
-              className="color-picker-category"
+              className={`color-picker-category ${
+                colorSpace === "cmyk" ? "category-active" : ""
+              }`}
               onClick={() => this.changeColorSpace("cmyk")}
             >
               CMYK
             </button>
             <button
-              className="color-picker-category"
+              className={`color-picker-category`}
               onClick={() => dataStore.closeColorPicker()}
             >
               DONE

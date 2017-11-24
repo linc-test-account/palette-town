@@ -6,9 +6,9 @@ import SideNav from "../SideNav/SideNav";
 import Palette from "../Palette/Palette";
 import FlipMove from "react-flip-move";
 import Footer from "../Footer/Footer";
-import { ModalContainer, ModalDialog } from "react-modal-dialog";
 import MiniPalette from "../MiniPalette/MiniPalette";
 import ColorDialog from "../Elements/ColorDialog";
+import Modal from "react-modal";
 import "./App.css";
 
 @observer
@@ -116,58 +116,69 @@ class App extends Component {
 
         <Footer dataStore={dataStore} />
 
-        {this.state.isShowingModal && (
-          <ModalContainer onClose={this.handleClose}>
-            <ModalDialog onClose={this.handleClose}>
-              <div className="modal-palette-container">
-                <MiniPalette
-                  swatchWidth={70}
-                  swatchHeight={30}
-                  swatchHover={true}
-                  harmony={dataStore.currentPalette.colors}
-                />
-              </div>
-              <div className="modal-box-container">
-                <ColorDialog
-                  title="hsl"
-                  colors={dataStore.currentPalette.colors}
-                  colorSpace="hsl"
-                />
-                <ColorDialog
-                  title="rgb"
-                  colors={dataStore.currentPalette.colors}
-                  colorSpace="rgb"
-                />
-              </div>
-              <div className="modal-box-container">
-                <ColorDialog
-                  title="cmyk"
-                  colors={dataStore.currentPalette.colors}
-                  colorSpace="cmyk"
-                />
-                <ColorDialog
-                  title="hex"
-                  colors={dataStore.currentPalette.colors}
-                  colorSpace="hex"
-                />
-              </div>
-              <div className="modal-box-container">
-                <ColorDialog
-                  title="CSS vars"
-                  colors={dataStore.currentPalette.colors}
-                  colorSpace="hex"
-                  styleSheetType="css"
-                />
-                <ColorDialog
-                  title="LESS vars"
-                  colors={dataStore.currentPalette.colors}
-                  colorSpace="hex"
-                  styleSheetType="less"
-                />
-              </div>
-            </ModalDialog>
-          </ModalContainer>
-        )}
+        <Modal
+          isOpen={this.state.isShowingModal}
+          onRequestClose={this.handleClose}
+          contentLabel="Color Info Modal"
+          className={{
+            base: 'colorModalDialog',
+            afterOpen: 'colorModalDialog_after-open',
+            beforeClose: 'colorModalDialog_before-close'
+          }}
+          overlayClassName={{
+            base: 'modalOverlay',
+            afterOpen: 'modalOverlay_after-open',
+            beforeClose: 'modalOverlay_before-close'
+          }}
+        >
+          <button onClick={this.handleClose}>close</button>
+          <div className="modal-palette-container">
+            <MiniPalette
+              swatchWidth={70}
+              swatchHeight={30}
+              swatchHover={true}
+              harmony={dataStore.currentPalette.colors}
+            />
+          </div>
+          <div className="modal-box-container">
+            <ColorDialog
+              title="hsl"
+              colors={dataStore.currentPalette.colors}
+              colorSpace="hsl"
+            />
+            <ColorDialog
+              title="rgb"
+              colors={dataStore.currentPalette.colors}
+              colorSpace="rgb"
+            />
+          </div>
+          <div className="modal-box-container">
+            <ColorDialog
+              title="cmyk"
+              colors={dataStore.currentPalette.colors}
+              colorSpace="cmyk"
+            />
+            <ColorDialog
+              title="hex"
+              colors={dataStore.currentPalette.colors}
+              colorSpace="hex"
+            />
+          </div>
+          <div className="modal-box-container">
+            <ColorDialog
+              title="CSS vars"
+              colors={dataStore.currentPalette.colors}
+              colorSpace="hex"
+              styleSheetType="css"
+            />
+            <ColorDialog
+              title="LESS vars"
+              colors={dataStore.currentPalette.colors}
+              colorSpace="hex"
+              styleSheetType="less"
+            />
+          </div>
+        </Modal>
       </div>
     );
   }

@@ -84,8 +84,8 @@ const DialogBox = ({ title, colors, colorSpace, styleSheetType }) => {
 
 DialogBox.propTypes = {
   title: PropTypes.string,
-  colors: PropTypes.object.isRequired,
-  colorSpace: PropTypes.string.isRequired,
+  colors: PropTypes.object,
+  colorSpace: PropTypes.string,
   styleSheetType: PropTypes.string
 };
 

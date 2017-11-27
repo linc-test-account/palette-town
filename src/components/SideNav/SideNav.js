@@ -110,8 +110,8 @@ class SideNav extends Component {
     super(props);
     this.state = {
       showHarmonies: true,
-      showModifiers: false,
-      showFavorites: false
+      showModifiers: true,
+      showFavorites: true
     };
   }
 
@@ -171,7 +171,7 @@ class SideNav extends Component {
       maxHeight: "0"
     };
     const submenuOpen = {
-      maxHeight: "100%"
+      maxHeight: "1000px"
     };
     return (
       <div style={style} id="mySidenav" className="sidenav">
@@ -199,7 +199,7 @@ class SideNav extends Component {
           />
         </h2>
         <div
-          className="test-container"
+          className="sidenav-category-container"
           style={showHarmonies === true ? submenuOpen : submenuStyleDefault}
         >
           {getHarmonies(dataStore.colorHarmonies, dataStore)}
@@ -218,7 +218,7 @@ class SideNav extends Component {
           />
         </h2>
         <div
-          className="test-container"
+          className="sidenav-category-container"
           style={showModifiers === true ? submenuOpen : submenuStyleDefault}
         >
           {getPaletteModifiers(dataStore.paletteModifiers, dataStore)}
@@ -236,12 +236,12 @@ class SideNav extends Component {
           />
         </h2>
         <div
-          className="test-container"
+          className="sidenav-category-container"
           style={showFavorites === true ? submenuOpen : submenuStyleDefault}
         >
           {dataStore.favorites.length > 0
             ? getFavorites(dataStore.favoritesShortList, dataStore)
-            : "No Favorites"}
+            : <a className="drop-down-list-option">No Favorites</a>}
         </div>
       </div>
     );

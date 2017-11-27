@@ -8,8 +8,8 @@ const paletteModifiers = [
     },
     {
       modifier: "balanced",
-      saturationMin: 20,
-      saturationMax: 100,
+      saturationMin: 30,
+      saturationMax: 80,
       lightnessMin: 50,
       lightnessMax: 90
     },
@@ -24,7 +24,7 @@ const paletteModifiers = [
       modifier: "somber",
       saturationMin: 0,
       saturationMax: 40,
-      lightnessMin: 10,
+      lightnessMin: 20,
       lightnessMax: 40
     },
     {

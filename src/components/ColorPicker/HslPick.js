@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import Slider from "rc-slider";
 import "./ColorPicker.css";
-// import "rc-slider/assets/index.css";
 import "./Slider.css";
 
 function generateHueSpectrumGradient(saturation, lightness) {
@@ -16,12 +15,59 @@ function generateHueSpectrumGradient(saturation, lightness) {
 
 @observer
 class HslPick extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hue: 0,
+      saturation: 0,
+      lightness: 0
+    };
+  }
+
   static propTypes = {
     dataStore: PropTypes.object
   };
 
+  componentDidMount() {
+    this.updateState();
+  }
+
+  inputOnChange = (value, name) => {
+    const { dataStore } = this.props;
+    const shouldUpdate = dataStore.validateInputs(value, name);
+    this.setState({
+      [name]: value
+    });
+    if (shouldUpdate === true) {
+      this.updateState();
+    } else {
+      return;
+    }
+  };
+
+  inputOnBlur = (value, name) => {
+    const { dataStore } = this.props;
+    // Reset empty input field to 0 value
+    if (value.length === 0) {
+      dataStore.changeColorProperty(0, name);
+      this.updateState();
+    } else {
+      return;
+    }
+  };
+
+  updateState = () => {
+    const { dataStore } = this.props;
+    this.setState({
+      hue: dataStore.currentSwatch.hue,
+      saturation: dataStore.currentSwatch.saturation,
+      lightness: dataStore.currentSwatch.lightness
+    });
+  };
+
   render() {
     const { dataStore } = this.props;
+    const { hue, saturation, lightness } = this.state;
 
     const trackStyle = {
       background: "none"
@@ -70,13 +116,12 @@ class HslPick extends Component {
         <div className="input-container">
           <input
             className="slider-input"
-            onChange={event =>
-              dataStore.validateInputs(event.target.value, "hue")
-            }
+            onChange={event => this.inputOnChange(event.target.value, "hue")}
             min={0}
             max={360}
             type="number"
-            value={dataStore.currentSwatch.hue}
+            value={hue}
+            onBlur={event => this.inputOnBlur(event.target.value, "hue")}
           />
 
           <Slider
@@ -86,8 +131,8 @@ class HslPick extends Component {
             handleStyle={handleStyle}
             trackStyle={trackStyle}
             railStyle={backgroundHue}
-            value={dataStore.currentSwatch.hue}
-            onChange={value => dataStore.validateInputs(value, "hue")}
+            value={hue || 0}
+            onChange={value => this.inputOnChange(value, "hue")}
           />
         </div>
 
@@ -95,12 +140,13 @@ class HslPick extends Component {
           <input
             className="slider-input"
             onChange={event =>
-              dataStore.validateInputs(event.target.value, "saturation")
+              this.inputOnChange(event.target.value, "saturation")
             }
             min={0}
             max={100}
             type="number"
-            value={dataStore.currentSwatch.saturation}
+            value={saturation}
+            onBlur={event => this.inputOnBlur(event.target.value, "saturation")}
           />
           <Slider
             min={0}
@@ -109,20 +155,21 @@ class HslPick extends Component {
             handleStyle={handleStyle}
             trackStyle={trackStyle}
             railStyle={backgroundSaturation}
-            value={dataStore.currentSwatch.saturation}
-            onChange={value => dataStore.validateInputs(value, "saturation")}
+            value={saturation || 0}
+            onChange={value => this.inputOnChange(value, "saturation")}
           />
         </div>
         <div className="input-container">
           <input
             className="slider-input"
             onChange={event =>
-              dataStore.validateInputs(event.target.value, "lightness")
+              this.inputOnChange(event.target.value, "lightness")
             }
             min={0}
             max={100}
             type="number"
-            value={dataStore.currentSwatch.lightness}
+            value={lightness}
+            onBlur={event => this.inputOnBlur(event.target.value, "lightness")}
           />
           <Slider
             min={0}
@@ -131,8 +178,8 @@ class HslPick extends Component {
             handleStyle={handleStyle}
             trackStyle={trackStyle}
             railStyle={backgroundLightness}
-            value={dataStore.currentSwatch.lightness}
-            onChange={value => dataStore.validateInputs(value, "lightness")}
+            value={lightness || 0}
+            onChange={value => this.inputOnChange(value, "lightness")}
           />
         </div>
       </div>

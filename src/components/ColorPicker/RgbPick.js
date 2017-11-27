@@ -8,12 +8,59 @@ import "./Slider.css";
 
 @observer
 class RgbPick extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      red: 0,
+      green: 0,
+      blue: 0
+    };
+  }
+
   static propTypes = {
     dataStore: PropTypes.object
   };
 
-  render() {
+  componentDidMount() {
+    this.updateState();
+  }
+
+  
+  inputOnChange = (value, name) => {
     const { dataStore } = this.props;
+    const shouldUpdate = dataStore.validateInputs(value, name);
+    this.setState({
+      [name]: value
+    });
+    if (shouldUpdate === true) {
+      this.updateState();
+    } else {
+      return;
+    }
+  };
+
+  inputOnBlur = (value, name) => {
+    const { dataStore } = this.props;
+    // Reset empty input field to 0 value
+    if (value.length === 0) {
+      dataStore.changeColorProperty(0, name);
+      this.updateState();
+    } else {
+      return;
+    }
+  };
+
+  updateState = () => {
+    const { dataStore } = this.props;
+    this.setState({
+      red: dataStore.currentSwatch.red,
+      green: dataStore.currentSwatch.green,
+      blue: dataStore.currentSwatch.blue
+    });
+  };
+
+  render() {
+    const { red, green, blue } = this.state;
 
     const redHandle = {
       background: "#FF0000",
@@ -56,13 +103,12 @@ class RgbPick extends Component {
         <div className="input-container">
           <input
             className="slider-input"
-            onChange={event =>
-              dataStore.validateInputs(event.target.value, "red")
-            }
+            onChange={event => this.inputOnChange(event.target.value, "red")}
             min={0}
             max={255}
             type="number"
-            value={dataStore.currentSwatch.red}
+            value={red}
+            onBlur={event => this.inputOnBlur(event.target.value, "red")}
           />
           <Slider
             min={0}
@@ -71,21 +117,20 @@ class RgbPick extends Component {
             handleStyle={redHandle}
             trackStyle={trackStyle}
             railStyle={backgroundRed}
-            value={dataStore.currentSwatch.red}
-            onChange={value => dataStore.validateInputs(value, "red")}
+            value={red || 0}
+            onChange={value => this.inputOnChange(value, "red")}
           />
         </div>
 
         <div className="input-container">
           <input
             className="slider-input"
-            onChange={event =>
-              dataStore.validateInputs(event.target.value, "green")
-            }
+            onChange={event => this.inputOnChange(event.target.value, "green")}
             min={0}
             max={255}
             type="number"
-            value={dataStore.currentSwatch.green}
+            value={green}
+            onBlur={event => this.inputOnBlur(event.target.value, "green")}
           />
           <Slider
             min={0}
@@ -94,20 +139,19 @@ class RgbPick extends Component {
             handleStyle={greenHandle}
             trackStyle={trackStyle}
             railStyle={backgroundGreen}
-            value={dataStore.currentSwatch.green}
-            onChange={value => dataStore.validateInputs(value, "green")}
+            value={green || 0}
+            onChange={value => this.inputOnChange(value, "green")}
           />
         </div>
         <div className="input-container">
           <input
             className="slider-input"
-            onChange={event =>
-              dataStore.validateInputs(event.target.value, "blue")
-            }
+            onChange={event => this.inputOnChange(event.target.value, "blue")}
             min={0}
             max={255}
             type="number"
-            value={dataStore.currentSwatch.blue}
+            value={blue}
+            onBlur={event => this.inputOnBlur(event.target.value, "blue")}
           />
           <Slider
             min={0}
@@ -116,8 +160,8 @@ class RgbPick extends Component {
             handleStyle={blueHandle}
             trackStyle={trackStyle}
             railStyle={backgroundBlue}
-            value={dataStore.currentSwatch.blue}
-            onChange={value => dataStore.validateInputs(value, "blue")}
+            value={blue || 0}
+            onChange={value => this.inputOnChange(value, "blue")}
           />
         </div>
       </div>

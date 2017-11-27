@@ -8,12 +8,60 @@ import "./Slider.css";
 
 @observer
 class CmykPick extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cyan: 0,
+      magenta: 0,
+      yellow: 0,
+      key: 0
+    };
+  }
+
   static propTypes = {
     dataStore: PropTypes.object
   };
 
-  render() {
+  componentDidMount() {
+    this.updateState();
+  }
+
+  inputOnChange = (value, name) => {
     const { dataStore } = this.props;
+    const shouldUpdate = dataStore.validateInputs(value, name);
+    this.setState({
+      [name]: value
+    });
+    if (shouldUpdate === true) {
+      this.updateState();
+    } else {
+      return;
+    }
+  };
+
+  inputOnBlur = (value, name) => {
+    const { dataStore } = this.props;
+    // Reset empty input field to 0 value
+    if (value.length === 0) {
+      dataStore.changeColorProperty(0, name);
+      this.updateState();
+    } else {
+      return;
+    }
+  };
+
+  updateState = () => {
+    const { dataStore } = this.props;
+    this.setState({
+      cyan: dataStore.currentSwatch.cyan,
+      magenta: dataStore.currentSwatch.magenta,
+      yellow: dataStore.currentSwatch.yellow,
+      key: dataStore.currentSwatch.key
+    });
+  };
+
+  render() {
+    const { cyan, magenta, yellow, key } = this.state;
 
     const cyanHandle = {
       background: "#00ffff",
@@ -66,13 +114,12 @@ class CmykPick extends Component {
         <div className="input-container">
           <input
             className="slider-input"
-            onChange={event =>
-              dataStore.validateInputs(event.target.value, "cyan")
-            }
+            onChange={event => this.inputOnChange(event.target.value, "cyan")}
             min={0}
             max={100}
             type="number"
-            value={dataStore.currentSwatch.cyan}
+            value={cyan}
+            onBlur={event => this.inputOnBlur(event.target.value, "cyan")}
           />
           <Slider
             min={0}
@@ -81,8 +128,8 @@ class CmykPick extends Component {
             handleStyle={cyanHandle}
             trackStyle={trackStyle}
             railStyle={backgroundCyan}
-            value={dataStore.currentSwatch.cyan}
-            onChange={value => dataStore.validateInputs(value, "cyan")}
+            value={cyan || 0}
+            onChange={value => this.inputOnChange(value, "cyan")}
           />
         </div>
 
@@ -90,12 +137,13 @@ class CmykPick extends Component {
           <input
             className="slider-input"
             onChange={event =>
-              dataStore.validateInputs(event.target.value, "magenta")
+              this.inputOnChange(event.target.value, "magenta")
             }
             min={0}
             max={100}
             type="number"
-            value={dataStore.currentSwatch.magenta}
+            value={magenta}
+            onBlur={event => this.inputOnBlur(event.target.value, "magenta")}
           />
           <Slider
             min={0}
@@ -104,20 +152,19 @@ class CmykPick extends Component {
             handleStyle={magentaHandle}
             trackStyle={trackStyle}
             railStyle={backgroundMagenta}
-            value={dataStore.currentSwatch.magenta}
-            onChange={value => dataStore.validateInputs(value, "magenta")}
+            value={magenta || 0}
+            onChange={value => this.inputOnChange(value, "magenta")}
           />
         </div>
         <div className="input-container">
           <input
             className="slider-input"
-            onChange={event =>
-              dataStore.validateInputs(event.target.value, "yellow")
-            }
+            onChange={event => this.inputOnChange(event.target.value, "yellow")}
             min={0}
             max={100}
             type="number"
-            value={dataStore.currentSwatch.yellow}
+            value={yellow}
+            onBlur={event => this.inputOnBlur(event.target.value, "yellow")}
           />
           <Slider
             min={0}
@@ -126,20 +173,19 @@ class CmykPick extends Component {
             handleStyle={yellowHandle}
             trackStyle={trackStyle}
             railStyle={backgroundYellow}
-            value={dataStore.currentSwatch.yellow}
-            onChange={value => dataStore.validateInputs(value, "yellow")}
+            value={yellow || 0}
+            onChange={value => this.inputOnChange(value, "yellow")}
           />
         </div>
         <div className="input-container">
           <input
             className="slider-input"
-            onChange={event =>
-              dataStore.validateInputs(event.target.value, "key")
-            }
+            onChange={event => this.inputOnChange(event.target.value, "key")}
             min={0}
             max={100}
             type="number"
-            value={dataStore.currentSwatch.key}
+            value={key}
+            onBlur={event => this.inputOnBlur(event.target.value, "key")}
           />
           <Slider
             min={0}
@@ -148,8 +194,8 @@ class CmykPick extends Component {
             handleStyle={keyHandle}
             trackStyle={trackStyle}
             railStyle={backgroundKey}
-            value={dataStore.currentSwatch.key}
-            onChange={value => dataStore.validateInputs(value, "key")}
+            value={key || 0}
+            onChange={value => this.inputOnChange(value, "key")}
           />
         </div>
       </div>

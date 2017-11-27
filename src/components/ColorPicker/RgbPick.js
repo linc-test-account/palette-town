@@ -79,19 +79,19 @@ class RgbPick extends Component {
       background: `
       linear-gradient(to right,
         rgb(0, 0, 0),
-        rgb(255, 0, 0)`
+        rgb(255, 0, 0))`
     };
     const backgroundGreen = {
       background: `
         linear-gradient(to right,
           rgb(0, 0, 0),
-          rgb(0, 255, 0)`
+          rgb(0, 255, 0))`
     };
     const backgroundBlue = {
       background: `
         linear-gradient(to right,
           rgb(0, 0, 0),
-          rgb(0, 0, 255)`
+          rgb(0, 0, 255))`
     };
 
     const trackStyle = {

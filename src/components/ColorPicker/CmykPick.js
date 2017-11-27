@@ -84,25 +84,25 @@ class CmykPick extends Component {
       background: `
         linear-gradient(to right,
           #FFFFFF,
-          #00ffff`
+          #00ffff)`
     };
     const backgroundMagenta = {
       background: `
           linear-gradient(to right,
           #FFFFFF,
-          #fc00ff`
+          #fc00ff)`
     };
     const backgroundYellow = {
       background: `
           linear-gradient(to right,
           #FFFFFF,
-          #fcff00`
+          #fcff00)`
     };
     const backgroundKey = {
       background: `
           linear-gradient(to right,
           #000000,
-          #000000`
+          #000000)`
     };
 
     const trackStyle = {

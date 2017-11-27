@@ -1,10 +1,16 @@
 import { action, observable, computed, useStrict } from "mobx";
-import { getPalette, oneOff, colorHarmonies, paletteModifiers } from "./ColorLogic";
+import {
+  getPalette,
+  oneOff,
+  colorHarmonies,
+  paletteModifiers
+} from "./ColorLogic";
 import withCooldown from "./withCooldown";
 import shuffle from "lodash/shuffle";
 import reverse from "lodash/reverse";
 import { arrayMove } from "react-sortable-hoc";
 import shortid from "shortid";
+import pascalCase from "pascal-case";
 import Color from "./Color.js";
 useStrict(true);
 
@@ -181,81 +187,46 @@ class Data {
   }
 
   validateInputs(value, name) {
+    const hsl = { hue: 360, saturation: 100, lightness: 100 };
+    const rgb = { red: 255, green: 255, blue: 255 };
+    const cmyk = { cyan: 100, magenta: 100, yellow: 100, key: 100 };
     value = parseInt(value);
-    // HSL max values
-    const hueMax = 360;
-    const saturationMax = 100;
-    const lightnessMax = 100;
-    // RGB max values
-    const rgbMax = 255;
-    // CMYK max values
-    const cmykMax = 100;
+
     if (isNaN(value) === true) {
-      this.changeColorProperty(0, name);
-      return;
+      return false;
     }
-    if (value === 0) {
-      this.changeColorProperty(0, name);
-      return;
-    }
+
     if (/[^\d\.]/.test(value)) {
-      this.changeColorProperty(0, name);
-      return;
+      return false;
     }
-
-    // Validate HSL
-    if (name === "hue" && value > hueMax) {
-      this.changeColorProperty(hueMax, name);
-      return;
-    }
-    if (
-      (name === "saturaton" && value > saturationMax) ||
-      (name === "lightness" && value > lightnessMax)
-    ) {
-      this.changeColorProperty(saturationMax, name);
-      return;
-    }
-    // Validate RGB
-    if (
-      (name === "red" && value > rgbMax) ||
-      (name === "green" && value > rgbMax) ||
-      (name === "blue" && value > rgbMax)
-    ) {
-      this.changeColorProperty(rgbMax, name);
-      return;
-    }
-    // Validate CMYK
-    if (
-      (name === "cyan" && value > cmykMax) ||
-      (name === "magenta" && value > cmykMax) ||
-      (name === "key" && value > cmykMax) ||
-      (name === "yellow" && value > cmykMax)
-    ) {
-      this.changeColorProperty(cmykMax, name);
-      return;
-    }
-
     if (value < 0) {
-      this.changeColorProperty(0, name);
-      return;
+      return false
     }
-
+    if (name in hsl && value > hsl[name]) {
+      this.changeColorProperty(hsl[name], name);
+      return true
+    }
+    if (name in rgb && value > rgb[name]) {
+      this.changeColorProperty(rgb[name], name);
+      return true
+    }
+    if (name in cmyk && value > cmyk[name]) {
+      this.changeColorProperty(cmyk[name], name);
+      return true
+    } 
     if (value >= 0) {
       this.changeColorProperty(value, name);
-      return
+      return true
     }
-    
     else {
-      return;
+      return true
     }
   }
 
   @action
   changeColorProperty(value, name) {
-    const capitalizedPropertyName =
-      name.charAt(0).toUpperCase() + name.slice(1);
     const target = this.currentPalette.colors[this.targetSwatch];
-    target["set" + capitalizedPropertyName](value);
+    target["set" + pascalCase(name)](value);
   }
 
   // DELETE SWATCH FROM CURRENT COLOR PALATTE

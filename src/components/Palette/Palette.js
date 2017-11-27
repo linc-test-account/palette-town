@@ -75,7 +75,6 @@ const SortableList = SortableContainer(
       <FlipMove
         className="palette-swatch-container"
         disableAllAnimations={sorting}
-        leaveAnimation={true}
         easing="cubic-bezier(.4,-0.32,.52,1.31)"
         duration={500}
         maintainContainerHeight={true}

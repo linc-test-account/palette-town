@@ -11,7 +11,14 @@
 
 .flipmove-container {
   grid-area: "content";
-  background: hsl(0, 0%, 16%);
+  background: hsl(0, 0%, 19%);
+}
+
+/* Dirty hack to fix palette height in MS Edge */
+@supports (-ms-ime-align: auto) {
+  .flipmove-container {
+    height: calc(100% - 90px);
+  }
 }
 
 .modal-box-container {
@@ -40,6 +47,12 @@
     grid-template-areas: "header" "content";
     grid-template-rows: 50px auto;
   }
+  /* Dirty hack to fix palette height in MS Edge */
+  @supports (-ms-ime-align: auto) {
+    .flipmove-container {
+      height: 100%;
+    }
+  }
 }
 
 
@@ -55,7 +68,6 @@
   margin-right: -50%;
   transform: translate(-50%, -50%);
   border: none;
-  /* transition: .2s ease all; */
   background: rgba(31, 39, 85, 0);
   z-index: 98;
 }

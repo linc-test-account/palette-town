@@ -18,6 +18,7 @@
 }
 
 .palette-swatch-hex {
+  font-family: "Varela Round", sans-serif;
   font-family: var(--app-font);
   font-weight: bold;
   margin: 0 0 10px 0;
@@ -28,6 +29,7 @@
 }
 
 .palette-swatch-name {
+  font-family: "Varela Round", sans-serif;
   font-family: var(--app-font);
   font-weight: bold;
   margin: 0;

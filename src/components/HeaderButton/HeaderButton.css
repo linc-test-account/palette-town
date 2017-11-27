@@ -1,7 +1,9 @@
 .header-button {
+  background: hsl(0, 0%, 96%);
   background: var(--header-button-background);
   border-style: solid;
   border-width: 0 0 0 1px;
+  border-color: hsl(0, 0%, 88%); /* fallback */
   border-color: var(--header-button-border-color);
   text-align: center;
   cursor: pointer;
@@ -21,6 +23,7 @@
 }
 
 .header-icon {
+  color: hsl(204, 96%, 42%);
   color: var(--app-brand-color);
   transition: 200ms cubic-bezier(.66,-0.06,.24,1.22) transform;
   pointer-events:none;

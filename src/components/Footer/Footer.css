@@ -1,14 +1,17 @@
 .footer {
+    min-height: 40px;
     grid-area: "footer";
     display: flex;
     flex-direction: row;
     align-items: center;
+    background: hsl(0, 0%, 96%);
     background: var(--header-background);
 }
 
 .footer-subheading {
     font-weight: bold;
     padding: 0 10px 0 10px;
+    color: hsl(204, 96%, 42%);
     color: var(--app-brand-color);
 }
 

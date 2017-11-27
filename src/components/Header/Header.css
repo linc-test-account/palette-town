@@ -2,14 +2,17 @@
   grid-area: "header";
   display: flex;
   flex-direction: row;
+  background: hsl(0, 0%, 96%);
   background: var(--header-background);
   overflow: hidden;
+  min-height: 50px;
   max-height: 50px;
 }
 
 .default-brand-name {
   font-size: 20px;
   font-weight: bold;
+  color: hsl(204, 96%, 42%);
   color: var(--app-brand-color);
   font-family: "Hammersmith One", sans-serif;
   display: flex;

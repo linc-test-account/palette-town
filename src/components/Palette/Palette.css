@@ -3,10 +3,10 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  font-family: "Varela Round", sans-serif;
   font-family: var(--app-font);
   height: 100%;
   flex-grow: 1;
-  /* background: hsl(0, 0%, 10%); */
 }
 
 @media screen and (max-width: 700px) {

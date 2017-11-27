@@ -50,3 +50,9 @@
   box-shadow: 0 0 0 5px #96dbfa;
   outline: none;
 }
+
+.test-slider {
+  height: 30px;
+  width: 200px;
+  background: red;
+}

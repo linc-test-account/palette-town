@@ -6,9 +6,8 @@ import SideNav from "../SideNav/SideNav";
 import Palette from "../Palette/Palette";
 import FlipMove from "react-flip-move";
 import Footer from "../Footer/Footer";
-import MiniPalette from "../MiniPalette/MiniPalette";
-import ColorDialog from "../Elements/ColorDialog";
 import Modal from "react-modal";
+import ModalContent from "../ModalContent/ModalContent";
 import "./App.css";
 
 @observer
@@ -33,10 +32,10 @@ class App extends Component {
     this.handleScreenWidthChange(mediaQuery); // check initial width
     mediaQuery.addListener(this.handleScreenWidthChange); // listen for width change
 
-    // right arrow key press event listiner
+    // listen for space bar press
     document.addEventListener("keydown", event => {
       const { dataStore } = this.props;
-      if (event.keyCode === 39) {
+      if (event.keyCode === 32) {
         dataStore.getNext();
       } else {
         return;
@@ -121,63 +120,17 @@ class App extends Component {
           onRequestClose={this.handleClose}
           contentLabel="Color Info Modal"
           className={{
-            base: 'colorModalDialog',
-            afterOpen: 'colorModalDialog_after-open',
-            beforeClose: 'colorModalDialog_before-close'
+            base: "colorModalDialog",
+            afterOpen: "colorModalDialog_after-open",
+            beforeClose: "colorModalDialog_before-close"
           }}
           overlayClassName={{
-            base: 'modalOverlay',
-            afterOpen: 'modalOverlay_after-open',
-            beforeClose: 'modalOverlay_before-close'
+            base: "modalOverlay",
+            afterOpen: "modalOverlay_after-open",
+            beforeClose: "modalOverlay_before-close"
           }}
         >
-          <button onClick={this.handleClose}>close</button>
-          <div className="modal-palette-container">
-            <MiniPalette
-              swatchWidth={70}
-              swatchHeight={30}
-              swatchHover={true}
-              harmony={dataStore.currentPalette.colors}
-            />
-          </div>
-          <div className="modal-box-container">
-            <ColorDialog
-              title="hsl"
-              colors={dataStore.currentPalette.colors}
-              colorSpace="hsl"
-            />
-            <ColorDialog
-              title="rgb"
-              colors={dataStore.currentPalette.colors}
-              colorSpace="rgb"
-            />
-          </div>
-          <div className="modal-box-container">
-            <ColorDialog
-              title="cmyk"
-              colors={dataStore.currentPalette.colors}
-              colorSpace="cmyk"
-            />
-            <ColorDialog
-              title="hex"
-              colors={dataStore.currentPalette.colors}
-              colorSpace="hex"
-            />
-          </div>
-          <div className="modal-box-container">
-            <ColorDialog
-              title="CSS vars"
-              colors={dataStore.currentPalette.colors}
-              colorSpace="hex"
-              styleSheetType="css"
-            />
-            <ColorDialog
-              title="LESS vars"
-              colors={dataStore.currentPalette.colors}
-              colorSpace="hex"
-              styleSheetType="less"
-            />
-          </div>
+          <ModalContent dataStore={dataStore} handleClose={this.handleClose} />
         </Modal>
       </div>
     );

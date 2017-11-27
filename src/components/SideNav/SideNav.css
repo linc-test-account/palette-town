@@ -12,8 +12,8 @@
   box-shadow: 0 0 10px 0 hsla(0, 0%, 0%, 0.301);
 }
 
-.test-container {
-  transition: 300ms cubic-bezier(0.4, -0.32, 0.52, 1.31) all;
+.sidenav-category-container {
+  transition: 300ms cubic-bezier(.4,-0.32,.52,1.31) all;
   overflow: hidden;
 }
 

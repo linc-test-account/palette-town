@@ -43,7 +43,7 @@ class Header extends Component {
   render() {
     const { toggleSideNav, modalHandleClick, dataStore } = this.props;
     const heartType =
-      dataStore.currentPalette.favorited === true ? "heart" : "heart-o";
+      dataStore.palette.favorited === true ? "heart" : "heart-o";
     return (
       <div className="header">
         <HeaderButton
@@ -62,19 +62,19 @@ class Header extends Component {
         />
         <HeaderButton
           dataStore={dataStore}
-          btnFunction={() => dataStore.addSwatch()}
+          btnFunction={() => dataStore.palette.addSwatch()}
           fontAwesomeIcon={"plus"}
           buttonText={"Add Swatch"}
         />
         <HeaderButton
           dataStore={dataStore}
-          btnFunction={() => dataStore.reverseSwatches()}
+          btnFunction={() => dataStore.palette.reversePalette()}
           fontAwesomeIcon={"exchange"}
           buttonText={"Reverse"}
         />
         <HeaderButton
           dataStore={dataStore}
-          btnFunction={() => dataStore.randomizeSwatches()}
+          btnFunction={() => dataStore.palette.randomizePalette()}
           fontAwesomeIcon={"random"}
           buttonText={"Shuffle"}
         />
@@ -83,7 +83,7 @@ class Header extends Component {
           btnFunction={() => dataStore.pushToFavorites()}
           fontAwesomeIcon={heartType}
           buttonText={"Favorite"}
-          isActive={dataStore.currentPalette.favorited}
+          isActive={dataStore.palette.favorited}
         />
         <HeaderButton
           dataStore={dataStore}

@@ -25,11 +25,12 @@ class ColorPicker extends Component {
 
   static propTypes = {
     dataStore: PropTypes.object,
+    colorStore: PropTypes.object,
     colorSpace: PropTypes.string
   };
 
   render() {
-    const { dataStore } = this.props;
+    const { dataStore, colorStore } = this.props;
     const { showSliders, colorSpace } = this.state;
     return (
       <div className="color-picker-container">
@@ -61,7 +62,7 @@ class ColorPicker extends Component {
             </button>
             <button
               className={`color-picker-category`}
-              onClick={() => dataStore.closeColorPicker()}
+              onClick={() => dataStore.palette.deselectSwatch()}
             >
               DONE
               <FontAwesome
@@ -74,7 +75,7 @@ class ColorPicker extends Component {
 
           {colorSpace === "hsl" &&
             showSliders === true && (
-              <HslPick key={`color-picker-0`} dataStore={dataStore} />
+              <HslPick key={`color-picker-0`} dataStore={dataStore} colorStore={colorStore} />
             )}
           {colorSpace === "rgb" &&
             showSliders === true && (

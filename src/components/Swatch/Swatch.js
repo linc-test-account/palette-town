@@ -11,7 +11,7 @@ const DragHandle = SortableHandle(({ buttonTextColor, minWidthReached }) => {
   const dragIcon = minWidthReached === true ? "arrows-v" : "arrows-h";
   return (
     <div style={buttonTextColor} className="palette-swatch-button">
-      <FontAwesome name={dragIcon} size="2x" />
+      <FontAwesome className="swatch-button-icon" name={dragIcon} size="2x" />
     </div>
   );
 });
@@ -19,14 +19,8 @@ const DragHandle = SortableHandle(({ buttonTextColor, minWidthReached }) => {
 @observer
 class Swatch extends Component {
   static propTypes = {
-    dataStore: PropTypes.object,
-    hue: PropTypes.number,
-    saturation: PropTypes.number,
-    lightness: PropTypes.number,
-    hex: PropTypes.string,
-    contrastYIQ: PropTypes.number,
-    selected: PropTypes.bool,
-    colorName: PropTypes.string,
+    dataStore: PropTypes.object.isRequired,
+    colorStore: PropTypes.object.isRequired,
     uniqueIndex: PropTypes.number,
     sorting: PropTypes.bool,
     minWidthReached: PropTypes.bool
@@ -34,57 +28,57 @@ class Swatch extends Component {
   render() {
     const {
       dataStore,
-      hue,
-      saturation,
-      lightness,
-      hex,
-      contrastYIQ,
-      selected,
-      colorName,
+      colorStore,
       uniqueIndex,
       sorting,
       minWidthReached
     } = this.props;
     const buttonTextColor = {
-      color: `hsla(0, 0%, ${contrastYIQ}%, .5)`
+      color: `hsla(0, 0%, ${colorStore.contrastYIQ}%, .5)`
     };
 
     const flexGrowAmmount = minWidthReached === true ? 4 : 2;
     const style = {
-      background: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
-      color: `hsla(0, 0%, ${contrastYIQ}%, .4)`,
-      flexGrow: selected === false ? 1 : flexGrowAmmount,
+      background: `hsl(${colorStore.hue}, ${colorStore.saturation}%, ${
+        colorStore.lightness
+      }%)`,
+      color: `hsla(0, 0%, ${colorStore.contrastYIQ}%, .4)`,
+      flexGrow: colorStore.selected === false ? 1 : flexGrowAmmount,
       transition: sorting === false ? ".3s ease flex" : ""
     };
+
     return (
       <FlipMove
         style={style}
         className="palette-swatch"
-        leaveAnimation={"elevator"}
-        enterAnimation={"elevator"}
         appearAnimation={"fade"}
-        duration={300}
-        maintainContainerHeight={true}
+        leaveAnimation={"fade"}
+        enterAnimation={"fade"}
+        duration={200}
       >
-        {minWidthReached === true && selected === true ? (
+        {minWidthReached === true && colorStore.selected === true ? (
           <span key={`swatch-${0}`} />
         ) : (
           <div key={`swatch-${1}`} className="swatch-info-container">
-            <p className="palette-swatch-hex noselect">#{hex}</p>
-            <p className="palette-swatch-name noselect">{colorName}</p>
+            <p className="palette-swatch-hex noselect">#{colorStore.hex}</p>
+            <p className="palette-swatch-name noselect">
+              {colorStore.colorName}
+            </p>
           </div>
         )}
-        {selected === true ? (
+
+        {colorStore.selected === true ? (
           <ColorPicker
             key={`swatch-${2}`}
             colorSpace="HSL"
+            colorStore={colorStore}
             dataStore={dataStore}
           />
         ) : (
           <span key={`swatch-${3}`} />
         )}
 
-        {selected === true ? (
+        {colorStore.selected === true ? (
           <span key={`swatch-${4}`} />
         ) : (
           <div className="swatch-buttons-container" key={`swatch-${5}`}>
@@ -95,16 +89,24 @@ class Swatch extends Component {
             <div
               style={buttonTextColor}
               className="palette-swatch-button"
-              onClick={() => dataStore.selectSwatch(uniqueIndex)}
+              onClick={() => dataStore.palette.selectSwatch(uniqueIndex)}
             >
-              <FontAwesome name="sliders" size="2x" />
+              <FontAwesome
+                className="swatch-button-icon"
+                name="sliders"
+                size="2x"
+              />
             </div>
             <div
               style={buttonTextColor}
               className="palette-swatch-button"
-              onClick={() => dataStore.deleteSwatch(uniqueIndex)}
+              onClick={() => dataStore.palette.deleteSwatch(uniqueIndex)}
             >
-              <FontAwesome name="trash" size="2x" />
+              <FontAwesome
+                className="swatch-button-icon"
+                name="trash"
+                size="2x"
+              />
             </div>
           </div>
         )}

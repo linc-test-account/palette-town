@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import MiniPalette from "../MiniPalette/MiniPalette";
 import FontAwesome from "react-fontawesome";
 import HeaderButton from "../HeaderButton/HeaderButton";
+import OutsideAlerter from "../ClickOutside/ClickOutside";
 import "./SideNav.css";
 
 function getHarmonies(harmonies, dataStore) {
@@ -175,74 +176,80 @@ class SideNav extends Component {
     };
     return (
       <div style={style} id="mySidenav" className="sidenav">
-        <div className="sidenav-header">
-          <HeaderButton
-            dataStore={dataStore}
-            btnFunction={() => toggleSideNav(false)}
-            fontAwesomeIcon={"bars"}
-            buttonText={"Menu"}
-          />
-          <h1 className="default-brand-name">Palette Town</h1>
-          <h1 className="mobile-brand-name">PT</h1>
-        </div>
+        <OutsideAlerter showSideNav={showSideNav} toggleSideNav={toggleSideNav}>
+          <div>
+            <div className="sidenav-header">
+              <HeaderButton
+                dataStore={dataStore}
+                btnFunction={() => toggleSideNav(false)}
+                fontAwesomeIcon={"bars"}
+                buttonText={"Menu"}
+              />
+              <h1 className="default-brand-name">Palette Town</h1>
+              <h1 className="mobile-brand-name">PT</h1>
+            </div>
 
-        <h2
-          key={`sidenave-heading-${0}`}
-          className="sidenav-category"
-          onClick={this.toggleHarmonies}
-        >
-          Harmonies
-          <FontAwesome
-            className="sidenav-category-caret"
-            name={showHarmonies === true ? "caret-up" : "caret-down"}
-            size="2x"
-          />
-        </h2>
-        <div
-          className="sidenav-category-container"
-          style={showHarmonies === true ? submenuOpen : submenuStyleDefault}
-        >
-          {getHarmonies(dataStore.colorHarmonies, dataStore)}
-        </div>
+            <h2
+              key={`sidenave-heading-${0}`}
+              className="sidenav-category"
+              onClick={this.toggleHarmonies}
+            >
+              Harmonies
+              <FontAwesome
+                className="sidenav-category-caret"
+                name={showHarmonies === true ? "caret-up" : "caret-down"}
+                size="2x"
+              />
+            </h2>
+            <div
+              className="sidenav-category-container"
+              style={showHarmonies === true ? submenuOpen : submenuStyleDefault}
+            >
+              {getHarmonies(dataStore.colorHarmonies, dataStore)}
+            </div>
 
-        <h2
-          key={`sidenave-heading-${1}`}
-          className="sidenav-category"
-          onClick={this.toggleModifiers}
-        >
-          Modifiers
-          <FontAwesome
-            className="sidenav-category-caret"
-            name={showModifiers === true ? "caret-up" : "caret-down"}
-            size="2x"
-          />
-        </h2>
-        <div
-          className="sidenav-category-container"
-          style={showModifiers === true ? submenuOpen : submenuStyleDefault}
-        >
-          {getPaletteModifiers(dataStore.paletteModifiers, dataStore)}
-        </div>
-        <h2
-          key={`sidenave-heading-${2}`}
-          className="sidenav-category"
-          onClick={this.toggleFavorites}
-        >
-          Favorites
-          <FontAwesome
-            className="sidenav-category-caret"
-            name={showFavorites === true ? "caret-up" : "caret-down"}
-            size="2x"
-          />
-        </h2>
-        <div
-          className="sidenav-category-container"
-          style={showFavorites === true ? submenuOpen : submenuStyleDefault}
-        >
-          {dataStore.favorites.length > 0
-            ? getFavorites(dataStore.favoritesShortList, dataStore)
-            : <a className="drop-down-list-option">No Favorites</a>}
-        </div>
+            <h2
+              key={`sidenave-heading-${1}`}
+              className="sidenav-category"
+              onClick={this.toggleModifiers}
+            >
+              Modifiers
+              <FontAwesome
+                className="sidenav-category-caret"
+                name={showModifiers === true ? "caret-up" : "caret-down"}
+                size="2x"
+              />
+            </h2>
+            <div
+              className="sidenav-category-container"
+              style={showModifiers === true ? submenuOpen : submenuStyleDefault}
+            >
+              {getPaletteModifiers(dataStore.paletteModifiers, dataStore)}
+            </div>
+            <h2
+              key={`sidenave-heading-${2}`}
+              className="sidenav-category"
+              onClick={this.toggleFavorites}
+            >
+              Favorites
+              <FontAwesome
+                className="sidenav-category-caret"
+                name={showFavorites === true ? "caret-up" : "caret-down"}
+                size="2x"
+              />
+            </h2>
+            <div
+              className="sidenav-category-container"
+              style={showFavorites === true ? submenuOpen : submenuStyleDefault}
+            >
+              {dataStore.favorites.length > 0 ? (
+                getFavorites(dataStore.favoritesShortList, dataStore)
+              ) : (
+                <a className="drop-down-list-option">No Favorites</a>
+              )}
+            </div>
+          </div>
+        </OutsideAlerter>
       </div>
     );
   }

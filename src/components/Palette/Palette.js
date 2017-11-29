@@ -7,29 +7,11 @@ import Swatch from "../Swatch/Swatch";
 import "./Palette.css";
 
 const SortableItem = SortableElement(
-  ({
-    dataStore,
-    hue,
-    saturation,
-    lightness,
-    hex,
-    contrastYIQ,
-    selected,
-    colorName,
-    uniqueIndex,
-    sorting,
-    minWidthReached
-  }) => {
+  ({ dataStore, colorStore, uniqueIndex, sorting, minWidthReached }) => {
     return (
       <Swatch
         dataStore={dataStore}
-        hue={hue}
-        saturation={saturation}
-        lightness={lightness}
-        hex={hex}
-        contrastYIQ={contrastYIQ}
-        selected={selected}
-        colorName={colorName}
+        colorStore={colorStore}
         uniqueIndex={uniqueIndex}
         sorting={sorting}
         minWidthReached={minWidthReached}
@@ -38,53 +20,46 @@ const SortableItem = SortableElement(
   }
 );
 
-const SortableList = SortableContainer(
-  observer(({ dataStore, items, sorting, minWidthReached }) => {
-    const sortableSwatches = items.map(
-      (
-        {
-          hue,
-          saturation,
-          lightness,
-          hex,
-          contrastYIQ,
-          selected,
-          colorName,
-          id
-        },
-        index
-      ) => (
-        <SortableItem
-          dataStore={dataStore}
-          hue={hue}
-          saturation={saturation}
-          lightness={lightness}
-          hex={hex}
-          contrastYIQ={contrastYIQ}
-          selected={selected}
-          colorName={colorName}
-          key={`item-${id}`}
-          index={index}
-          uniqueIndex={index}
-          sorting={sorting}
-          minWidthReached={minWidthReached}
-        />
-      )
-    );
-    return (
-      <FlipMove
-        className="palette-swatch-container"
-        disableAllAnimations={sorting}
-        easing="cubic-bezier(.4,-0.32,.52,1.31)"
-        duration={500}
-        maintainContainerHeight={true}
-        staggerDelayBy={40}
-      >
-        {sortableSwatches}
-      </FlipMove>
-    );
-  })
-);
+const customLeaveAnimation = {
+  from: { opacity: 1 },
+  to: { opacity: 0 }
+};
+
+const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
+  const sortableSwatches = dataStore.palette.colors.map(
+    (colorStore, index) => (
+      <SortableItem
+        dataStore={dataStore}
+        colorStore={colorStore}
+        key={`item-${colorStore.id}`}
+        uniqueIndex={index}
+        index={index}
+        sorting={sorting}
+        minWidthReached={minWidthReached}
+      />
+    )
+  );
+  return (
+    <FlipMove
+      className="palette-swatch-container"
+      disableAllAnimations={sorting}
+      // easing="cubic-bezier(.4,-0.32,.52,1.31)"
+      easing="ease-in-out"
+      duration={300}
+      appearAnimation={false}
+      enterAnimation={"fade"}
+      leaveAnimation={customLeaveAnimation}
+      maintainContainerHeight={true}
+      staggerDelayBy={40}
+    >
+      {sortableSwatches}
+    </FlipMove>
+  );
+});
+
+unWrappedPallete.displayName = "unWrappedPalleteYOLO";
+
+const SortableList = SortableContainer(unWrappedPallete);
 
 // If state variable 'sorting' is true, user is moving individual
 // swatch via the SortableList component in palette class render
@@ -102,8 +77,7 @@ class palette extends Component {
   }
   static propTypes = {
     minWidthReached: PropTypes.bool,
-    dataStore: PropTypes.object,
-    currentPalette: PropTypes.object
+    dataStore: PropTypes.object
   };
 
   handleSortStart = () => {
@@ -113,21 +87,23 @@ class palette extends Component {
   };
 
   handleSortEnd = object => {
-    this.props.dataStore.onSortEnd(object.oldIndex, object.newIndex);
+    this.props.dataStore.palette.onSortEnd(
+      object.oldIndex,
+      object.newIndex
+    );
     this.setState({
       sorting: false
     });
   };
 
   render() {
-    const { minWidthReached, dataStore, currentPalette } = this.props;
+    const { minWidthReached, dataStore } = this.props;
     const { sorting } = this.state;
     return (
       <SortableList
         axis={minWidthReached === true ? "y" : "x"}
         lockAxis={minWidthReached === true ? "y" : "x"}
         dataStore={dataStore}
-        items={currentPalette}
         sorting={sorting}
         onSortStart={this.handleSortStart}
         onSortEnd={this.handleSortEnd}

@@ -20,11 +20,6 @@ const SortableItem = SortableElement(
   }
 );
 
-const customLeaveAnimation = {
-  from: { opacity: 1 },
-  to: { opacity: 0 }
-};
-
 const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
   const sortableSwatches = dataStore.palette.colors.map(
     (colorStore, index) => (
@@ -47,8 +42,8 @@ const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
       easing="ease-in-out"
       duration={300}
       appearAnimation={false}
-      enterAnimation={"fade"}
-      leaveAnimation={customLeaveAnimation}
+      enterAnimation={"elevator"}
+      leaveAnimation={"fade"}
       maintainContainerHeight={true}
       staggerDelayBy={40}
     >

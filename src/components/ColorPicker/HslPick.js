@@ -25,7 +25,8 @@ class HslPick extends Component {
   }
 
   static propTypes = {
-    dataStore: PropTypes.object
+    dataStore: PropTypes.object,
+    colorStore: PropTypes.object
   };
 
   componentDidMount() {
@@ -49,7 +50,7 @@ class HslPick extends Component {
     const { dataStore } = this.props;
     // Reset empty input field to 0 value
     if (value.length === 0) {
-      dataStore.changeColorProperty(0, name);
+      dataStore.palette.changeColorProperty(0, name);
       this.updateState();
     } else {
       return;
@@ -57,16 +58,16 @@ class HslPick extends Component {
   };
 
   updateState = () => {
-    const { dataStore } = this.props;
+    const { colorStore } = this.props;
     this.setState({
-      hue: dataStore.currentSwatch.hue,
-      saturation: dataStore.currentSwatch.saturation,
-      lightness: dataStore.currentSwatch.lightness
+      hue: colorStore.hue,
+      saturation: colorStore.saturation,
+      lightness: colorStore.lightness
     });
   };
 
   render() {
-    const { dataStore } = this.props;
+    const { colorStore } = this.props;
     const { hue, saturation, lightness } = this.state;
 
     const trackStyle = {
@@ -74,40 +75,40 @@ class HslPick extends Component {
     };
 
     const handleStyle = {
-      background: `hsl(${dataStore.currentSwatch.hue}, ${
-        dataStore.currentSwatch.saturation
-      }%, ${dataStore.currentSwatch.lightness}%)`,
-      color: `hsla(0, 0%, ${dataStore.currentSwatch.contrastYIQ}%, .8)`
+      background: `hsl(${colorStore.hue}, ${
+        colorStore.saturation
+      }%, ${colorStore.lightness}%)`,
+      color: `hsla(0, 0%, ${colorStore.contrastYIQ}%, .8)`
     };
     const backgroundHue = {
       background: `
         linear-gradient(to right, ${generateHueSpectrumGradient(
-          dataStore.currentSwatch.saturation,
-          dataStore.currentSwatch.lightness
+          colorStore.saturation,
+          colorStore.lightness
         )})
           `
     };
     const backgroundSaturation = {
       background: `
         linear-gradient(to right,
-        hsl(${dataStore.currentSwatch.hue}, ${0}%, ${
-        dataStore.currentSwatch.lightness
+        hsl(${colorStore.hue}, ${0}%, ${
+        colorStore.lightness
       }%),
-        hsl(${dataStore.currentSwatch.hue}, ${100}%, ${
-        dataStore.currentSwatch.lightness
+        hsl(${colorStore.hue}, ${100}%, ${
+        colorStore.lightness
       }%))`
     };
     const backgroundLightness = {
       background: `
         linear-gradient(to right,
-        hsl(${dataStore.currentSwatch.hue}, ${
-        dataStore.currentSwatch.saturation
+        hsl(${colorStore.hue}, ${
+        colorStore.saturation
       }%, ${0}%),
-        hsl(${dataStore.currentSwatch.hue}, ${
-        dataStore.currentSwatch.saturation
+        hsl(${colorStore.hue}, ${
+        colorStore.saturation
       }%, ${50}%),
-        hsl(${dataStore.currentSwatch.hue}, ${
-        dataStore.currentSwatch.saturation
+        hsl(${colorStore.hue}, ${
+        colorStore.saturation
       }%, ${109}%))`
     };
 

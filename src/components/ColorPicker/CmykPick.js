@@ -19,7 +19,8 @@ class CmykPick extends Component {
   }
 
   static propTypes = {
-    dataStore: PropTypes.object
+    dataStore: PropTypes.object,
+    colorStore: PropTypes.object
   };
 
   componentDidMount() {
@@ -43,7 +44,7 @@ class CmykPick extends Component {
     const { dataStore } = this.props;
     // Reset empty input field to 0 value
     if (value.length === 0) {
-      dataStore.changeColorProperty(0, name);
+      dataStore.palette.changeColorProperty(0, name);
       this.updateState();
     } else {
       return;
@@ -51,12 +52,12 @@ class CmykPick extends Component {
   };
 
   updateState = () => {
-    const { dataStore } = this.props;
+    const { colorStore } = this.props;
     this.setState({
-      cyan: dataStore.currentSwatch.cyan,
-      magenta: dataStore.currentSwatch.magenta,
-      yellow: dataStore.currentSwatch.yellow,
-      key: dataStore.currentSwatch.key
+      cyan: colorStore.cyan,
+      magenta: colorStore.magenta,
+      yellow: colorStore.yellow,
+      key: colorStore.key
     });
   };
 

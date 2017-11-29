@@ -18,14 +18,14 @@ class RgbPick extends Component {
   }
 
   static propTypes = {
-    dataStore: PropTypes.object
+    dataStore: PropTypes.object,
+    colorStore: PropTypes.object
   };
 
   componentDidMount() {
     this.updateState();
   }
 
-  
   inputOnChange = (value, name) => {
     const { dataStore } = this.props;
     const shouldUpdate = dataStore.validateInputs(value, name);
@@ -43,7 +43,7 @@ class RgbPick extends Component {
     const { dataStore } = this.props;
     // Reset empty input field to 0 value
     if (value.length === 0) {
-      dataStore.changeColorProperty(0, name);
+      dataStore.palette.changeColorProperty(0, name);
       this.updateState();
     } else {
       return;
@@ -51,11 +51,11 @@ class RgbPick extends Component {
   };
 
   updateState = () => {
-    const { dataStore } = this.props;
+    const { colorStore } = this.props;
     this.setState({
-      red: dataStore.currentSwatch.red,
-      green: dataStore.currentSwatch.green,
-      blue: dataStore.currentSwatch.blue
+      red: colorStore.red,
+      green: colorStore.green,
+      blue: colorStore.blue
     });
   };
 

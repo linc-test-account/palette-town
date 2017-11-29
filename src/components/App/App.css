@@ -15,6 +15,8 @@
 }
 
 /* Dirty hack to fix palette height in MS Edge */
+/* Forces flipmove-container height to be 100% minus */
+/* the sum of the header and footer height (90px) */
 @supports (-ms-ime-align: auto) {
   .flipmove-container {
     height: calc(100% - 90px);
@@ -52,6 +54,14 @@
     .flipmove-container {
       height: 100%;
     }
+  }
+  .modal-box-heading {
+    font-size: 15px;
+  }
+
+  .modal-color-val {
+    font-size: 12px;
+    margin: 2px;
   }
 }
 

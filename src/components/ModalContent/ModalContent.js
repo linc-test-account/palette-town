@@ -27,44 +27,44 @@ class ModalContent extends Component {
             swatchWidth={50}
             swatchHeight={20}
             swatchHover={true}
-            harmony={dataStore.currentPalette.colors}
+            harmony={dataStore.palette.colors}
           />
         </div>
         <br />
         <div className="modal-box-container">
           <ColorDialog
             title="hsl"
-            colors={dataStore.currentPalette.colors}
+            colors={dataStore.palette.colors}
             colorSpace="hsl"
           />
           <ColorDialog
             title="rgb"
-            colors={dataStore.currentPalette.colors}
+            colors={dataStore.palette.colors}
             colorSpace="rgb"
           />
         </div>
         <div className="modal-box-container">
           <ColorDialog
             title="cmyk"
-            colors={dataStore.currentPalette.colors}
+            colors={dataStore.palette.colors}
             colorSpace="cmyk"
           />
           <ColorDialog
             title="hex"
-            colors={dataStore.currentPalette.colors}
+            colors={dataStore.palette.colors}
             colorSpace="hex"
           />
         </div>
         <div className="modal-box-container">
           <ColorDialog
             title="CSS vars"
-            colors={dataStore.currentPalette.colors}
+            colors={dataStore.palette.colors}
             colorSpace="hex"
             styleSheetType="css"
           />
           <ColorDialog
             title="LESS vars"
-            colors={dataStore.currentPalette.colors}
+            colors={dataStore.palette.colors}
             colorSpace="hex"
             styleSheetType="less"
           />

@@ -6,7 +6,6 @@
   align-items: center;
   flex-grow: 2;
   flex-basis: 0;
-  overflow: hidden;
 }
 
 .swatch-info-container {
@@ -77,12 +76,12 @@
     flex-direction: row;
     align-content: center;
     justify-content: center;
-    height: auto;
     width: 100%;
   }
 
   .swatch-info-container {
     margin: 0 60px 0 0;
+    min-width: 20%;
     padding: 0;
   }
 
@@ -97,8 +96,12 @@
   }
 
   .palette-swatch-button {
-    font-size: 10px;
+    font-size: 30px;
     padding: 0 5px 0 5px;
+  }
+
+  .swatch-button-icon {
+    font-size: 24px;
   }
 
   .palette-swatch-button:first-of-type {

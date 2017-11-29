@@ -8,6 +8,7 @@ import FlipMove from "react-flip-move";
 import Footer from "../Footer/Footer";
 import Modal from "react-modal";
 import ModalContent from "../ModalContent/ModalContent";
+
 import "./App.css";
 
 @observer
@@ -32,9 +33,13 @@ class App extends Component {
     this.handleScreenWidthChange(mediaQuery); // check initial width
     mediaQuery.addListener(this.handleScreenWidthChange); // listen for width change
 
-    // listen for space bar press
     document.addEventListener("keydown", event => {
       const { dataStore } = this.props;
+      // If side nav open and esc key pressed, close side nav
+      if (this.state.showSideNav === true && event.keyCode === 27) {
+        this.toggleSideNav(false);
+      }
+      // if space bar pressed, get new palette
       if (event.keyCode === 32) {
         dataStore.getNext();
       } else {
@@ -90,25 +95,24 @@ class App extends Component {
           toggleSideNav={this.toggleSideNav}
         />
 
-        {dataStore.currentPalette.length === 0 ? (
+        {dataStore.palette.length === 0 ? (
           "No data"
         ) : (
           <FlipMove
-            appearAnimation={"fade"}
-            onStartAll={() => dataStore.toggleCoolDownActive(true)}
-            onFinishAll={() => dataStore.toggleCoolDownActive(false)}
-            className="flipmove-container"
-            easing="ease-in-out"
+          onStartAll={() => dataStore.toggleCoolDownActive(true)}
+          onFinishAll={() => dataStore.toggleCoolDownActive(false)}
+          className="flipmove-container"
+          easing="ease-in-out"
+          appearAnimation={false}
             duration={200}
             enterAnimation={"fade"}
-            leaveAnimation={"fade"}
+            leaveAnimation="fade"
             maintainContainerHeight={true}
           >
             <Palette
               minWidthReached={minWidthReached}
-              currentPalette={dataStore.currentPalette.colors}
               dataStore={dataStore}
-              key={`palette-${dataStore.count}`}
+              key={`palette-${dataStore.palette.id}`}
             />
           </FlipMove>
         )}

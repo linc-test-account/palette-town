@@ -75,15 +75,27 @@ class ColorPicker extends Component {
 
           {colorSpace === "hsl" &&
             showSliders === true && (
-              <HslPick key={`color-picker-0`} dataStore={dataStore} colorStore={colorStore} />
+              <HslPick
+                key={`color-picker-0`}
+                dataStore={dataStore}
+                colorStore={colorStore}
+              />
             )}
           {colorSpace === "rgb" &&
             showSliders === true && (
-              <RgbPick key={`color-picker-1`} dataStore={dataStore} />
+              <RgbPick
+                key={`color-picker-1`}
+                dataStore={dataStore}
+                colorStore={colorStore}
+              />
             )}
           {colorSpace === "cmyk" &&
             showSliders === true && (
-              <CmykPick key={`color-picker-2`} dataStore={dataStore} />
+              <CmykPick
+                key={`color-picker-2`}
+                dataStore={dataStore}
+                colorStore={colorStore}
+              />
             )}
         </div>
       </div>

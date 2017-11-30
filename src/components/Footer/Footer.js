@@ -18,7 +18,7 @@ class Footer extends Component {
         <h2 className="footer-subheading">Harmony:</h2>
         <h2 className="footer-subheading-value">{dataStore.selectedHarmony.harmony}</h2>
         <h2 className="footer-subheading">Modifier:</h2>
-        <h2 className="footer-subheading-value">{dataStore.selectedPaletteModifier.modifier}</h2>
+        <h2 className="footer-subheading-value">{dataStore.selectedModifier.modifier}</h2>
         <h2 className="footer-subheading">Favorites:</h2>
         <h2 className="footer-subheading-value">{dataStore.favorites.length}</h2>
       </div>

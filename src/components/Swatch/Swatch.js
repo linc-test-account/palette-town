@@ -43,14 +43,15 @@ class Swatch extends Component {
         colorStore.lightness
       }%)`,
       color: `hsla(0, 0%, ${colorStore.contrastYIQ}%, .4)`,
-      flexGrow: colorStore.selected === false ? 1 : flexGrowAmmount,
-      transition: sorting === false ? ".3s ease flex" : ""
+      flexGrow: colorStore.selected === false ? 1 : flexGrowAmmount
     };
 
     return (
       <FlipMove
         style={style}
-        className="palette-swatch"
+        className={`palette-swatch ${
+          sorting === false ? "swatch-flex-transition" : ""
+        }`}
         appearAnimation={"fade"}
         leaveAnimation={"fade"}
         enterAnimation={"fade"}
@@ -67,20 +68,16 @@ class Swatch extends Component {
           </div>
         )}
 
-        {colorStore.selected === true ? (
+        {colorStore.selected === true && (
           <ColorPicker
             key={`swatch-${2}`}
             colorSpace="HSL"
             colorStore={colorStore}
             dataStore={dataStore}
           />
-        ) : (
-          <span key={`swatch-${3}`} />
         )}
 
-        {colorStore.selected === true ? (
-          <span key={`swatch-${4}`} />
-        ) : (
+        {colorStore.selected === false && (
           <div className="swatch-buttons-container" key={`swatch-${5}`}>
             <DragHandle
               buttonTextColor={buttonTextColor}

@@ -123,3 +123,13 @@
     margin: 0;
   }
 }
+
+/* Applying transition to flex on sortable items contained */
+/* within an instance of react-sortable-hoc seems to break */
+/* sortable item transition on manualy sorted items. */
+/* A workaround is to remove the class below from Swatch component */
+/* whenever manual sorting of swatches is in progress, then */
+/* add it back on sort end */
+.swatch-flex-transition {
+  transition: .3s ease flex;
+}

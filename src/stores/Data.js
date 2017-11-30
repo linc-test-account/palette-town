@@ -4,7 +4,7 @@ import withCooldown from "./withCooldown";
 import Palette from "./Palette.js";
 useStrict(true);
 
-const TRANSITION_TIME = 300;
+const TRANSITION_TIME = 200;
 const MIN_WIDTH = 700;
 
 class Data {

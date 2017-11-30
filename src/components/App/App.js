@@ -61,21 +61,15 @@ class App extends Component {
   };
 
   toggleSideNav = val => {
-    if (val === false) {
-      this.setState({
-        showSideNav: false
-      });
-    }
-    if (val === true) {
-      this.setState({
-        showSideNav: true
-      });
-    }
+    this.setState({
+      showSideNav: val
+    });
   };
 
   handleClick = () => {
     this.setState({ isShowingModal: true });
   };
+
   handleClose = () => this.setState({ isShowingModal: false });
 
   render() {
@@ -99,11 +93,11 @@ class App extends Component {
           "No data"
         ) : (
           <FlipMove
-          onStartAll={() => dataStore.toggleCoolDownActive(true)}
-          onFinishAll={() => dataStore.toggleCoolDownActive(false)}
-          className="flipmove-container"
-          easing="ease-in-out"
-          appearAnimation={false}
+            onStartAll={() => dataStore.toggleCoolDownActive(true)}
+            onFinishAll={() => dataStore.toggleCoolDownActive(false)}
+            className="flipmove-container"
+            easing="ease-in-out"
+            appearAnimation={false}
             duration={200}
             enterAnimation={"fade"}
             leaveAnimation="fade"

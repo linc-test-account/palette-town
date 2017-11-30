@@ -15,12 +15,12 @@ export default class Palette {
   modifier;
   @observable favorited = false;
   @observable colors = [];
-  @observable targetSwatch = undefined;
 
   constructor(harmony, modifier) {
     this.id = shortid.generate();
     this.modifier = modifier;
     this.favorited = false;
+
     this.colors = getPalette(harmony, modifier).map(
       ({ hue, saturation, lightness }) =>
         new Color("hsl", hue, saturation, lightness)
@@ -62,13 +62,14 @@ export default class Palette {
     const newSwatchVals = oneOff(this.modifier);
     const swatchCount = this.colors.length;
     if (swatchCount < SWATCH_LIMIT) {
-      const newSwatch = new Color(
-        "hsl",
-        newSwatchVals[0].hue,
-        newSwatchVals[0].saturation,
-        newSwatchVals[0].lightness
+      this.colors.push(
+        new Color(
+          "hsl",
+          newSwatchVals[0].hue,
+          newSwatchVals[0].saturation,
+          newSwatchVals[0].lightness
+        )
       );
-      this.colors.push(newSwatch);
     }
     if (swatchCount > SWATCH_LIMIT) {
       return;

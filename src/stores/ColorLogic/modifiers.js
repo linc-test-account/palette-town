@@ -1,4 +1,4 @@
-const paletteModifiers = [
+const modifiers = [
     {
       modifier: "none",
       saturationMin: 0,
@@ -50,4 +50,4 @@ const paletteModifiers = [
     }
   ];
 
-  module.exports = paletteModifiers;
+  module.exports = modifiers;

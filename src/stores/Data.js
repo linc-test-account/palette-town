@@ -1,5 +1,5 @@
 import { action, observable, computed, useStrict } from "mobx";
-import { getPalette, colorHarmonies, paletteModifiers } from "./ColorLogic";
+import { getPalette, harmonies, modifiers } from "./ColorLogic";
 import withCooldown from "./withCooldown";
 import Palette from "./Palette.js";
 useStrict(true);
@@ -8,17 +8,16 @@ const TRANSITION_TIME = 300;
 const MIN_WIDTH = 700;
 
 class Data {
-  @observable colorHarmonies = colorHarmonies;
-  @observable selectedHarmony = this.colorHarmonies[1];
-  @observable
   colorSpaces = [
     { colorSpace: "HSL" },
     { colorSpace: "RGB" },
     { colorSpace: "CMYK" }
   ];
+  harmonies = harmonies;
+  @observable selectedHarmony = this.harmonies[1];
   @observable selectedColorSpace = this.colorSpaces[0];
-  @observable paletteModifiers = paletteModifiers;
-  @observable selectedPaletteModifier = this.paletteModifiers[0];
+  @observable modifiers = modifiers;
+  @observable selectedModifier = this.modifiers[0];
   @observable palette = [];
   @observable cooldownactive = false;
   @observable favorites = [];
@@ -36,12 +35,12 @@ class Data {
   @computed
   get miniPalettes() {
     const miniPalettes = [];
-    for (let i = 0; i < this.colorHarmonies.length; i++) {
+    for (let i = 0; i < this.harmonies.length; i++) {
       const paletteData = getPalette(
-        this.colorHarmonies[i].harmony,
-        this.selectedPaletteModifier
+        this.harmonies[i].harmony,
+        this.selectedModifier
       );
-      const paletteName = this.colorHarmonies[i].harmony;
+      const paletteName = this.harmonies[i].harmony;
       miniPalettes.push({
         [paletteName]: paletteData
       });
@@ -70,7 +69,7 @@ class Data {
   generateNewPalatte() {
     this.palette = new Palette(
       this.selectedHarmony.harmony,
-      this.selectedPaletteModifier
+      this.selectedModifier
     );
   }
 
@@ -128,7 +127,7 @@ class Data {
   // CHANGE SELECTED COLOR PALATTE HARMONY (TRIADIC, ANALOGOUS, ETC.)
   @action
   changeHarmony(index) {
-    this.selectedHarmony = this.colorHarmonies[index];
+    this.selectedHarmony = this.harmonies[index];
   }
 
   @action
@@ -138,7 +137,7 @@ class Data {
 
   @action
   changeModifier(index) {
-    this.selectedPaletteModifier = this.paletteModifiers[index];
+    this.selectedModifier = this.modifiers[index];
   }
 
   @action

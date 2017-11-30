@@ -45,7 +45,7 @@ function getHarmonies(harmonies, dataStore) {
 function getmodifiers(modifiers, dataStore) {
   const harmonyList = modifiers.map(
     ({ modifier }, index) =>
-      modifier === dataStore.selectedPaletteModifier.modifier ? (
+      modifier === dataStore.selectedModifier.modifier ? (
         <a
           className="drop-down-list-option list-option-selected"
           key={`modifier-${index}`}

@@ -6,38 +6,10 @@ import "./Header.css";
 
 @observer
 class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      offSet: 0
-    };
-  }
-
   static propTypes = {
     toggleSideNav: PropTypes.func,
-    minWidthReached: PropTypes.bool,
     modalHandleClick: PropTypes.func,
     dataStore: PropTypes.object
-  };
-
-  setOffsetWidth = (headerContainer, headerElement) => {
-    if (headerContainer > headerElement) {
-      this.setState({
-        offSet: 0
-      });
-    }
-
-    if (headerContainer === headerElement) {
-      this.setState({
-        offSet: 0
-      });
-    }
-
-    if (headerContainer < headerElement) {
-      this.setState({
-        offSet: headerElement - headerContainer
-      });
-    }
   };
 
   render() {
@@ -50,7 +22,6 @@ class Header extends Component {
           dataStore={dataStore}
           btnFunction={() => toggleSideNav(true)}
           fontAwesomeIcon={"bars"}
-          buttonText={"Menu"}
         />
         <h1 className="default-brand-name">Palette Town</h1>
         <h1 className="mobile-brand-name">PT</h1>
@@ -58,38 +29,32 @@ class Header extends Component {
           dataStore={dataStore}
           btnFunction={() => dataStore.getNext()}
           fontAwesomeIcon={"arrow-right"}
-          buttonText={"Next"}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.palette.addSwatch()}
           fontAwesomeIcon={"plus"}
-          buttonText={"Add Swatch"}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.palette.reversePalette()}
           fontAwesomeIcon={"exchange"}
-          buttonText={"Reverse"}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.palette.randomizePalette()}
           fontAwesomeIcon={"random"}
-          buttonText={"Shuffle"}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.pushToFavorites()}
           fontAwesomeIcon={heartType}
-          buttonText={"Favorite"}
           isActive={dataStore.palette.favorited}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={modalHandleClick}
           fontAwesomeIcon={"download"}
-          buttonText={"Favorite"}
         />
       </div>
     );

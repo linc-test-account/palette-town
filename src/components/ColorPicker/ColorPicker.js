@@ -4,8 +4,8 @@ import { observer } from "mobx-react";
 import HslPick from "./HslPick";
 import RgbPick from "./RgbPick";
 import CmykPick from "./CmykPick";
-import "./ColorPicker.css";
 import FontAwesome from "react-fontawesome";
+import "./ColorPicker.css";
 
 @observer
 class ColorPicker extends Component {
@@ -37,25 +37,22 @@ class ColorPicker extends Component {
         <div className="color-picker-inner">
           <div className="color-picker-header">
             <button
-              className={`color-picker-category ${
-                colorSpace === "hsl" ? "category-active" : ""
-              }`}
+              className={`color-picker-category ${colorSpace === "hsl" &&
+                "category-active"}`}
               onClick={() => this.changeColorSpace("hsl")}
             >
               HSL
             </button>
             <button
-              className={`color-picker-category ${
-                colorSpace === "rgb" ? "category-active" : ""
-              }`}
+              className={`color-picker-category ${colorSpace === "rgb" &&
+                "category-active"}`}
               onClick={() => this.changeColorSpace("rgb")}
             >
               RGB
             </button>
             <button
-              className={`color-picker-category ${
-                colorSpace === "cmyk" ? "category-active" : ""
-              }`}
+              className={`color-picker-category ${colorSpace === "cmyk" &&
+                "category-active"}`}
               onClick={() => this.changeColorSpace("cmyk")}
             >
               CMYK

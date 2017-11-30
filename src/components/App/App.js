@@ -4,11 +4,9 @@ import { observer } from "mobx-react";
 import Header from "../Header/Header.js";
 import SideNav from "../SideNav/SideNav";
 import Palette from "../Palette/Palette";
-import FlipMove from "react-flip-move";
 import Footer from "../Footer/Footer";
 import Modal from "react-modal";
 import ModalContent from "../ModalContent/ModalContent";
-
 import "./App.css";
 
 @observer
@@ -92,23 +90,7 @@ class App extends Component {
         {dataStore.palette.length === 0 ? (
           "No data"
         ) : (
-          <FlipMove
-            onStartAll={() => dataStore.toggleCoolDownActive(true)}
-            onFinishAll={() => dataStore.toggleCoolDownActive(false)}
-            className="flipmove-container"
-            easing="ease-in-out"
-            appearAnimation={false}
-            duration={200}
-            enterAnimation={"fade"}
-            leaveAnimation="fade"
-            maintainContainerHeight={true}
-          >
-            <Palette
-              minWidthReached={minWidthReached}
-              dataStore={dataStore}
-              key={`palette-${dataStore.palette.id}`}
-            />
-          </FlipMove>
+          <Palette minWidthReached={minWidthReached} dataStore={dataStore} />
         )}
 
         <Footer dataStore={dataStore} />

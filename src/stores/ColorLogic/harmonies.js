@@ -1,4 +1,4 @@
-const colorHarmonies = [
+const harmonies = [
     { harmony: "analogous", colors: 3 },
     { harmony: "pentagon", colors: 5 },
     { harmony: "random", colors: 5 },
@@ -8,4 +8,4 @@ const colorHarmonies = [
     { harmony: "triadic", colors: 3 }
   ];
 
-  module.exports = colorHarmonies;
+  module.exports = harmonies;

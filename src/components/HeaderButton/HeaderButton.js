@@ -15,15 +15,12 @@ class HeaderButton extends Component {
   render() {
     const { btnFunction, fontAwesomeIcon, overlayValue, isActive } = this.props;
     const style = {
-      color: "hsl(310, 100%, 50%)"
+      color: isActive ? "hsl(310, 100%, 50%)" : ""
     };
-    const altStyle = {
-
-    }
     return (
       <button className="header-button" onClick={btnFunction}>
         <FontAwesome
-          style={isActive === true ? style : altStyle}
+          style={style}
           className="header-icon"
           name={fontAwesomeIcon}
           size="2x"

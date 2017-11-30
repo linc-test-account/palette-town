@@ -21,31 +21,31 @@ const SortableItem = SortableElement(
 );
 
 const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
-  const sortableSwatches = dataStore.palette.colors.map(
-    (colorStore, index) => (
-      <SortableItem
-        dataStore={dataStore}
-        colorStore={colorStore}
-        key={`item-${colorStore.id}`}
-        uniqueIndex={index}
-        index={index}
-        sorting={sorting}
-        minWidthReached={minWidthReached}
-      />
-    )
-  );
+  const sortableSwatches = dataStore.palette.colors.map((colorStore, index) => (
+    <SortableItem
+      dataStore={dataStore}
+      colorStore={colorStore}
+      key={`item-${colorStore.id}`}
+      uniqueIndex={index}
+      index={index}
+      sorting={sorting}
+      minWidthReached={minWidthReached}
+    />
+  ));
   return (
     <FlipMove
       className="palette-swatch-container"
       disableAllAnimations={sorting}
+      onStartAll={() => dataStore.toggleCoolDownActive(true)}
+      onFinishAll={() => dataStore.toggleCoolDownActive(false)}
       // easing="cubic-bezier(.4,-0.32,.52,1.31)"
-      easing="ease-in-out"
-      duration={300}
-      appearAnimation={false}
-      enterAnimation={"elevator"}
+      // easing="ease-in-out"
+      duration={200}
+      appearAnimation={"fade"}
+      enterAnimation={"fade"}
       leaveAnimation={"fade"}
       maintainContainerHeight={true}
-      staggerDelayBy={40}
+      staggerDelayBy={20}
     >
       {sortableSwatches}
     </FlipMove>
@@ -82,10 +82,7 @@ class palette extends Component {
   };
 
   handleSortEnd = object => {
-    this.props.dataStore.palette.onSortEnd(
-      object.oldIndex,
-      object.newIndex
-    );
+    this.props.dataStore.palette.onSortEnd(object.oldIndex, object.newIndex);
     this.setState({
       sorting: false
     });

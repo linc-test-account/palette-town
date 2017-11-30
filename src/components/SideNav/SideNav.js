@@ -42,7 +42,7 @@ function getHarmonies(harmonies, dataStore) {
   return harmonyList;
 }
 
-function getPaletteModifiers(modifiers, dataStore) {
+function getmodifiers(modifiers, dataStore) {
   const harmonyList = modifiers.map(
     ({ modifier }, index) =>
       modifier === dataStore.selectedPaletteModifier.modifier ? (
@@ -205,7 +205,7 @@ class SideNav extends Component {
               className="sidenav-category-container"
               style={showHarmonies === true ? submenuOpen : submenuStyleDefault}
             >
-              {getHarmonies(dataStore.colorHarmonies, dataStore)}
+              {getHarmonies(dataStore.harmonies, dataStore)}
             </div>
 
             <h2
@@ -224,7 +224,7 @@ class SideNav extends Component {
               className="sidenav-category-container"
               style={showModifiers === true ? submenuOpen : submenuStyleDefault}
             >
-              {getPaletteModifiers(dataStore.paletteModifiers, dataStore)}
+              {getmodifiers(dataStore.modifiers, dataStore)}
             </div>
             <h2
               key={`sidenave-heading-${2}`}

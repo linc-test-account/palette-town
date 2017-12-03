@@ -4,8 +4,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-grow: 2;
   flex-basis: 0;
+  overflow: hidden;
+  position: relative;
 }
 
 .swatch-info-container {
@@ -14,6 +15,8 @@
   align-items: center;
   justify-content: center;
   margin: 0 0 40px 0;
+  max-width: 75%;
+  /* background: red; */
 }
 
 .palette-swatch-hex {

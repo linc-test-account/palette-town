@@ -39,8 +39,12 @@ export default class Palette {
   }
 
   @action
-  changeColorProperty(value, name) {
-    this.selectedSwatch["set" + pascalCase(name)](value);
+  changeColorProperty(value, name, index) {
+    if (index === undefined) {
+      this.selectedSwatch["set" + pascalCase(name)](value);
+    } else {
+      this.colors[index]["set" + pascalCase(name)](value);
+    }
   }
 
   @action

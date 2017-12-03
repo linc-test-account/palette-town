@@ -1,0 +1,39 @@
+.palette-swatch-hex-input {
+  background: none;
+  border: none;
+  font-family: "Varela Round", sans-serif;
+  font-family: var(--app-font);
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+  font-size: 27px;
+  text-transform: uppercase;
+  /* min-width: 100%; */
+  /* max-width: 100%; */
+  width: 150px;
+  text-align: center;
+  outline: none;
+}
+
+.palette-swatch-hex-input:focus {
+  outline: none;
+}
+
+input:required {
+  box-shadow:none;
+}
+input:invalid {
+  box-shadow:none;
+}
+
+@media screen and (max-width: 1200px) {
+  .palette-swatch-hex-input {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .palette-swatch-hex-input {
+    font-size: 20px;
+  }
+}

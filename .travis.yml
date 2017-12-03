@@ -10,3 +10,4 @@ deploy:
   provider: surge
   project: ./build/
   domain: palettetown.surge.sh  
+  skip_cleanup: true

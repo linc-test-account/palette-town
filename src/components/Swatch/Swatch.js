@@ -6,6 +6,7 @@ import FlipMove from "react-flip-move";
 import { SortableHandle } from "react-sortable-hoc";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import "./Swatch.css";
+import HexInput from "./HexInput";
 
 const DragHandle = SortableHandle(({ buttonTextColor, minWidthReached }) => {
   const dragIcon = minWidthReached === true ? "arrows-v" : "arrows-h";
@@ -48,12 +49,13 @@ class Swatch extends Component {
 
     return (
       <FlipMove
+        // disableAllAnimations={true}
         style={style}
         className={`palette-swatch ${
           sorting === false ? "swatch-flex-transition" : ""
         }`}
         appearAnimation={"fade"}
-        leaveAnimation={"fade"}
+        leaveAnimation={"elevator"}
         enterAnimation={"fade"}
         duration={200}
       >
@@ -61,7 +63,12 @@ class Swatch extends Component {
           <span key={`swatch-${0}`} />
         ) : (
           <div key={`swatch-${1}`} className="swatch-info-container">
-            <p className="palette-swatch-hex noselect">#{colorStore.hex}</p>
+            <HexInput
+              textColor={buttonTextColor}
+              uniqueIndex={uniqueIndex}
+              dataStore={dataStore}
+              colorStore={colorStore}
+            />
             <p className="palette-swatch-name noselect">
               {colorStore.colorName}
             </p>
@@ -78,7 +85,7 @@ class Swatch extends Component {
         )}
 
         {colorStore.selected === false && (
-          <div className="swatch-buttons-container" key={`swatch-${5}`}>
+          <div className="swatch-buttons-container" key={`swatch-${3}`}>
             <DragHandle
               buttonTextColor={buttonTextColor}
               minWidthReached={minWidthReached}

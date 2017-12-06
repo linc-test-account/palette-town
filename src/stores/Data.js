@@ -1,5 +1,6 @@
-import { action, observable, computed, useStrict } from "mobx";
+import { action, observable, computed, useStrict, toJS } from "mobx";
 import { getPalette, harmonies, modifiers } from "./ColorLogic";
+import { localStorageRetreive, localStorageUpdate } from "./LocalStorage";
 import withCooldown from "./withCooldown";
 import Palette from "./Palette.js";
 useStrict(true);
@@ -50,18 +51,13 @@ class Data {
 
   @computed
   get favoritesShortList() {
-    const favoritesShortList = [];
-    for (let i = 0; i < this.favorites.length; i++) {
-      const palette = this.favorites[i].colors.map(
-        ({ hue, saturation, lightness }) => ({
-          hue: hue,
-          saturation: saturation,
-          lightness: lightness
-        })
-      );
-      favoritesShortList.push(palette);
-    }
-    return favoritesShortList;
+    return this.favorites.map(({ colors }) =>
+      colors.map(({ hue, saturation, lightness }) => ({
+        hue: hue,
+        saturation: saturation,
+        lightness: lightness
+      }))
+    );
   }
 
   // GENERATE PALETTE
@@ -88,9 +84,28 @@ class Data {
   getNext() {
     if (this.cooldownactive === true) {
       return;
-    }
-    if (this.cooldownactive === false) {
+    } else {
       this.generateNewPalatte();
+    }
+  }
+
+  updateLocalStorage() {
+    const favoritesToJS = toJS(this.favorites).map(({ id, name, colors }) => ({
+      id: id,
+      name: name,
+      colors: colors.map(({ colorSpace, properties }) => ({
+        colorSpace: colorSpace,
+        properties: properties
+      }))
+    }));
+    localStorageUpdate(favoritesToJS);
+  }
+
+  @action
+  retreiveFromLocalStorage() {
+    const items = localStorageRetreive();
+    if (items !== undefined) {
+      items.map(item => this.favorites.push(new Palette(null, null, item)));
     }
   }
 
@@ -103,15 +118,11 @@ class Data {
           return;
         }
       }
-      this.favorites.push(this.palette);
-      this.palette.favorited = true;
     }
-    if (this.favorites.length === 0) {
-      this.favorites.push(this.palette);
-      this.palette.favorited = true;
-    } else {
-      return;
-    }
+    this.favorites.push(this.palette);
+    this.palette.favorited = true;
+    this.palette.name = "fav " + this.favorites.length;
+    this.updateLocalStorage();
   }
 
   @action
@@ -119,6 +130,7 @@ class Data {
     if (this.favorites.length > 0) {
       this.favorites.splice(index, 1);
       this.palette.favorited = false;
+      this.updateLocalStorage();
     } else {
       return;
     }
@@ -155,7 +167,7 @@ class Data {
       return false;
     }
     if (/[^\d\.]/.test(value)) {
-      console.log(true)
+      console.log(true);
       return false;
     }
     if (value < 0) {

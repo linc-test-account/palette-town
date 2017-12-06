@@ -16,6 +16,9 @@
     "color-namer": "^1.3.0",
     "css-loader": "0.28.4",
     "dotenv": "4.0.0",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
+    "enzyme-to-json": "^3.2.2",
     "eslint-config-react-app": "^1.0.5",
     "eslint-loader": "1.7.1",
     "eslint-plugin-flowtype": "2.34.0",
@@ -29,6 +32,7 @@
     "mobx-react": "^4.3.5",
     "mobx-react-devtools": "^4.2.15",
     "object-assign": "4.1.1",
+    "object.pick": "^1.3.0",
     "pascal-case": "^2.0.1",
     "postcss-flexbugs-fixes": "3.0.0",
     "postcss-loader": "2.0.6",
@@ -65,6 +69,7 @@
       "src/**/*.{js,jsx}"
     ],
     "setupFiles": [
+      "./jest_setup.js",
       "<rootDir>/config/polyfills.js"
     ],
     "testMatch": [
@@ -80,6 +85,9 @@
     },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
     ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web"

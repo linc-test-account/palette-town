@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header should render correctly 1`] = `
+<div
+  className="header"
+>
+  <HeaderButton
+    btnFunction={[Function]}
+    dataStore={
+      Object {
+        "palette": Object {},
+      }
+    }
+    fontAwesomeIcon="bars"
+  />
+  <h1
+    className="default-brand-name"
+  >
+    Palette Town
+  </h1>
+  <h1
+    className="mobile-brand-name"
+  >
+    PT
+  </h1>
+  <HeaderButton
+    btnFunction={[Function]}
+    dataStore={
+      Object {
+        "palette": Object {},
+      }
+    }
+    fontAwesomeIcon="arrow-right"
+  />
+  <HeaderButton
+    btnFunction={[Function]}
+    dataStore={
+      Object {
+        "palette": Object {},
+      }
+    }
+    fontAwesomeIcon="plus"
+  />
+  <HeaderButton
+    btnFunction={[Function]}
+    dataStore={
+      Object {
+        "palette": Object {},
+      }
+    }
+    fontAwesomeIcon="exchange"
+  />
+  <HeaderButton
+    btnFunction={[Function]}
+    dataStore={
+      Object {
+        "palette": Object {},
+      }
+    }
+    fontAwesomeIcon="random"
+  />
+  <HeaderButton
+    btnFunction={[Function]}
+    dataStore={
+      Object {
+        "palette": Object {},
+      }
+    }
+    fontAwesomeIcon="heart-o"
+  />
+  <HeaderButton
+    btnFunction={[Function]}
+    dataStore={
+      Object {
+        "palette": Object {},
+      }
+    }
+    fontAwesomeIcon="download"
+  />
+</div>
+`;

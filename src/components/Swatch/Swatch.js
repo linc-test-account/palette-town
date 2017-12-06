@@ -19,6 +19,25 @@ const DragHandle = SortableHandle(({ buttonTextColor, minWidthReached }) => {
 
 @observer
 class Swatch extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      disableAllAnimations: true
+    };
+  }
+  
+  componentDidMount() {
+    // disables Swatch FlipMove animation
+    // until after Palette FlipMove animation
+    // completes. Prevents minor glitchyness
+    // in transitions between Palettes
+    setTimeout(() => {
+      this.setState({
+        disableAllAnimations: false
+      });
+    }, 350);
+  }
+
   static propTypes = {
     dataStore: PropTypes.object.isRequired,
     colorStore: PropTypes.object.isRequired,
@@ -49,14 +68,12 @@ class Swatch extends Component {
 
     return (
       <FlipMove
-        // disableAllAnimations={true}
+        disableAllAnimations={this.state.disableAllAnimations}
         style={style}
         className={`palette-swatch ${
           sorting === false ? "swatch-flex-transition" : ""
         }`}
-        appearAnimation={"fade"}
         leaveAnimation={"elevator"}
-        enterAnimation={"fade"}
         duration={200}
       >
         {minWidthReached === true && colorStore.selected === true ? (

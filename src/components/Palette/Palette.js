@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import FlipMove from "react-flip-move";
 import Swatch from "../Swatch/Swatch";
+import FontAwesome from "react-fontawesome";
 import "./Palette.css";
 
 const SortableItem = SortableElement(
@@ -39,7 +40,7 @@ const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
       onStartAll={() => dataStore.toggleCoolDownActive(true)}
       onFinishAll={() => dataStore.toggleCoolDownActive(false)}
       // easing="cubic-bezier(.4,-0.32,.52,1.31)"
-      // easing="ease-in-out"
+      easing="ease-in-out"
       duration={200}
       appearAnimation={"fade"}
       enterAnimation={"fade"}
@@ -47,7 +48,14 @@ const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
       maintainContainerHeight={true}
       staggerDelayBy={20}
     >
-      {sortableSwatches}
+      {sortableSwatches.length === 0 ? (
+        <div className="empty-palette-placeholder" key="item-zero">
+          Press <FontAwesome className="empty-palette-placeholder-icon" name="plus" size="2x" /> to
+          add swatches
+        </div>
+      ) : (
+        sortableSwatches
+      )}
     </FlipMove>
   );
 });
@@ -72,7 +80,7 @@ class palette extends Component {
   }
   static propTypes = {
     minWidthReached: PropTypes.bool,
-    dataStore: PropTypes.object
+    dataStore: PropTypes.object.isRequired
   };
 
   handleSortStart = () => {

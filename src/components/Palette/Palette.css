@@ -7,6 +7,21 @@
   background: rgb(41, 41, 41);
 }
 
+.empty-palette-placeholder {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 4;
+  color: white;
+  font-size: 15px;
+}
+
+.empty-palette-placeholder-icon {
+  font-size: 16px;
+  padding: 5px;
+}
+
 @media screen and (max-width: 700px) {
   .palette-swatch-container {
     flex-direction: column;

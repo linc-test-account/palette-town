@@ -25,8 +25,8 @@ class HslPick extends Component {
   }
 
   static propTypes = {
-    dataStore: PropTypes.object,
-    colorStore: PropTypes.object
+    dataStore: PropTypes.object.isRequired,
+    colorStore: PropTypes.object.isRequired
   };
 
   componentDidMount() {

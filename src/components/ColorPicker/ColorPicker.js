@@ -24,9 +24,9 @@ class ColorPicker extends Component {
   };
 
   static propTypes = {
-    dataStore: PropTypes.object,
-    colorStore: PropTypes.object,
-    colorSpace: PropTypes.string
+    dataStore: PropTypes.object.isRequired,
+    colorStore: PropTypes.object.isRequired,
+    colorSpace: PropTypes.string.isRequired
   };
 
   render() {

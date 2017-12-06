@@ -4,9 +4,10 @@ import FontAwesome from "react-fontawesome";
 import MiniPalette from "../MiniPalette/MiniPalette";
 import ColorDialog from "../Elements/ColorDialog";
 import PropTypes from "prop-types";
+import "./PaletteColorData.css";
 
 @observer
-class ModalContent extends Component {
+class PaletteColorData extends Component {
   static propTypes = {
     dataStore: PropTypes.object,
     handleClose: PropTypes.func
@@ -17,7 +18,6 @@ class ModalContent extends Component {
       <div>
         <button className="modal-close-button" onClick={handleClose}>
         <FontAwesome
-            // className="favorite-list-item-icon"
             name={"times"}
             size="2x"
           />
@@ -74,4 +74,4 @@ class ModalContent extends Component {
   }
 }
 
-export default ModalContent;
+export default PaletteColorData;

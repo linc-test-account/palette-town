@@ -15,16 +15,36 @@ export default class Palette {
   modifier;
   @observable favorited = false;
   @observable colors = [];
+  @observable name = "";
 
-  constructor(harmony, modifier) {
+  constructor(harmony, modifier, localStorageValues) {
     this.id = shortid.generate();
     this.modifier = modifier;
     this.favorited = false;
+    this.name = "";
 
-    this.colors = getPalette(harmony, modifier).map(
-      ({ hue, saturation, lightness }) =>
-        new Color("hsl", hue, saturation, lightness)
-    );
+    if (harmony === null && modifier === null && localStorageValues === null) {
+      throw new Error(
+        `Invalid arguments received. Palette must receive a harmony & modifier or localStorageValues`
+      );
+    }
+
+    // If no predefined values from localStorageValues
+    if (localStorageValues === undefined) {
+      this.colors = getPalette(harmony, modifier).map(
+        ({ hue, saturation, lightness }) =>
+          new Color("hsl", hue, saturation, lightness)
+      );
+    }
+
+    // If received predfined values from localStorageValues
+    if (localStorageValues !== undefined) {
+      this.id = localStorageValues.id;
+      this.name = localStorageValues.name;
+      this.colors = localStorageValues.colors.map(
+        ({ colorSpace, properties }) => new Color(colorSpace, ...properties)
+      );
+    }
   }
 
   @computed
@@ -36,6 +56,11 @@ export default class Palette {
       }
     }
     return target;
+  }
+
+  @action
+  changeName(name) {
+    this.name = name;
   }
 
   @action

@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderButton should render active 1`] = `
+<button
+  className="header-button"
+  onClick={[Function]}
+>
+  <FontAwesome
+    className="header-icon"
+    name="exampleIcon"
+    size="2x"
+    style={
+      Object {
+        "color": "hsl(310, 100%, 50%)",
+      }
+    }
+  />
+  <p
+    className="indicator-overlay"
+  >
+    1
+  </p>
+</button>
+`;
+
+exports[`HeaderButton should render in-active 1`] = `
+<button
+  className="header-button"
+  onClick={[Function]}
+>
+  <FontAwesome
+    className="header-icon"
+    name="exampleIcon"
+    size="2x"
+    style={
+      Object {
+        "color": "",
+      }
+    }
+  />
+  <p
+    className="indicator-overlay"
+  >
+    1
+  </p>
+</button>
+`;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import FontAwesome from "react-fontawesome";
-import "./HeaderButton.css";
+import styles from "./HeaderButton.css";
 import PropTypes from "prop-types";
 
 @observer
@@ -18,15 +18,15 @@ class HeaderButton extends Component {
       color: isActive ? "hsl(310, 100%, 50%)" : ""
     };
     return (
-      <button className="header-button" onClick={btnFunction}>
+      <button className={styles.headerButton} onClick={btnFunction}>
         <FontAwesome
           style={style}
-          className="header-icon"
+          className={styles["headerIcon"]}
           name={fontAwesomeIcon}
           size="2x"
         />
         {overlayValue > 0 ? (
-          <p className="indicator-overlay">{overlayValue}</p>
+          <p className={styles.indicatorOverlay}>{overlayValue}</p>
         ) : (
           ""
         )}

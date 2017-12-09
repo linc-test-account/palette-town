@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import HeaderButton from "../HeaderButton/HeaderButton";
 import PropTypes from "prop-types";
-import "./Header.css";
+import styles from "./Header.css";
 
 @observer
 class Header extends Component {
@@ -17,14 +17,14 @@ class Header extends Component {
     const heartType =
       dataStore.palette.favorited === true ? "heart" : "heart-o";
     return (
-      <div className="header">
+      <div className={styles["header"]}>
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => toggleSideNav(true)}
           fontAwesomeIcon={"bars"}
         />
-        <h1 className="default-brand-name">Palette Town</h1>
-        <h1 className="mobile-brand-name">PT</h1>
+        <h1 className={styles["defaultBrandName"]}>Palette Town</h1>
+        <h1 className={styles["mobileBrandName"]}>PT</h1>
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.getNext()}

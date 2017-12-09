@@ -2,7 +2,7 @@
 
 exports[`Header should render correctly 1`] = `
 <div
-  className="header"
+  className={styles["header"]}
 >
   <HeaderButton
     btnFunction={[Function]}
@@ -14,12 +14,12 @@ exports[`Header should render correctly 1`] = `
     fontAwesomeIcon="bars"
   />
   <h1
-    className="default-brand-name"
+    className={styles["defaultBrandName"]}
   >
     Palette Town
   </h1>
   <h1
-    className="mobile-brand-name"
+    className={styles["mobileBrandName"]}
   >
     PT
   </h1>

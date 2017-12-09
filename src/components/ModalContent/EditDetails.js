@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import MiniPalette from "../MiniPalette/MiniPalette";
 import PropTypes from "prop-types";
-import "./PaletteDetails.css";
+import AppButton from "../AppButton/AppButton";
+import styles from "./EditDetails.css";
+import classNames from "classnames";
 
 @observer
-class PaletteDetails extends Component {
+class EditDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,72 +69,73 @@ class PaletteDetails extends Component {
     return (
       <div>
         {content === "default" && (
-          <div className="edit-details-container">
-            <h1 className="edit-details-heading">Edit Palette</h1>
+          <div className={styles["editDetailsContainer"]}>
+            <h1 className={styles["editDetailsHeading"]}>Edit Palette</h1>
             <MiniPalette
               swatchWidth={50}
-              swatchHeight={30}
+              swatchHeight={20}
               swatchHover={true}
               harmony={dataStore.favorites[targetFavorite].colors}
             />
-            <h3 className="edit-details-input-heading">Name</h3>
+            <h3 className={styles["editDetailsInputHeading"]}>Name</h3>
             <input
-              className="edit-details-input"
+              className={styles["editDetailsInput"]}
               type="text"
               value={nameInput}
               onChange={event => this.inputOnChange(event.target.value)}
             />
 
-            <div className="edit-details-input-container">
-              <button
-                className="edit-details-button confirm"
-                onClick={this.confirm}
-              >
-                Save
-              </button>
-              <button
-                className="edit-details-button cancel"
-                onClick={this.cancel}
-              >
-                Cancel
-              </button>
-              <button
-                className="edit-details-button delete"
-                onClick={() => this.switchContent("delete")}
-              >
-                Delete
-              </button>
+            <div className={styles["editDetailsButtonContainer"]}>
+              <AppButton
+                buttonText="Save"
+                buttonType="confirm"
+                buttonAction={this.confirm}
+              />
+              <AppButton
+                buttonText="Cancel"
+                buttonType="default"
+                buttonAction={this.cancel}
+              />
+              <AppButton
+                buttonText="Delete"
+                buttonType="danger"
+                buttonAction={() => this.switchContent("delete")}
+              />
             </div>
           </div>
         )}
         {content === "delete" && (
-          <div className="edit-details-container">
-            <h1 className="edit-details-heading edit-details-heading-delete">
-              Delete <span className="edit-details-text-span">{nameInput}</span>
+          <div className={styles["editDetailsContainer"]}>
+            <h1
+              className={classNames({
+                [styles.editDetailsHeading]: true,
+                [styles.editDetailsHeadingDelete]: true
+              })}
+            >
+              Delete Favorite
             </h1>
             <MiniPalette
               swatchWidth={50}
-              swatchHeight={30}
+              swatchHeight={20}
               swatchHover={true}
               harmony={dataStore.favorites[targetFavorite].colors}
             />
-            <h3 className="edit-details-input-heading">
-              Are you sure you want to delete{" "}
-              <span className="edit-details-text-span">{nameInput}</span>?
+            <h3 className={styles.editDetailsInputHeading}>
+              Delete{" "}
+              <span className={styles.editDetailsTextSpan}>{nameInput}</span>{" "}
+              from favorites?
             </h3>
-            <div className="edit-details-input-container">
-              <button
-                className="edit-details-button cancel"
-                onClick={() => this.switchContent("default")}
-              >
-                Cancel
-              </button>
-              <button
-                className="edit-details-button delete"
-                onClick={this.delete}
-              >
-                Confirm
-              </button>
+            <div className={styles["editDetailsButtonContainer"]}>
+              <AppButton
+                buttonText="Cancel"
+                buttonType="default"
+                buttonAction={() => this.switchContent("default")}
+              />
+              <AppButton
+                buttonText="Delete"
+                buttonType="danger"
+                buttonAction={this.delete}
+              />
             </div>
           </div>
         )}
@@ -141,4 +144,4 @@ class PaletteDetails extends Component {
   }
 }
 
-export default PaletteDetails;
+export default EditDetails;

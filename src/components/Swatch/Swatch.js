@@ -5,14 +5,19 @@ import FontAwesome from "react-fontawesome";
 import FlipMove from "react-flip-move";
 import { SortableHandle } from "react-sortable-hoc";
 import ColorPicker from "../ColorPicker/ColorPicker";
-import "./Swatch.css";
+import styles from "./Swatch.css";
 import HexInput from "./HexInput";
+import classNames from "classnames";
 
 const DragHandle = SortableHandle(({ buttonTextColor, minWidthReached }) => {
   const dragIcon = minWidthReached === true ? "arrows-v" : "arrows-h";
   return (
-    <div style={buttonTextColor} className="palette-swatch-button">
-      <FontAwesome className="swatch-button-icon" name={dragIcon} size="2x" />
+    <div style={buttonTextColor} className={styles["paletteSwatchButton"]}>
+      <FontAwesome
+        className={styles["swatchButtonIcon"]}
+        name={dragIcon}
+        size="2x"
+      />
     </div>
   );
 });
@@ -25,7 +30,7 @@ class Swatch extends Component {
       disableAllAnimations: true
     };
   }
-  
+
   componentDidMount() {
     // disables Swatch FlipMove animation
     // until after Palette FlipMove animation
@@ -70,23 +75,29 @@ class Swatch extends Component {
       <FlipMove
         disableAllAnimations={this.state.disableAllAnimations}
         style={style}
-        className={`palette-swatch ${
-          sorting === false ? "swatch-flex-transition" : ""
-        }`}
+        className={classNames({
+          [styles.paletteSwatch]: true,
+          [styles.swatchFlexTransition]: sorting === false ? true : false
+        })}
         leaveAnimation={"elevator"}
         duration={200}
       >
         {minWidthReached === true && colorStore.selected === true ? (
           <span key={`swatch-${0}`} />
         ) : (
-          <div key={`swatch-${1}`} className="swatch-info-container">
+          <div key={`swatch-${1}`} className={styles["swatchInfoContainer"]}>
             <HexInput
               textColor={buttonTextColor}
               uniqueIndex={uniqueIndex}
               dataStore={dataStore}
               colorStore={colorStore}
             />
-            <p className="palette-swatch-name noselect">
+            <p
+              className={classNames({
+                [styles.paletteSwatchName]: true,
+                [styles.noselect]: true
+              })}
+            >
               {colorStore.colorName}
             </p>
           </div>
@@ -102,29 +113,29 @@ class Swatch extends Component {
         )}
 
         {colorStore.selected === false && (
-          <div className="swatch-buttons-container" key={`swatch-${3}`}>
+          <div className={styles["swatchButtonsContainer"]} key={`swatch-${3}`}>
             <DragHandle
               buttonTextColor={buttonTextColor}
               minWidthReached={minWidthReached}
             />
             <div
               style={buttonTextColor}
-              className="palette-swatch-button"
+              className={styles["paletteSwatchButton"]}
               onClick={() => dataStore.palette.selectSwatch(uniqueIndex)}
             >
               <FontAwesome
-                className="swatch-button-icon"
+                className={styles["swatchButtonIcon"]}
                 name="sliders"
                 size="2x"
               />
             </div>
             <div
               style={buttonTextColor}
-              className="palette-swatch-button"
+              className={styles["paletteSwatchButton"]}
               onClick={() => dataStore.palette.deleteSwatch(uniqueIndex)}
             >
               <FontAwesome
-                className="swatch-button-icon"
+                className={styles["swatchButtonIcon"]}
                 name="trash"
                 size="2x"
               />

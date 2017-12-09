@@ -1,0 +1,50 @@
+.buttonDefault {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    background: none;
+    color: hsl(204, 96%, 42%);
+    color: var(--app-brand-color);
+    font-weight: bold;
+    padding: 10px 10px 10px 10px;
+    border-style: solid;
+    border-width: 0 1px 0 0;
+    border-color: hsl(0, 0%, 88%);
+    border-color: var(--headerButton-border-color);
+    cursor: pointer;
+    transition: .3s ease all;
+    font-family: "Varela Round", sans-serif;
+    font-family: var(--app-font);
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+
+  .buttonDefault:active {
+    color: hsl(310, 100%, 50%);
+  }
+
+  .buttonDefault:last-child {
+    border: none;
+  }
+  
+  .active {
+    color: hsl(310, 100%, 50%);
+  }
+
+  @media screen and (max-width: 1000px) {
+    .buttonDefault {
+      font-size: 12px;
+      padding: 10px 5px 10px 5px;
+    }
+  }
+
+
+  @media screen and (max-width: 700px) {
+    .buttonDefault {
+      font-size: 13px;
+      padding: 10px;
+    }
+  }

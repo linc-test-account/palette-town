@@ -6,8 +6,8 @@ import SideNav from "../SideNav/SideNav";
 import Palette from "../Palette/Palette";
 import Footer from "../Footer/Footer";
 import Modal from "react-modal";
-import PaletteColorData from "../ModalContent/PaletteColorData";
-import "./App.css";
+import ColorInfo from "../ModalContent/ColorInfo";
+import styles from "./App.css";
 
 @observer
 class App extends Component {
@@ -40,7 +40,15 @@ class App extends Component {
       }
       // if space bar pressed, get new palette
       if (event.keyCode === 32) {
-        this.handleKeyPress();
+        if (this.state.sideNavModalVisible === true) {
+          return;
+        }
+        if (this.state.showSideNav === true) {
+          return;
+        }
+        else {
+          dataStore.getNext();
+        }
       }
     });
   }
@@ -83,23 +91,16 @@ class App extends Component {
 
   toggleSideNavVisibility = () => {
     const { sideNavModalVisible } = this.state;
-    if (sideNavModalVisible === true) {
-      this.setState({
-        sideNavModalVisible: false
-      });
-    }
-    if (sideNavModalVisible === false) {
-      this.setState({
-        sideNavModalVisible: true
-      });
-    }
+    this.setState({
+      sideNavModalVisible: sideNavModalVisible === true ? false : true
+    });
   };
 
   render() {
     const { dataStore } = this.props;
     const { showSideNav, minWidthReached } = this.state;
     return (
-      <div className="App">
+      <div className={styles.container}>
         <Header
           toggleSideNav={this.toggleSideNav}
           modalHandleClick={this.handleClick}
@@ -126,19 +127,20 @@ class App extends Component {
           onRequestClose={this.handleClose}
           contentLabel="Color Info Modal"
           className={{
-            base: "colorModalDialog",
-            afterOpen: "colorModalDialog_after-open",
-            beforeClose: "colorModalDialog_before-close"
+            base: styles.colorModalDialog,
+            afterOpen: styles.colorModalDialogAfterOpen,
+            beforeClose: styles.colorModalDialogBeforeClose
           }}
           overlayClassName={{
-            base: "modalOverlay",
-            afterOpen: "modalOverlay_after-open",
-            beforeClose: "modalOverlay_before-close"
+            base: styles.modalOverlay,
+            afterOpen: styles.modalOverlayAfterOpen,
+            beforeClose: styles.modalOverlayBeforeClose
           }}
         >
-          <PaletteColorData
+          <ColorInfo
             dataStore={dataStore}
             handleClose={this.handleClose}
+            minWidthReached={minWidthReached}
           />
         </Modal>
       </div>

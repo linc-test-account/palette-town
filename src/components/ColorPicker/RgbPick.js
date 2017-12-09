@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import { getContrastYIQ } from "../../stores/ColorLogic";
 import Slider from "rc-slider";
-import "./ColorPicker.css";
-import "./Slider.css";
+import styles from "./Slider.css";
 
 @observer
 class RgbPick extends Component {
@@ -99,10 +98,10 @@ class RgbPick extends Component {
     };
 
     return (
-      <div className="sliders">
-        <div className="input-container">
+      <div>
+        <div className={styles.inputContainer}>
           <input
-            className="slider-input"
+            className={styles.sliderInput}
             onChange={event => this.inputOnChange(event.target.value, "red")}
             min={0}
             max={255}
@@ -122,9 +121,9 @@ class RgbPick extends Component {
           />
         </div>
 
-        <div className="input-container">
+        <div className={styles.inputContainer}>
           <input
-            className="slider-input"
+            className={styles.sliderInput}
             onChange={event => this.inputOnChange(event.target.value, "green")}
             min={0}
             max={255}
@@ -143,9 +142,9 @@ class RgbPick extends Component {
             onChange={value => this.inputOnChange(value, "green")}
           />
         </div>
-        <div className="input-container">
+        <div className={styles.inputContainer}>
           <input
-            className="slider-input"
+            className={styles.sliderInput}
             onChange={event => this.inputOnChange(event.target.value, "blue")}
             min={0}
             max={255}

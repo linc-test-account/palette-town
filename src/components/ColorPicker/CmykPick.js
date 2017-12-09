@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
-import { getContrastYIQ } from "../../stores/ColorLogic";
 import Slider from "rc-slider";
-import "./ColorPicker.css";
-import "./Slider.css";
+import styles from "./Slider.css";
 
 @observer
 class CmykPick extends Component {
@@ -66,19 +64,15 @@ class CmykPick extends Component {
 
     const cyanHandle = {
       background: "#00ffff",
-      color: `hsla(0, 0%, ${getContrastYIQ("#00ffff")}%, .8)`
     };
     const magentaHandle = {
       background: "#fc00ff",
-      color: `hsla(0, 0%, ${getContrastYIQ("#fc00ff")}%, .8)`
     };
     const yellowHandle = {
       background: "#fcff00",
-      color: `hsla(0, 0%, ${getContrastYIQ("#fcff00")}%, .8)`
     };
     const keyHandle = {
       background: "#000000",
-      color: `hsla(0, 0%, ${getContrastYIQ("#000000")}%, .8)`
     };
 
     const backgroundCyan = {
@@ -111,10 +105,10 @@ class CmykPick extends Component {
     };
 
     return (
-      <div className="sliders">
-        <div className="input-container">
+      <div>
+        <div className={styles.inputContainer}>
           <input
-            className="slider-input"
+            className={styles.sliderInput}
             onChange={event => this.inputOnChange(event.target.value, "cyan")}
             min={0}
             max={100}
@@ -134,9 +128,9 @@ class CmykPick extends Component {
           />
         </div>
 
-        <div className="input-container">
+        <div className={styles.inputContainer}>
           <input
-            className="slider-input"
+            className={styles.sliderInput}
             onChange={event =>
               this.inputOnChange(event.target.value, "magenta")
             }
@@ -157,9 +151,9 @@ class CmykPick extends Component {
             onChange={value => this.inputOnChange(value, "magenta")}
           />
         </div>
-        <div className="input-container">
+        <div className={styles.inputContainer}>
           <input
-            className="slider-input"
+            className={styles.sliderInput}
             onChange={event => this.inputOnChange(event.target.value, "yellow")}
             min={0}
             max={100}
@@ -178,9 +172,9 @@ class CmykPick extends Component {
             onChange={value => this.inputOnChange(value, "yellow")}
           />
         </div>
-        <div className="input-container">
+        <div className={styles.inputContainer}>
           <input
-            className="slider-input"
+            className={styles.sliderInput}
             onChange={event => this.inputOnChange(event.target.value, "key")}
             min={0}
             max={100}

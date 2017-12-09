@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import Slider from "rc-slider";
-import "./ColorPicker.css";
-import "./Slider.css";
+import styles from "./Slider.css";
 
 function generateHueSpectrumGradient(saturation, lightness) {
   const colors = [];
@@ -113,10 +112,10 @@ class HslPick extends Component {
     };
 
     return (
-      <div className="picker-container">
-        <div className="input-container">
+      <div>
+        <div className={styles.inputContainer}>
           <input
-            className="slider-input"
+            className={styles.sliderInput}
             onChange={event => this.inputOnChange(event.target.value, "hue")}
             min={0}
             max={360}
@@ -137,9 +136,9 @@ class HslPick extends Component {
           />
         </div>
 
-        <div className="input-container">
+        <div className={styles.inputContainer}>
           <input
-            className="slider-input"
+            className={styles.sliderInput}
             onChange={event =>
               this.inputOnChange(event.target.value, "saturation")
             }
@@ -160,9 +159,9 @@ class HslPick extends Component {
             onChange={value => this.inputOnChange(value, "saturation")}
           />
         </div>
-        <div className="input-container">
+        <div className={styles.inputContainer}>
           <input
-            className="slider-input"
+            className={styles.sliderInput}
             onChange={event =>
               this.inputOnChange(event.target.value, "lightness")
             }

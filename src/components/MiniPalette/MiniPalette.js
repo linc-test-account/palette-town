@@ -1,9 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import convert from "color-convert";
-import "./MiniPalette.css";
+import styles from "./MiniPalette.css";
 
-const MiniSwatch = ({ swatchWidth, swatchHeight, swatchHover, hue, saturation, lightness }) => {
+const MiniSwatch = ({
+  swatchWidth,
+  swatchHeight,
+  swatchHover,
+  hue,
+  saturation,
+  lightness
+}) => {
   const style = {
     background: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
     width: swatchWidth + "px",
@@ -11,9 +18,13 @@ const MiniSwatch = ({ swatchWidth, swatchHeight, swatchHover, hue, saturation, l
   };
 
   return swatchHover === true ? (
-    <div className="mini-swatch-alt" style={style} title={`#${convert.hsl.hex(hue, saturation, lightness)}`}/>
+    <div
+      className={styles.miniSwatchAlt}
+      style={style}
+      title={`#${convert.hsl.hex(hue, saturation, lightness)}`}
+    />
   ) : (
-    <div className="mini-swatch" style={style} />
+    <div className={styles.miniSwatch} style={style} />
   );
 };
 
@@ -30,10 +41,7 @@ class MiniPalette extends Component {
   static propTypes = {
     swatchWidth: PropTypes.number,
     swatchHeight: PropTypes.number,
-    harmony: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.array
-    ]),
+    harmony: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     swatchHover: PropTypes.bool
   };
   render() {
@@ -49,7 +57,7 @@ class MiniPalette extends Component {
         lightness={lightness}
       />
     ));
-    return <div className="mini-palette-container">{miniPalette}</div>;
+    return <div className={styles["miniPaletteContainer"]}>{miniPalette}</div>;
   }
 }
 

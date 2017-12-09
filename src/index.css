@@ -15,9 +15,9 @@
   /* Header */
   --header-background: hsl(0, 0%, 96%);
   --header-select-background: hsl(0, 0%, 96%);
-  --header-button-background: hsl(0, 0%, 96%);
-  --header-button-color: hsl(0, 0%, 15%);
-  --header-button-border-color: hsl(0, 0%, 88%);
+  --headerButton-background: hsl(0, 0%, 96%);
+  --headerButton-color: hsl(0, 0%, 15%);
+  --headerButton-border-color: hsl(0, 0%, 88%);
 }
 
 body {
@@ -40,14 +40,4 @@ button::-moz-focus-inner {
   border: 0;
 }
 
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  -ms-user-select: text;
-  -ms-user-select: element;
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
-}
+

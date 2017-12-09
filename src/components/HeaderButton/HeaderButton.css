@@ -1,28 +1,28 @@
-.header-button {
+.headerButton {
   background: hsl(0, 0%, 96%);
-  background: var(--header-button-background);
+  background: var(--headerButton-background);
   border-style: solid;
   border-width: 0 0 0 1px;
   border-color: hsl(0, 0%, 88%); /* fallback */
-  border-color: var(--header-button-border-color);
+  border-color: var(--headerButton-border-color);
   text-align: center;
   cursor: pointer;
   width: 80px;
 }
 
-.header .header-button:first-of-type {
+.headerButton:first-of-type {
   border-width: 0 1px 0 0;
 }
 
-.sidenav .header-button:first-of-type {
+.headerButton:first-of-type {
   border-width: 0 1px 0 0;
 }
 
-.header-button:last-child {
+.headerButton:last-child {
   border-width: 0 1px 0 1px;
 }
 
-.header-icon {
+.headerIcon {
   color: hsl(204, 96%, 42%);
   color: var(--app-brand-color);
   transition: 200ms cubic-bezier(.66,-0.06,.24,1.22) transform;
@@ -31,13 +31,13 @@
   transform: scale(1, 1);
 }
 
-.header-button:active .header-icon {
+.headerButton:active .headerIcon {
   color: hsl(310, 100%, 50%);
   transform: scale(.8,.8);
 }
 
 
-.indicator-overlay {
+.indicatorOverlay {
   font-family: var(--app-font);
   color: white;
   z-index: 1;
@@ -55,13 +55,13 @@
   transition: 200ms ease all;
 }
 
-.header-button:active .indicator-overlay {
+.headerButton:active .indicatorOverlay {
   background: hsl(310, 100%, 50%);
   transform: scale(.7,.7);
 }
 
 @media screen and (max-width: 700px) {
-  .header-button {
+  .headerButton {
     width: 50px;
   }
 }

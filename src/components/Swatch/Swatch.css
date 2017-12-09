@@ -1,4 +1,4 @@
-.palette-swatch {
+.paletteSwatch {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -9,28 +9,16 @@
   position: relative;
 }
 
-.swatch-info-container {
+.swatchInfoContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 0 0 40px 0;
   max-width: 75%;
-  /* background: red; */
 }
 
-.palette-swatch-hex {
-  font-family: "Varela Round", sans-serif;
-  font-family: var(--app-font);
-  font-weight: bold;
-  margin: 0 0 10px 0;
-  padding: 0;
-  font-size: 27px;
-  text-transform: uppercase;
-  align-self: center;
-}
-
-.palette-swatch-name {
+.paletteSwatchName {
   font-family: "Varela Round", sans-serif;
   font-family: var(--app-font);
   font-weight: bold;
@@ -40,14 +28,14 @@
   font-style: italic;
 }
 
-.swatch-buttons-container {
+.swatchButtonsContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.palette-swatch-button {
+.paletteSwatchButton {
   font-size: 12px;
   background: none;
   border: none;
@@ -56,25 +44,19 @@
   cursor: pointer;
 }
 @media screen and (max-width: 1200px) {
-  .palette-swatch-hex {
-    padding: 0;
-    font-size: 20px;
-    /* background: blue; */
-  }
 
-  .palette-swatch-name {
+  .paletteSwatchName {
     font-size: 12px;
   }
 
-  .palette-swatch-button {
+  .paletteSwatchButton {
     font-size: 10px;
-    /* padding: 0 10px 0 10px; */
     margin: 10px;
   }
 }
 
 @media screen and (max-width: 700px) {
-  .palette-swatch {
+  .paletteSwatch {
     display: flex;
     flex-direction: row;
     align-content: center;
@@ -82,57 +64,70 @@
     width: 100%;
   }
 
-  .swatch-info-container {
+  .swatchInfoContainer {
     margin: 0 60px 0 0;
     min-width: 20%;
     padding: 0;
   }
 
-  .palette-swatch-hex {
-    /* background: red; */
-    padding: 0;
-    font-size: 20px;
-  }
-
-  .palette-swatch-name {
+  .paletteSwatchName {
     font-size: 11px;
   }
 
-  .palette-swatch-button {
+  .paletteSwatchButton {
     font-size: 30px;
     padding: 0 5px 0 5px;
   }
 
-  .swatch-button-icon {
+  .swatchButtonIcon {
     font-size: 24px;
   }
 
-  .palette-swatch-button:first-of-type {
+  .paletteSwatchButton:first-of-type {
     margin: 0 0 0 0;
   }
 
-  .swatch-buttons-container {
+  .swatchButtonsContainer {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    /* margin: 0 0 0 20px; */
   }
 
-  .palette-swatch-button {
+  .paletteSwatchButton {
     font-size: 10px;
   }
 
-  .palette-swatch-button:last-child {
+  .paletteSwatchButton:last-child {
     margin: 0;
   }
 }
 
-/* Applying transition to flex on sortable items contained */
-/* within an instance of react-sortable-hoc seems to break */
-/* sortable item transition on manualy sorted items. */
-/* A workaround is to remove the class below from Swatch component */
-/* whenever manual sorting of swatches is in progress, then */
-/* add it back on sort end */
-.swatch-flex-transition {
-  transition: .3s ease flex;
+/* 
+  Applying transition to flex on sortable items contained
+  within an instance of react-sortable-hoc appears to break
+  sortable item transition on manualy sorted items. That is,
+  when you move an item around, adjacent items instantly appear
+  in there new position without a smooth transition. This is not good.
+
+  My current workaround is to use react-sortable-hoc's onSortStart 
+  and onSortEnd callback props to determine if sorting is in progress.
+  I can then add the 'swatchFlexTransition' class below to a sortable 
+  item to give transition to flex when sorting within react-sortable-hoc
+  is not in progress. The transition applied to flex here simply applies
+  smooth transition between different flex-grow values.
+*/
+.swatchFlexTransition {
+  transition: 0.3s ease flex;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  -ms-user-select: text;
+  -ms-user-select: element;
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }

@@ -9,7 +9,7 @@
   max-height: 50px;
 }
 
-.default-brand-name {
+.defaultBrandName {
   font-size: 20px;
   font-weight: bold;
   color: hsl(204, 96%, 42%);
@@ -22,7 +22,7 @@
   padding: 0 10px 0 10px;
 }
 
-.mobile-brand-name {
+.mobileBrandName {
   font-size: 20px;
   font-weight: bold;
   color: var(--app-brand-color);
@@ -36,10 +36,10 @@
 }
 
 @media screen and (max-width: 700px) {
-  .default-brand-name {
+  .defaultBrandName {
     display: none;
   }
-  .mobile-brand-name {
+  .mobileBrandName {
     display: flex;
   }
 }

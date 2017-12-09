@@ -1,4 +1,4 @@
-.palette-swatch-container {
+.paletteSwatchContainer {
   display: flex;
   flex-direction: row;
   font-family: "Varela Round", sans-serif;
@@ -7,7 +7,7 @@
   background: rgb(41, 41, 41);
 }
 
-.empty-palette-placeholder {
+.emptyPalettePlaceholder {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -17,13 +17,13 @@
   font-size: 15px;
 }
 
-.empty-palette-placeholder-icon {
+.emptyPalettePlaceholderIcon {
   font-size: 16px;
   padding: 5px;
 }
 
 @media screen and (max-width: 700px) {
-  .palette-swatch-container {
+  .paletteSwatchContainer {
     flex-direction: column;
   }
 }

@@ -1,40 +1,40 @@
-.mini-palette-container {
+.miniPaletteContainer {
   display: flex;
   flex-direction: row;
   transition: 200ms ease all;
 }
 
-.mini-swatch {
+.miniSwatch {
   width: 30px;
   height: 20px;
   transition: 100ms ease all;
 }
 
-.mini-swatch:first-child {
+.miniSwatch:first-child {
   border-radius: 4px 0 0 4px;
 }
 
-.mini-swatch:last-child {
+.miniSwatch:last-child {
   border-radius: 0 4px 4px 0;
 }
 
 
-.mini-swatch-alt {
+.miniSwatchAlt {
   width: 30px;
   height: 20px;
   transition: 100ms ease all;
 }
 
-.mini-swatch-alt:hover {
+.miniSwatchAlt:hover {
   transform: scale(1.2, 1.2);
   box-shadow: 0 2px 4px 0 hsla(0, 0%, 0%, 0.2);
 }
 
-.mini-swatch-alt:first-child {
+.miniSwatchAlt:first-child {
   border-radius: 4px 0 0 4px;
 }
 
-.mini-swatch-alt:last-child {
+.miniSwatchAlt:last-child {
   border-radius: 0 4px 4px 0;
 }
 

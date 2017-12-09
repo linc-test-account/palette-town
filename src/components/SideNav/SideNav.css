@@ -8,23 +8,44 @@
   top: 0;
   left: 0;
   background: hsl(0, 0%, 96%);
-  background: var(--header-button-background);
+  background: var(--headerButton-background);
   overflow-x: hidden;
   transition: 200ms ease-in-out transform;
   box-shadow: 0 0 10px 0 hsla(0, 0%, 0%, 0.301);
 }
 
-.sidenav-category-container {
-  transition: 300ms cubic-bezier(0.4, -0.32, 0.52, 1.31) all;
-  overflow: hidden;
+.mobileBrandName {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--app-brand-color);
+  font-family: "Hammersmith One", sans-serif;
+  display: none;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px 0 10px;
+  display: none;
 }
 
-.sidenav-spacer {
+.defaultBrandName {
+  font-size: 20px;
+  font-weight: bold;
+  color: hsl(204, 96%, 42%);
+  color: var(--app-brand-color);
+  font-family: "Hammersmith One", sans-serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px 0 10px;
+}
+
+.sidenavSpacer {
   height: 200px;
   width: 100%;
 }
 
-.sidenav-header {
+.sidenavHeader {
   color: hsl(204, 96%, 42%);
   display: flex;
   flex-direction: row;
@@ -32,30 +53,7 @@
   border-style: solid;
   border-width: 0 0 1px 0;
   border-color: hsl(0, 0%, 88%);
-  border-color: var(--header-button-border-color);
-}
-
-.sidenav-category {
-  background: hsl(0, 0%, 88%);
-  color: hsl(204, 96%, 42%);
-  color: var(--app-brand-color);
-  font-size: 15px;
-  font-weight: bold;
-  margin: 0;
-  padding: 10px 10px 10px 5px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  border-color: hsla(0, 0%, 0%, 0.075);
-}
-
-.sidenav-category-caret {
-  font-size: 20px;
-  padding: 0 0 0 10px;
+  border-color: var(--headerButton-border-color);
 }
 
 .sidenav a {
@@ -73,16 +71,16 @@
   border-color: hsla(0, 0%, 0%, 0.075);
 }
 
-.favorite-list-item-icon {
+.favoriteListItemIcon {
   cursor: pointer;
   color: hsl(0, 0%, 15%);
 }
 
-.sidenav .list-option-selected {
+.sidenav .listOptionSelected {
   background: hsl(0, 0%, 90%);
 }
 
-.favorite-item-container {
+.favoriteListContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -94,14 +92,14 @@
   border-color: hsla(0, 0%, 0%, 0.075);
 }
 
-.favorite-item {
+.favoriteItem {
   padding: 5px 0 0 10px;
   cursor: pointer;
   flex-grow: 2;
   overflow: hidden;
 }
 
-.favorite-list-item-button {
+.favoriteListItemButton {
   background: none;
   border: none;
   font-size: 10px;
@@ -112,6 +110,58 @@
   border-width: 0 0 0 1px;
   border-color: hsla(0, 0%, 0%, 0.075);
   cursor: pointer;
+}
+
+.colorModalDialog {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%) scale(.7,.7);
+  position: absolute;
+  border: none;
+  transition: .3s ease all;
+  background: rgb(255, 255, 255);
+  color: black;
+  opacity: 0;
+  border-radius: 9px;
+  box-shadow: 0 0 20px 0 hsla(0, 0%, 0%, 0.3);
+  z-index: 99;
+  font-family: "Varela Round", sans-serif;
+  font-family: var(--app-font);
+}
+.colorModalDialogAfterOpen {
+  transform: translate(-50%, -50%) scale(1,1);
+  opacity: 1;
+}
+
+.colorModalDialogBeforeClose {
+  opacity: 0;
+}
+
+.modalOverlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: black;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  background: rgba(31, 39, 85, 0);
+  z-index: 98;
+}
+
+.modalOverlayAfterOpen {
+  background: rgba(24, 30, 61, 0.7);
+}
+
+.modalOverlayBeforeClose {
+  background: rgba(31, 39, 85, 0);
 }
 
 #main {
@@ -132,11 +182,16 @@
   .sidenav {
     width: 200px;
   }
-  .sidenav-category {
-    font-size: 16px;
-  }
 
   .sidenav a {
-    font-size: 16px;
+    font-size: 14px;
+  }
+
+  .mobileBrandName {
+    display: flex;
+  }
+
+  .defaultBrandName {
+    display: none;
   }
 }

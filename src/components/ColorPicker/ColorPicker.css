@@ -1,25 +1,27 @@
-.color-picker-container {
+.colorPickerContainer {
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
   align-items: center;
+  font-family: "Varela Round", sans-serif;
+  font-family: var(--app-font);
 }
 
-.color-picker-inner {
+.colorPickerInner {
   width: 75%;
   max-width: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   background: hsl(0, 0%, 96%);
-  background: var(--header-button-background);
+  background: var(--headerButton-background);
   border-radius: 3px;
   box-shadow: 0 0 35px 0 hsla(0, 0%, 0%, 0.4);
 }
 
-.color-picker-header {
+.colorPickerHeader {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -27,61 +29,6 @@
   margin: 0 0 10px 0;
   border-width: 0 0 1px 0;
   border-color: hsl(0, 0%, 88%);
-  border-color: var(--header-button-border-color);
+  border-color: var(--headerButton-border-color);
   border-style: solid;
-}
-
-.color-picker-category {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  background: none;
-  color: hsl(204, 96%, 42%);
-  color: var(--app-brand-color);
-  font-weight: bold;
-  padding: 10px;
-  border-style: solid;
-  border-width: 0 1px 0 0;
-  border-color: hsl(0, 0%, 88%);
-  border-color: var(--header-button-border-color);
-  cursor: pointer;
-  transition: .3s ease all;
-}
-
-.category-active {
-  color: hsl(310, 100%, 50%);
-}
-
-.color-picker-category-check {
-  color: rgb(21, 197, 21);
-  font-size: 15px;
-  margin: 0 0 0 5px;
-}
-
-.color-picker-category:last-child {
-  border: none;
-}
-
-.input-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 0 0 10px 0;
-  padding: 0 10px 0 10px;
-}
-
-.slider-input {
-  color: black;
-  background: hsl(0, 0%, 88%);
-  max-width: 40px;
-  height: 30px;
-  border: none;
-  margin: 0 5px 0 0;
-  padding: 0 0 0 5px;
-  border-radius: 3px;
 }

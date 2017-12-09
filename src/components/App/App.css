@@ -1,4 +1,4 @@
-.App {
+.container {
   height: 100vh;
   max-height: 100vh;
   overflow: hidden;
@@ -6,63 +6,42 @@
   grid-gap: 1px;
   grid-template-areas: "header" "content" "footer";
   grid-template-rows: 50px auto 40px;
-  background: var(--header-button-border-color);
-}
-
-.flipmove-container {
-  grid-area: "content";
-  background: hsl(0, 0%, 19%);
-}
-
-/* Dirty hack to fix palette height in MS Edge */
-/* Forces flipmove-container height to be 100% minus */
-/* the sum of the header and footer height (90px) */
-@supports (-ms-ime-align: auto) {
-  .flipmove-container {
-    height: calc(100% - 90px);
-  }
-}
-
-.modal-box-container {
-  display: flex;
-}
-
-.modal-box-heading {
-  font-size: 20px;
-}
-
-.modal-inner-box {
-  background: rgb(223, 223, 223);
-  padding: 10px;
-  margin: 5px 10px 10px 0;
-  cursor: text;
-  border-radius: 5px;
-}
-
-.modal-color-val {
-  font-size: 17px;
-  margin: 4px;
+  background: var(--headerButton-border-color);
 }
 
 @media screen and (max-width: 700px) {
-  .App {
+  .container {
     grid-template-areas: "header" "content";
     grid-template-rows: 50px auto;
   }
-  /* Dirty hack to fix palette height in MS Edge */
-  @supports (-ms-ime-align: auto) {
-    .flipmove-container {
-      height: 100%;
-    }
-  }
-  .modal-box-heading {
-    font-size: 15px;
-  }
+}
 
-  .modal-color-val {
-    font-size: 12px;
-    margin: 2px;
-  }
+.colorModalDialog {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%) scale(.7,.7);
+  position: absolute;
+  border: none;
+  transition: .3s ease all;
+  background: rgb(255, 255, 255);
+  color: black;
+  opacity: 0;
+  border-radius: 9px;
+  box-shadow: 0 0 20px 0 hsla(0, 0%, 0%, 0.3);
+  z-index: 99;
+  font-family: "Varela Round", sans-serif;
+  font-family: var(--app-font);
+}
+.colorModalDialogAfterOpen {
+  transform: translate(-50%, -50%) scale(1,1);
+  opacity: 1;
+}
+
+.colorModalDialogBeforeClose {
+  opacity: 0;
 }
 
 .modalOverlay {
@@ -81,10 +60,10 @@
   z-index: 98;
 }
 
-.modalOverlay_after-open {
+.modalOverlayAfterOpen {
   background: rgba(24, 30, 61, 0.7);
 }
 
-.modalOverlay_before-close {
+.modalOverlayBeforeClose {
   background: rgba(31, 39, 85, 0);
 }

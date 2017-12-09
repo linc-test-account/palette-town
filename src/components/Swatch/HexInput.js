@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import convert from "color-convert";
-import "./HexInput.css";
+import styles from "./HexInput.css";
 import { observer } from "mobx-react";
 
 @observer
@@ -70,7 +70,7 @@ class HexInput extends Component {
       <input
         style={textColor}
         size="2"
-        className="palette-swatch-hex-input"
+        className={styles["paletteSwatchHexInput"]}
         type="text"
         value={inputValue}
         pattern="[a-fA-F\d]+"

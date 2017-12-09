@@ -4,8 +4,22 @@ import { observer } from "mobx-react";
 import HslPick from "./HslPick";
 import RgbPick from "./RgbPick";
 import CmykPick from "./CmykPick";
-import FontAwesome from "react-fontawesome";
-import "./ColorPicker.css";
+import styles from "./ColorPicker.css";
+import ModalHeaderButton from "../ModalHeaderButton/ModalHeaderButton";
+
+const colorSpaces = ["hsl", "rgb", "cmyk"];
+
+function generateHeaderButtons(currentColorSpace, changeColorSpace) {
+  return colorSpaces.map((colorSpace, index) => (
+    <ModalHeaderButton
+      key={`color-picker-header-button-${index}`}
+      action={() => changeColorSpace(colorSpace)}
+      active={currentColorSpace === colorSpace ? true : false}
+    >
+      {colorSpace}
+    </ModalHeaderButton>
+  ));
+}
 
 @observer
 class ColorPicker extends Component {
@@ -33,41 +47,15 @@ class ColorPicker extends Component {
     const { dataStore, colorStore } = this.props;
     const { showSliders, colorSpace } = this.state;
     return (
-      <div className="color-picker-container">
-        <div className="color-picker-inner">
-          <div className="color-picker-header">
-            <button
-              className={`color-picker-category ${colorSpace === "hsl" &&
-                "category-active"}`}
-              onClick={() => this.changeColorSpace("hsl")}
+      <div className={styles.colorPickerContainer}>
+        <div className={styles.colorPickerInner}>
+          <div className={styles.colorPickerHeader}>
+            {generateHeaderButtons(colorSpace, this.changeColorSpace)}
+            <ModalHeaderButton
+              action={() => dataStore.palette.deselectSwatch()}
             >
-              HSL
-            </button>
-            <button
-              className={`color-picker-category ${colorSpace === "rgb" &&
-                "category-active"}`}
-              onClick={() => this.changeColorSpace("rgb")}
-            >
-              RGB
-            </button>
-            <button
-              className={`color-picker-category ${colorSpace === "cmyk" &&
-                "category-active"}`}
-              onClick={() => this.changeColorSpace("cmyk")}
-            >
-              CMYK
-            </button>
-            <button
-              className={`color-picker-category`}
-              onClick={() => dataStore.palette.deselectSwatch()}
-            >
-              DONE
-              <FontAwesome
-                className="color-picker-category-check"
-                name={"check"}
-                size="2x"
-              />
-            </button>
+              Done
+            </ModalHeaderButton>
           </div>
 
           {colorSpace === "hsl" &&

@@ -5,7 +5,7 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import FlipMove from "react-flip-move";
 import Swatch from "../Swatch/Swatch";
 import FontAwesome from "react-fontawesome";
-import "./Palette.css";
+import styles from "./Palette.css";
 
 const SortableItem = SortableElement(
   ({ dataStore, colorStore, uniqueIndex, sorting, minWidthReached }) => {
@@ -35,7 +35,7 @@ const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
   ));
   return (
     <FlipMove
-      className="palette-swatch-container"
+      className={styles["paletteSwatchContainer"]}
       disableAllAnimations={sorting}
       onStartAll={() => dataStore.toggleCoolDownActive(true)}
       onFinishAll={() => dataStore.toggleCoolDownActive(false)}
@@ -49,9 +49,14 @@ const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
       staggerDelayBy={20}
     >
       {sortableSwatches.length === 0 ? (
-        <div className="empty-palette-placeholder" key="item-zero">
-          Press <FontAwesome className="empty-palette-placeholder-icon" name="plus" size="2x" /> to
-          add swatches
+        <div className={styles["emptyPalettePlaceholder"]} key="item-zero">
+          Press{" "}
+          <FontAwesome
+            className={styles["emptyPalettePlaceholderIcon"]}
+            name="plus"
+            size="2x"
+          />{" "}
+          to add swatches
         </div>
       ) : (
         sortableSwatches

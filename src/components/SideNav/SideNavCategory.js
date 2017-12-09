@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import FontAwesome from "react-fontawesome";
-import "./SideNav.css";
+import styles from "./SideNavCategory.css";
 
 @observer
 class SideNavCategory extends Component {
@@ -36,16 +36,16 @@ class SideNavCategory extends Component {
     };
     return (
       <div>
-        <h2 className="sidenav-category" onClick={this.toggleIsExpanded}>
+        <h2 className={styles.sidenavCategory} onClick={this.toggleIsExpanded}>
           {categoryName}
           <FontAwesome
-            className="sidenav-category-caret"
+            className={styles.sidenavCategoryCaret}
             name={isExpanded === true ? "caret-up" : "caret-down"}
             size="2x"
           />
         </h2>
         <div
-          className="sidenav-category-container"
+          className={styles.sidenavCategoryContainer}
           style={isExpanded === true ? submenuOpen : submenuStyleDefault}
         >
           {categoryItems.length > 0 ? categoryItems : ""}

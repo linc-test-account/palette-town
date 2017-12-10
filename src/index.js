@@ -8,5 +8,10 @@ import Data from './stores/Data.js';
 
 const dataStore = new Data();
 
-ReactDOM.render(<App dataStore={dataStore}/>, document.getElementById('root'));
+// Render new HTML if not pre-rendering
+// ReactDOM.render(<App dataStore={dataStore}/>, document.getElementById('root'));
+
+// Hydrate the previously pre-rendered HTML
+ReactDOM.hydrate(<App dataStore={dataStore}/>, document.getElementById('root'));
+
 registerServiceWorker();

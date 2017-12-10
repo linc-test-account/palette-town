@@ -4,8 +4,10 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:import/errors",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "plugin:css-modules/recommended"
   ],
+  plugins: ["css-modules"],
   env: {
     jest: true,
     browser: true,
@@ -36,5 +38,6 @@ module.exports = {
     "block-scoped-var": 1,
     // "no-magic-numbers": ["error", { ignoreArrayIndexes: true, "ignore": [1] }] 
     "no-dupe-args": 1,
+
   }
 };

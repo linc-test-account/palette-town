@@ -32,7 +32,7 @@ function template({ css, js }) {
       ${css
         .map(fileName => `<link rel="stylesheet" href="${fileName}" />`)
         .join("\n")}
-      <title>Pre-React App Pre Render</title>
+      <title>Palette Town</title>
     </head>
     <body>
       <div id="root">${appHtml}</div>

@@ -67,3 +67,17 @@
 .modalOverlayBeforeClose {
   background: rgba(31, 39, 85, 0);
 }
+
+.paletteLoader {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  font-family: "Varela Round", sans-serif;
+  font-size: 17px;
+  font-family: var(--app-font);
+  height: 100%;
+  background: rgb(41, 41, 41);
+}

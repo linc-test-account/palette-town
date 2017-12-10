@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import Header from "../Header/Header.js";
 import SideNav from "../SideNav/SideNav";
+import Loader from "../Loader/Loader";
 import Palette from "../Palette/Palette";
 import Footer from "../Footer/Footer";
 import Modal from "react-modal";
@@ -45,8 +46,7 @@ class App extends Component {
         }
         if (this.state.showSideNav === true) {
           return;
-        }
-        else {
+        } else {
           dataStore.getNext();
         }
       }
@@ -115,7 +115,9 @@ class App extends Component {
         />
 
         {dataStore.palette.length === 0 ? (
-          "No data"
+          <div className={styles.paletteLoader}>
+            <Loader />
+          </div>
         ) : (
           <Palette minWidthReached={minWidthReached} dataStore={dataStore} />
         )}

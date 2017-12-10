@@ -1,8 +1,7 @@
 import { action, observable, computed, useStrict } from "mobx";
 import { getPalette, oneOff } from "./ColorLogic";
 import { arrayMove } from "react-sortable-hoc";
-import shuffle from "lodash/shuffle";
-import reverse from "lodash/reverse";
+import { shuffle, reverse } from "lodash";
 import shortid from "shortid";
 import pascalCase from "pascal-case";
 import Color from "./Color.js";

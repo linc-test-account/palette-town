@@ -39,12 +39,11 @@
   font-size: 12px;
   background: none;
   border: none;
-  transition: 1s ease all;
   padding: 10px 0 10px 0;
   cursor: pointer;
 }
-@media screen and (max-width: 1200px) {
 
+@media screen and (max-width: 1200px) {
   .paletteSwatchName {
     font-size: 12px;
   }

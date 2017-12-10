@@ -2,11 +2,9 @@
 
 exports[`HeaderButton should render active 1`] = `
 <button
-  className="header-button"
   onClick={[Function]}
 >
   <FontAwesome
-    className="header-icon"
     name="exampleIcon"
     size="2x"
     style={
@@ -15,9 +13,7 @@ exports[`HeaderButton should render active 1`] = `
       }
     }
   />
-  <p
-    className="indicator-overlay"
-  >
+  <p>
     1
   </p>
 </button>
@@ -25,11 +21,9 @@ exports[`HeaderButton should render active 1`] = `
 
 exports[`HeaderButton should render in-active 1`] = `
 <button
-  className="header-button"
   onClick={[Function]}
 >
   <FontAwesome
-    className="header-icon"
     name="exampleIcon"
     size="2x"
     style={
@@ -38,9 +32,7 @@ exports[`HeaderButton should render in-active 1`] = `
       }
     }
   />
-  <p
-    className="indicator-overlay"
-  >
+  <p>
     1
   </p>
 </button>

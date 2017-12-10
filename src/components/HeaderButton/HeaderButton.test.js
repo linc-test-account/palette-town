@@ -28,7 +28,7 @@ describe("HeaderButton", () => {
 
     const wrapper = shallow(<HeaderButton {...props} isActive={false} />);
     
-    wrapper.find('.headerButton').simulate('click');
+    wrapper.find('button').simulate('click');
 
     expect(props.btnFunction).toHaveBeenCalledTimes(1);
   })

@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Header should render correctly 1`] = `
-<div
-  className={styles["header"]}
->
+<div>
   <HeaderButton
     btnFunction={[Function]}
     dataStore={
@@ -13,14 +11,10 @@ exports[`Header should render correctly 1`] = `
     }
     fontAwesomeIcon="bars"
   />
-  <h1
-    className={styles["defaultBrandName"]}
-  >
+  <h1>
     Palette Town
   </h1>
-  <h1
-    className={styles["mobileBrandName"]}
-  >
+  <h1>
     PT
   </h1>
   <HeaderButton

@@ -57,7 +57,7 @@ class MiniPalette extends Component {
         lightness={lightness}
       />
     ));
-    return <div className={styles["miniPaletteContainer"]}>{miniPalette}</div>;
+    return <div className={styles.miniPaletteContainer}>{miniPalette}</div>;
   }
 }
 

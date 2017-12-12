@@ -5,6 +5,7 @@ exports[`HeaderButton should render active 1`] = `
   onClick={[Function]}
 >
   <FontAwesome
+    className="undefined"
     name="exampleIcon"
     size="2x"
     style={
@@ -24,6 +25,7 @@ exports[`HeaderButton should render in-active 1`] = `
   onClick={[Function]}
 >
   <FontAwesome
+    className=""
     name="exampleIcon"
     size="2x"
     style={

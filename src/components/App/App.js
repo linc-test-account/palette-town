@@ -36,11 +36,13 @@ class App extends Component {
 
     document.addEventListener("keydown", event => {
       // If side nav open and esc key pressed, close side nav
-      if (this.state.showSideNav === true && event.keyCode === 27) {
+      const escKey = 27;
+      const spaceBarKey = 32;
+      if (this.state.showSideNav === true && event.keyCode === escKey) {
         this.toggleSideNav(false);
       }
       // if space bar pressed, get new palette
-      if (event.keyCode === 32) {
+      if (event.keyCode === spaceBarKey) {
         if (this.state.sideNavModalVisible === true) {
           return;
         }
@@ -78,9 +80,13 @@ class App extends Component {
   };
 
   toggleSideNav = val => {
-    this.setState({
-      showSideNav: val
-    });
+    if (this.state.sideNavModalVisible === true) {
+      return;
+    } else {
+      this.setState({
+        showSideNav: val
+      });
+    }
   };
 
   handleClick = () => {
@@ -128,6 +134,7 @@ class App extends Component {
           isOpen={this.state.isShowingModal}
           onRequestClose={this.handleClose}
           contentLabel="Color Info Modal"
+          ariaHideApp={false}
           className={{
             base: styles.colorModalDialog,
             afterOpen: styles.colorModalDialogAfterOpen,

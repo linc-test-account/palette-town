@@ -108,7 +108,7 @@ class HslPick extends Component {
       }%, ${50}%),
         hsl(${colorStore.hue}, ${
         colorStore.saturation
-      }%, ${109}%))`
+      }%, ${100}%))`
     };
 
     return (

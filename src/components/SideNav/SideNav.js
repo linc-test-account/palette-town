@@ -2,81 +2,62 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import MiniPalette from "../MiniPalette/MiniPalette";
-import FontAwesome from "react-fontawesome";
 import Modal from "react-modal";
 import HeaderButton from "../HeaderButton/HeaderButton";
 import OutsideAlerter from "../ClickOutside/ClickOutside";
 import EditDetails from "../ModalContent/EditDetails";
-import SideNavCategory from "./SideNavCategory";
+import Category from "./Category";
 import styles from "./SideNav.css";
-import classNames from "classnames";
+import ListItem from "./ListItem";
 
 function getHarmonies(harmonies, dataStore) {
   const harmonyList = harmonies.map(({ harmony }, index) => (
-    <a
-      className={classNames({
-        [styles.listOptionSelected]:
-          harmony === dataStore.selectedHarmony.harmony ? true : false
-      })}
+    <ListItem
       key={`harmony-${index}`}
-      onClick={() => {
-        dataStore.changeHarmony(index);
-      }}
+      action={() => dataStore.changeHarmony(index)}
+      isActive={harmony === dataStore.selectedHarmony.harmony ? true : false}
+      showControls={false}
     >
       {harmony}
       <MiniPalette
         swatchWidth={20}
-        swatchHeight={15}
+        swatchHeight={13}
         harmony={dataStore.miniPalettes[index][harmony]}
       />
-    </a>
+    </ListItem>
   ));
   return harmonyList;
 }
 
 function getmodifiers(modifiers, dataStore) {
   const harmonyList = modifiers.map(({ modifier }, index) => (
-    <a
-      className={classNames({
-        [styles.listOptionSelected]:
-          modifier === dataStore.selectedModifier.modifier ? true : false
-      })}
+    <ListItem
       key={`modifier-${index}`}
-      onClick={() => {
-        dataStore.changeModifier(index);
-      }}
+      action={() => dataStore.changeModifier(index)}
+      isActive={modifier === dataStore.selectedModifier.modifier ? true : false}
+      showControls={false}
     >
       {modifier}
-    </a>
+    </ListItem>
   ));
   return harmonyList;
 }
 
 function getFavorites(favorites, favoritesShortList, dataStore, handleClick) {
   return favorites.map(({ name }, index) => (
-    <div key={`favoriteItem-${index}`} className={styles.favoriteListContainer}>
-      <div
-        className={styles.favoriteItem}
-        onClick={() => dataStore.goToPalette(index)}
-      >
-        <p>{name}</p>
-        <MiniPalette
-          swatchWidth={20}
-          swatchHeight={15}
-          harmony={favoritesShortList[index]}
-        />
-      </div>
-      <button
-        onClick={() => handleClick(index)}
-        className={styles.favoriteListItemButton}
-      >
-        <FontAwesome
-          className={styles.favoriteListItemIcon}
-          name={"cog"}
-          size="2x"
-        />
-      </button>
-    </div>
+    <ListItem
+      key={`favorite-${index}`}
+      action={() => dataStore.goToPalette(index)}
+      showControls={true}
+      controlAction={() => handleClick(index)}
+    >
+      {name}
+      <MiniPalette
+        swatchWidth={20}
+        swatchHeight={13}
+        harmony={favoritesShortList[index]}
+      />
+    </ListItem>
   ));
 }
 
@@ -120,10 +101,10 @@ class SideNav extends Component {
     };
 
     return (
-      <div style={style} id="mySidenav" className={styles.sidenav}>
+      <div style={style} className={styles.container}>
         <OutsideAlerter showSideNav={showSideNav} toggleSideNav={toggleSideNav}>
           <div>
-            <div className={styles.sidenavHeader}>
+            <div className={styles.header}>
               <HeaderButton
                 dataStore={dataStore}
                 btnFunction={() => toggleSideNav(false)}
@@ -134,17 +115,17 @@ class SideNav extends Component {
               <h1 className={styles.mobileBrandName}>PT</h1>
             </div>
 
-            <SideNavCategory
+            <Category
               categoryName="Harmonies"
               categoryItems={getHarmonies(dataStore.harmonies, dataStore)}
             />
 
-            <SideNavCategory
+            <Category
               categoryName="Modifiers"
               categoryItems={getmodifiers(dataStore.modifiers, dataStore)}
             />
 
-            <SideNavCategory
+            <Category
               categoryName="Favorites"
               categoryItems={getFavorites(
                 dataStore.favorites,
@@ -153,11 +134,12 @@ class SideNav extends Component {
                 this.handleClick
               )}
             />
-            <div className={styles.sidenavSpacer} />
+            <div className={styles.spacer} />
             <Modal
               isOpen={isShowingModal}
               onRequestClose={this.handleClose}
               contentLabel="Color Info Modal"
+              ariaHideApp={false}
               className={{
                 base: styles.colorModalDialog,
                 afterOpen: styles.colorModalDialogAfterOpen,

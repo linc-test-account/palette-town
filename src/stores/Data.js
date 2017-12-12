@@ -167,7 +167,6 @@ class Data {
       return false;
     }
     if (/[^\d\.]/.test(value)) {
-      console.log(true);
       return false;
     }
     if (value < 0) {

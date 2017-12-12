@@ -57,7 +57,6 @@ class HexInput extends Component {
   handleOnBlur = () => {
     const {inputValue} = this.state;
     if (inputValue.length === 0) {
-      console.log(true)
       this.setState({
         inputValue: "#" + this.props.colorStore.hex
       })

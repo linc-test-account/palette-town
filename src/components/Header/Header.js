@@ -17,14 +17,14 @@ class Header extends Component {
     const heartType =
       dataStore.palette.favorited === true ? "heart" : "heart-o";
     return (
-      <div className={styles["header"]}>
+      <div className={styles.container}>
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => toggleSideNav(true)}
           fontAwesomeIcon={"bars"}
         />
-        <h1 className={styles["defaultBrandName"]}>Palette Town</h1>
-        <h1 className={styles["mobileBrandName"]}>PT</h1>
+        <h1 className={styles.defaultHeading}>Palette Town</h1>
+        <h1 className={styles.mobileHeading}>PT</h1>
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.getNext()}

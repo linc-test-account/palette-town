@@ -1,4 +1,4 @@
-.header {
+.container {
   grid-area: "header";
   display: flex;
   flex-direction: row;
@@ -9,7 +9,7 @@
   max-height: 50px;
 }
 
-.defaultBrandName {
+.defaultHeading {
   font-size: 20px;
   font-weight: bold;
   color: hsl(204, 96%, 42%);
@@ -22,7 +22,7 @@
   padding: 0 10px 0 10px;
 }
 
-.mobileBrandName {
+.mobileHeading {
   font-size: 20px;
   font-weight: bold;
   color: var(--app-brand-color);
@@ -36,10 +36,10 @@
 }
 
 @media screen and (max-width: 700px) {
-  .defaultBrandName {
+  .defaultHeading {
     display: none;
   }
-  .mobileBrandName {
+  .mobileHeading {
     display: flex;
   }
 }

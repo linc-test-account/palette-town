@@ -1,4 +1,4 @@
-.headerButton {
+.button {
   background: hsl(0, 0%, 96%);
   background: var(--headerButton-background);
   border-style: solid;
@@ -10,19 +10,19 @@
   width: 80px;
 }
 
-.headerButton:first-of-type {
+.button:first-of-type {
   border-width: 0 1px 0 0;
 }
 
-.headerButton:first-of-type {
+.button:first-of-type {
   border-width: 0 1px 0 0;
 }
 
-.headerButton:last-child {
+.button:last-child {
   border-width: 0 1px 0 1px;
 }
 
-.headerIcon {
+.icon {
   color: hsl(204, 96%, 42%);
   color: var(--app-brand-color);
   transition: 200ms cubic-bezier(.66,-0.06,.24,1.22) transform;
@@ -31,13 +31,16 @@
   transform: scale(1, 1);
 }
 
-.headerButton:active .headerIcon {
+.button:active .icon {
   color: hsl(310, 100%, 50%);
   transform: scale(.8,.8);
 }
 
+.active {
+  color: hsl(310, 100%, 50%);
+}
 
-.indicatorOverlay {
+.overlay {
   font-family: var(--app-font);
   color: white;
   z-index: 1;
@@ -55,13 +58,13 @@
   transition: 200ms ease all;
 }
 
-.headerButton:active .indicatorOverlay {
+.button:active .overlay {
   background: hsl(310, 100%, 50%);
   transform: scale(.7,.7);
 }
 
 @media screen and (max-width: 700px) {
-  .headerButton {
+  .button {
     width: 50px;
   }
 }

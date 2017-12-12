@@ -47,9 +47,9 @@ class ColorPicker extends Component {
     const { dataStore, colorStore } = this.props;
     const { showSliders, colorSpace } = this.state;
     return (
-      <div className={styles.colorPickerContainer}>
-        <div className={styles.colorPickerInner}>
-          <div className={styles.colorPickerHeader}>
+      <div className={styles.container}>
+        <div className={styles.inner}>
+          <div className={styles.header}>
             {generateHeaderButtons(colorSpace, this.changeColorSpace)}
             <ModalHeaderButton
               action={() => dataStore.palette.deselectSwatch()}

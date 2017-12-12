@@ -1,9 +1,47 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
-import { getContrastYIQ } from "../../stores/ColorLogic";
 import Slider from "rc-slider";
 import styles from "./Slider.css";
+
+const sliderColors = { red: "#FF0000", green: "#00FF00", blue: "#0000FF" };
+
+const colorSpaceVals = {
+  red: 255,
+  green: 255,
+  blue: 255
+};
+
+function generateInputs(state, inputOnChange, inputOnBlur) {
+  return Object.entries(state).map(([key, value], index) => (
+    <div key={`rgb-${index}`} className={styles.inputContainer}>
+      <input
+        className={styles.sliderInput}
+        onChange={event => inputOnChange(event.target.value, key)}
+        min={0}
+        max={colorSpaceVals[key]}
+        type="number"
+        value={value}
+        onBlur={event => inputOnBlur(event.target.value, key)}
+      />
+      <Slider
+        min={0}
+        max={colorSpaceVals[key]}
+        step={1}
+        handleStyle={{ background: sliderColors[key] }}
+        trackStyle={{ background: "none" }}
+        railStyle={{
+          background: `
+        linear-gradient(to right,
+          #000000,
+          ${sliderColors[key]}`
+        }}
+        value={value || 0}
+        onChange={value => inputOnChange(value, key)}
+      />
+    </div>
+  ));
+}
 
 @observer
 class RgbPick extends Component {
@@ -59,110 +97,9 @@ class RgbPick extends Component {
   };
 
   render() {
-    const { red, green, blue } = this.state;
-
-    const redHandle = {
-      background: "#FF0000",
-      color: `hsla(0, 0%, ${getContrastYIQ("#FF0000")}%, .8)`
-    };
-    const greenHandle = {
-      background: "#00FF00",
-      color: `hsla(0, 0%, ${getContrastYIQ("#00FF00")}%, .8)`
-    };
-    const blueHandle = {
-      background: "#0000FF",
-      color: `hsla(0, 0%, ${getContrastYIQ("#0000FF")}%, .8)`
-    };
-
-    const backgroundRed = {
-      background: `
-      linear-gradient(to right,
-        rgb(0, 0, 0),
-        rgb(255, 0, 0))`
-    };
-    const backgroundGreen = {
-      background: `
-        linear-gradient(to right,
-          rgb(0, 0, 0),
-          rgb(0, 255, 0))`
-    };
-    const backgroundBlue = {
-      background: `
-        linear-gradient(to right,
-          rgb(0, 0, 0),
-          rgb(0, 0, 255))`
-    };
-
-    const trackStyle = {
-      background: "none"
-    };
-
     return (
       <div>
-        <div className={styles.inputContainer}>
-          <input
-            className={styles.sliderInput}
-            onChange={event => this.inputOnChange(event.target.value, "red")}
-            min={0}
-            max={255}
-            type="number"
-            value={red}
-            onBlur={event => this.inputOnBlur(event.target.value, "red")}
-          />
-          <Slider
-            min={0}
-            max={255}
-            step={1}
-            handleStyle={redHandle}
-            trackStyle={trackStyle}
-            railStyle={backgroundRed}
-            value={red || 0}
-            onChange={value => this.inputOnChange(value, "red")}
-          />
-        </div>
-
-        <div className={styles.inputContainer}>
-          <input
-            className={styles.sliderInput}
-            onChange={event => this.inputOnChange(event.target.value, "green")}
-            min={0}
-            max={255}
-            type="number"
-            value={green}
-            onBlur={event => this.inputOnBlur(event.target.value, "green")}
-          />
-          <Slider
-            min={0}
-            max={255}
-            step={1}
-            handleStyle={greenHandle}
-            trackStyle={trackStyle}
-            railStyle={backgroundGreen}
-            value={green || 0}
-            onChange={value => this.inputOnChange(value, "green")}
-          />
-        </div>
-        <div className={styles.inputContainer}>
-          <input
-            className={styles.sliderInput}
-            onChange={event => this.inputOnChange(event.target.value, "blue")}
-            min={0}
-            max={255}
-            type="number"
-            value={blue}
-            onBlur={event => this.inputOnBlur(event.target.value, "blue")}
-          />
-          <Slider
-            min={0}
-            max={255}
-            step={1}
-            handleStyle={blueHandle}
-            trackStyle={trackStyle}
-            railStyle={backgroundBlue}
-            value={blue || 0}
-            onChange={value => this.inputOnChange(value, "blue")}
-          />
-        </div>
+        {generateInputs(this.state, this.inputOnChange, this.inputOnBlur)}
       </div>
     );
   }

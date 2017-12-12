@@ -36,8 +36,9 @@ class HexInput extends Component {
     const { uniqueIndex, dataStore } = this.props;
     const { inputValue } = this.state;
     const isValidHex = /^#[0-9A-F]{6}$/i.test(value);
+    const maxHexLength = 7;
 
-    if (value.length > 7) {
+    if (value.length > maxHexLength) {
       return;
     }
 
@@ -70,7 +71,7 @@ class HexInput extends Component {
       <input
         style={textColor}
         size="2"
-        className={styles["paletteSwatchHexInput"]}
+        className={styles.paletteSwatchHexInput}
         type="text"
         value={inputValue}
         pattern="[a-fA-F\d]+"

@@ -35,7 +35,7 @@ const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
   ));
   return (
     <FlipMove
-      className={styles["paletteSwatchContainer"]}
+      className={styles.container}
       disableAllAnimations={sorting}
       onStartAll={() => dataStore.toggleCoolDownActive(true)}
       onFinishAll={() => dataStore.toggleCoolDownActive(false)}
@@ -49,10 +49,10 @@ const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
       staggerDelayBy={20}
     >
       {sortableSwatches.length === 0 ? (
-        <div className={styles["emptyPalettePlaceholder"]} key="item-zero">
+        <div className={styles.placeholder}>
           Press{" "}
           <FontAwesome
-            className={styles["emptyPalettePlaceholderIcon"]}
+            className={styles.placeholderIcon}
             name="plus"
             size="2x"
           />{" "}

@@ -118,10 +118,11 @@ class App extends Component {
           showSideNav={showSideNav}
           toggleSideNav={this.toggleSideNav}
           toggleSideNavVisibility={this.toggleSideNavVisibility}
+          minWidthReached={minWidthReached}
         />
 
         {dataStore.palette.length === 0 ? (
-          <div className={styles.paletteLoader}>
+          <div className={styles.loaderContainer}>
             <Loader />
           </div>
         ) : (

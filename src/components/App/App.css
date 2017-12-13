@@ -68,7 +68,7 @@
   background: rgba(31, 39, 85, 0);
 }
 
-.paletteLoader {
+.loaderContainer {
   color: white;
   display: flex;
   flex-direction: column;

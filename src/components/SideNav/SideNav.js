@@ -10,18 +10,18 @@ import Category from "./Category";
 import styles from "./SideNav.css";
 import ListItem from "./ListItem";
 
-function getHarmonies(harmonies, dataStore) {
+function getHarmonies(harmonies, dataStore, minWidthReached) {
   const harmonyList = harmonies.map(({ harmony }, index) => (
     <ListItem
       key={`harmony-${index}`}
       action={() => dataStore.changeHarmony(index)}
-      isActive={harmony === dataStore.selectedHarmony.harmony ? true : false}
+      selected={harmony === dataStore.selectedHarmony.harmony ? true : false}
       showControls={false}
     >
       {harmony}
       <MiniPalette
         swatchWidth={20}
-        swatchHeight={13}
+        swatchHeight={minWidthReached === true ? 10 : 13}
         harmony={dataStore.miniPalettes[index][harmony]}
       />
     </ListItem>
@@ -34,7 +34,7 @@ function getmodifiers(modifiers, dataStore) {
     <ListItem
       key={`modifier-${index}`}
       action={() => dataStore.changeModifier(index)}
-      isActive={modifier === dataStore.selectedModifier.modifier ? true : false}
+      selected={modifier === dataStore.selectedModifier.modifier ? true : false}
       showControls={false}
     >
       {modifier}
@@ -43,7 +43,13 @@ function getmodifiers(modifiers, dataStore) {
   return harmonyList;
 }
 
-function getFavorites(favorites, favoritesShortList, dataStore, handleClick) {
+function getFavorites(
+  favorites,
+  favoritesShortList,
+  dataStore,
+  handleClick,
+  minWidthReached
+) {
   return favorites.map(({ name }, index) => (
     <ListItem
       key={`favorite-${index}`}
@@ -54,7 +60,7 @@ function getFavorites(favorites, favoritesShortList, dataStore, handleClick) {
       {name}
       <MiniPalette
         swatchWidth={20}
-        swatchHeight={13}
+        swatchHeight={minWidthReached === true ? 10 : 13}
         harmony={favoritesShortList[index]}
       />
     </ListItem>
@@ -75,7 +81,8 @@ class SideNav extends Component {
     dataStore: PropTypes.object,
     showSideNav: PropTypes.bool,
     toggleSideNav: PropTypes.func,
-    toggleSideNavVisibility: PropTypes.func
+    toggleSideNavVisibility: PropTypes.func,
+    minWidthReached: PropTypes.bool
   };
 
   handleClick = val => {
@@ -94,7 +101,12 @@ class SideNav extends Component {
   };
 
   render() {
-    const { dataStore, toggleSideNav, showSideNav } = this.props;
+    const {
+      dataStore,
+      toggleSideNav,
+      showSideNav,
+      minWidthReached
+    } = this.props;
     const { isShowingModal } = this.state;
     const style = {
       transform: showSideNav === false ? "translateX(-300px)" : "translateX(0)"
@@ -117,7 +129,11 @@ class SideNav extends Component {
 
             <Category
               categoryName="Harmonies"
-              categoryItems={getHarmonies(dataStore.harmonies, dataStore)}
+              categoryItems={getHarmonies(
+                dataStore.harmonies,
+                dataStore,
+                minWidthReached
+              )}
             />
 
             <Category
@@ -131,7 +147,8 @@ class SideNav extends Component {
                 dataStore.favorites,
                 dataStore.favoritesShortList,
                 dataStore,
-                this.handleClick
+                this.handleClick,
+                minWidthReached
               )}
             />
             <div className={styles.spacer} />

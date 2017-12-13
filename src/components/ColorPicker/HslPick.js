@@ -4,12 +4,77 @@ import { observer } from "mobx-react";
 import Slider from "rc-slider";
 import styles from "./Slider.css";
 
-function generateHueSpectrumGradient(saturation, lightness) {
+function generateSpectrum(saturation, lightness) {
   const colors = [];
   for (let i = 0; i < 18; i++) {
     colors.push(`hsl(${20 * i}, ${saturation}%, ${lightness}%)`);
   }
   return colors;
+}
+
+function generateRailStyle(state, key) {
+  if (key === "hue") {
+    return {
+      background: `linear-gradient(to right, ${generateSpectrum(
+        state.saturation,
+        state.lightness
+      )})`
+    };
+  }
+  if (key === "saturation") {
+    return {
+      background: `linear-gradient(to right, 
+        hsl(0, 0%, ${state.lightness}%), 
+        hsl(${state.hue}, 100%, ${state.lightness}%)`
+    };
+  }
+  if (key === "lightness") {
+    return {
+      background: `
+        linear-gradient(to right,
+        hsl(${state.hue}, ${state.saturation}%, ${0}%),
+        hsl(${state.hue}, ${state.saturation}%, ${50}%),
+        hsl(${state.hue}, ${state.saturation}%, ${100}%))`
+    };
+  }
+}
+
+const sliderColors = {
+  hue: "#FFFFFF",
+  saturation: "#FFFFFF",
+  lightness: "#FFFFFF"
+};
+
+const colorSpaceVals = {
+  hue: 360,
+  saturation: 100,
+  lightness: 100
+};
+
+function generateInputs(state, inputOnChange, inputOnBlur) {
+  return Object.entries(state).map(([key, value], index) => (
+    <div key={`hsl-${index}`} className={styles.inputContainer}>
+      <input
+        className={styles.sliderInput}
+        onChange={event => inputOnChange(event.target.value, key)}
+        min={0}
+        max={colorSpaceVals[key]}
+        type="number"
+        value={value}
+        onBlur={event => inputOnBlur(event.target.value, key)}
+      />
+      <Slider
+        min={0}
+        max={colorSpaceVals[key]}
+        step={1}
+        handleStyle={{ background: sliderColors[key] }}
+        trackStyle={{ background: "none" }}
+        railStyle={generateRailStyle(state, key)}
+        value={value || 0}
+        onChange={value => inputOnChange(value, key)}
+      />
+    </div>
+  ));
 }
 
 @observer
@@ -66,122 +131,9 @@ class HslPick extends Component {
   };
 
   render() {
-    const { colorStore } = this.props;
-    const { hue, saturation, lightness } = this.state;
-
-    const trackStyle = {
-      background: "none"
-    };
-
-    const handleStyle = {
-      background: `hsl(${colorStore.hue}, ${
-        colorStore.saturation
-      }%, ${colorStore.lightness}%)`,
-      color: `hsla(0, 0%, ${colorStore.contrastYIQ}%, .8)`
-    };
-    const backgroundHue = {
-      background: `
-        linear-gradient(to right, ${generateHueSpectrumGradient(
-          colorStore.saturation,
-          colorStore.lightness
-        )})
-          `
-    };
-    const backgroundSaturation = {
-      background: `
-        linear-gradient(to right,
-        hsl(${colorStore.hue}, ${0}%, ${
-        colorStore.lightness
-      }%),
-        hsl(${colorStore.hue}, ${100}%, ${
-        colorStore.lightness
-      }%))`
-    };
-    const backgroundLightness = {
-      background: `
-        linear-gradient(to right,
-        hsl(${colorStore.hue}, ${
-        colorStore.saturation
-      }%, ${0}%),
-        hsl(${colorStore.hue}, ${
-        colorStore.saturation
-      }%, ${50}%),
-        hsl(${colorStore.hue}, ${
-        colorStore.saturation
-      }%, ${100}%))`
-    };
-
     return (
       <div>
-        <div className={styles.inputContainer}>
-          <input
-            className={styles.sliderInput}
-            onChange={event => this.inputOnChange(event.target.value, "hue")}
-            min={0}
-            max={360}
-            type="number"
-            value={hue}
-            onBlur={event => this.inputOnBlur(event.target.value, "hue")}
-          />
-
-          <Slider
-            min={0}
-            max={360}
-            step={1}
-            handleStyle={handleStyle}
-            trackStyle={trackStyle}
-            railStyle={backgroundHue}
-            value={hue || 0}
-            onChange={value => this.inputOnChange(value, "hue")}
-          />
-        </div>
-
-        <div className={styles.inputContainer}>
-          <input
-            className={styles.sliderInput}
-            onChange={event =>
-              this.inputOnChange(event.target.value, "saturation")
-            }
-            min={0}
-            max={100}
-            type="number"
-            value={saturation}
-            onBlur={event => this.inputOnBlur(event.target.value, "saturation")}
-          />
-          <Slider
-            min={0}
-            max={100}
-            step={1}
-            handleStyle={handleStyle}
-            trackStyle={trackStyle}
-            railStyle={backgroundSaturation}
-            value={saturation || 0}
-            onChange={value => this.inputOnChange(value, "saturation")}
-          />
-        </div>
-        <div className={styles.inputContainer}>
-          <input
-            className={styles.sliderInput}
-            onChange={event =>
-              this.inputOnChange(event.target.value, "lightness")
-            }
-            min={0}
-            max={100}
-            type="number"
-            value={lightness}
-            onBlur={event => this.inputOnBlur(event.target.value, "lightness")}
-          />
-          <Slider
-            min={0}
-            max={100}
-            step={1}
-            handleStyle={handleStyle}
-            trackStyle={trackStyle}
-            railStyle={backgroundLightness}
-            value={lightness || 0}
-            onChange={value => this.inputOnChange(value, "lightness")}
-          />
-        </div>
+        {generateInputs(this.state, this.inputOnChange, this.inputOnBlur)}
       </div>
     );
   }

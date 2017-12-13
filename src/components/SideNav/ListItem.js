@@ -8,7 +8,7 @@ import FontAwesome from "react-fontawesome";
 @observer
 class ListItem extends Component {
   static propTypes = {
-    isActive: PropTypes.bool,
+    selected: PropTypes.bool,
     action: PropTypes.func,
     children: PropTypes.any,
     showControls: PropTypes.bool,
@@ -17,7 +17,7 @@ class ListItem extends Component {
 
   render() {
     const {
-      isActive,
+      selected,
       action,
       children,
       showControls,
@@ -27,7 +27,7 @@ class ListItem extends Component {
       <div
         className={classNames({
           [styles.container]: true,
-          [styles.active]: isActive
+          [styles.selected]: selected
         })}
       >
         <div onClick={action} className={styles.content}>

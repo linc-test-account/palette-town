@@ -2,15 +2,15 @@
   background: hsl(0, 0%, 96%);
   display: flex;
   flex-direction: row;
-  min-height: 40px;
-  max-height: 40px;
+  min-height: 35px;
+  max-height: 35px;
   border-style: solid;
   border-width: 0 0 1px 0;
   border-color: hsla(0, 0%, 0%, .1);
   transition: 200ms ease all;
 }
 
-.active {
+.selected {
   background: hsl(221, 59%, 90%);
 }
 
@@ -56,4 +56,13 @@
 .icon {
   color: hsl(0, 0%, 15%);
   font-size: 17px;
+}
+
+
+@media screen and (max-width: 700px) {
+  .container {
+    min-height: 32px;
+    max-height: 32px;
+
+  }
 }

@@ -21,7 +21,7 @@ const SortableItem = SortableElement(
   }
 );
 
-const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
+const unwrappedPalette = observer(({ dataStore, sorting, minWidthReached }) => {
   const sortableSwatches = dataStore.palette.colors.map((colorStore, index) => (
     <SortableItem
       dataStore={dataStore}
@@ -65,9 +65,9 @@ const unWrappedPallete = observer(({ dataStore, sorting, minWidthReached }) => {
   );
 });
 
-unWrappedPallete.displayName = "unWrappedPalleteYOLO";
+unwrappedPalette.displayName = "unwrappedPalette";
 
-const SortableList = SortableContainer(unWrappedPallete);
+const SortableList = SortableContainer(unwrappedPalette);
 
 // If state variable 'sorting' is true, user is moving individual
 // swatch via the SortableList component in palette class render

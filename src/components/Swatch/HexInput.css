@@ -37,3 +37,10 @@ input:invalid {
     font-size: 20px;
   }
 }
+
+@media screen and (min-width: 2000px) {
+  .paletteSwatchHexInput {
+    font-size: 37px;
+    width: 200px;
+  }
+}

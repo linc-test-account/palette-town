@@ -15,7 +15,7 @@ class Data {
     { colorSpace: "CMYK" }
   ];
   harmonies = harmonies;
-  @observable selectedHarmony = this.harmonies[1];
+  @observable selectedHarmony = this.harmonies[2];
   @observable selectedColorSpace = this.colorSpaces[0];
   @observable modifiers = modifiers;
   @observable selectedModifier = this.modifiers[0];

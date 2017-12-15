@@ -103,7 +103,7 @@ class palette extends Component {
 
   handleCancel = object => {
     const isSwatchContainer = object.target.className.includes(
-      "src-components-Swatch-Swatch__container"
+      "swatchDraggable"
     );
     if (isSwatchContainer === true) {
       return false;

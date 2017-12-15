@@ -3,24 +3,10 @@ import { observer } from "mobx-react";
 import PropTypes from "prop-types";
 import FontAwesome from "react-fontawesome";
 import FlipMove from "react-flip-move";
-import { SortableHandle } from "react-sortable-hoc";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import styles from "./Swatch.css";
 import HexInput from "./HexInput";
 import classNames from "classnames";
-
-const DragHandle = SortableHandle(({ buttonTextColor, minWidthReached }) => {
-  const dragIcon = minWidthReached === true ? "arrows-v" : "arrows-h";
-  return (
-    <div style={buttonTextColor} className={styles.swatchButton}>
-      <FontAwesome
-        className={styles.swatchButtonIcon}
-        name={dragIcon}
-        size="2x"
-      />
-    </div>
-  );
-});
 
 @observer
 class Swatch extends Component {
@@ -114,10 +100,6 @@ class Swatch extends Component {
 
         {colorStore.selected === false && (
           <div className={styles.buttonsContainer} key={`swatch-${3}`}>
-            <DragHandle
-              buttonTextColor={buttonTextColor}
-              minWidthReached={minWidthReached}
-            />
             <div
               style={buttonTextColor}
               className={styles.swatchButton}

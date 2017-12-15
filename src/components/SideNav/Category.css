@@ -32,11 +32,3 @@
 .content {
   transition: 300ms ease-in-out all;
 }
-
-@media screen and (max-width: 700px) {
-  .heading {
-    min-height: 32px;
-    max-height: 32px;
-    font-size: 14px;
-  }
-}

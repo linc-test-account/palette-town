@@ -41,12 +41,12 @@ const unwrappedPalette = observer(({ dataStore, sorting, minWidthReached }) => {
       onFinishAll={() => dataStore.toggleCoolDownActive(false)}
       // easing="cubic-bezier(.4,-0.32,.52,1.31)"
       easing="ease-in-out"
-      duration={200}
+      duration={250}
       appearAnimation={"fade"}
       enterAnimation={"fade"}
       leaveAnimation={"fade"}
       maintainContainerHeight={true}
-      staggerDelayBy={20}
+      // staggerDelayBy={20}
     >
       {sortableSwatches.length === 0 ? (
         <div className={styles.placeholder}>
@@ -101,6 +101,18 @@ class palette extends Component {
     });
   };
 
+  handleCancel = object => {
+    const isSwatchContainer = object.target.className.includes(
+      "src-components-Swatch-Swatch__container"
+    );
+    if (isSwatchContainer === true) {
+      return false;
+    }
+    if (isSwatchContainer === false) {
+      return true;
+    }
+  };
+
   render() {
     const { minWidthReached, dataStore } = this.props;
     const { sorting } = this.state;
@@ -114,7 +126,7 @@ class palette extends Component {
         onSortEnd={this.handleSortEnd}
         pressDelay={0}
         minWidthReached={minWidthReached}
-        useDragHandle={true}
+        shouldCancelStart={this.handleCancel}
       />
     );
   }

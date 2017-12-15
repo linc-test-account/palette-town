@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { observer } from "mobx-react";
 import FontAwesome from "react-fontawesome";
 import styles from "./Category.css";
 
-@observer
 class Category extends Component {
   constructor(props) {
     super(props);

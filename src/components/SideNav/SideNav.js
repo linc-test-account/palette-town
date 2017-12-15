@@ -10,7 +10,7 @@ import Category from "./Category";
 import styles from "./SideNav.css";
 import ListItem from "./ListItem";
 
-function getHarmonies(harmonies, dataStore, minWidthReached) {
+function getHarmonies(harmonies, dataStore) {
   const harmonyList = harmonies.map(({ harmony }, index) => (
     <ListItem
       key={`harmony-${index}`}
@@ -21,7 +21,7 @@ function getHarmonies(harmonies, dataStore, minWidthReached) {
       {harmony}
       <MiniPalette
         swatchWidth={20}
-        swatchHeight={minWidthReached === true ? 10 : 13}
+        swatchHeight={13}
         harmony={dataStore.miniPalettes[index][harmony]}
       />
     </ListItem>
@@ -30,14 +30,14 @@ function getHarmonies(harmonies, dataStore, minWidthReached) {
 }
 
 function getmodifiers(modifiers, dataStore) {
-  const harmonyList = modifiers.map(({ modifier }, index) => (
+  const harmonyList = modifiers.map(({ name }, index) => (
     <ListItem
       key={`modifier-${index}`}
       action={() => dataStore.changeModifier(index)}
-      selected={modifier === dataStore.selectedModifier.modifier ? true : false}
+      selected={name === dataStore.selectedModifier.name ? true : false}
       showControls={false}
     >
-      {modifier}
+      {name}
     </ListItem>
   ));
   return harmonyList;
@@ -47,8 +47,7 @@ function getFavorites(
   favorites,
   favoritesShortList,
   dataStore,
-  handleClick,
-  minWidthReached
+  handleClick
 ) {
   return favorites.map(({ name }, index) => (
     <ListItem
@@ -60,7 +59,7 @@ function getFavorites(
       {name}
       <MiniPalette
         swatchWidth={20}
-        swatchHeight={minWidthReached === true ? 10 : 13}
+        swatchHeight={13}
         harmony={favoritesShortList[index]}
       />
     </ListItem>
@@ -104,8 +103,7 @@ class SideNav extends Component {
     const {
       dataStore,
       toggleSideNav,
-      showSideNav,
-      minWidthReached
+      showSideNav
     } = this.props;
     const { isShowingModal } = this.state;
     const style = {
@@ -127,14 +125,17 @@ class SideNav extends Component {
               <h1 className={styles.mobileBrandName}>PT</h1>
             </div>
 
-            <Category
-              categoryName="Harmonies"
-              categoryItems={getHarmonies(
-                dataStore.harmonies,
-                dataStore,
-                minWidthReached
-              )}
-            />
+            {dataStore.palette.length !== 0 ? (
+              <Category
+                categoryName="Harmonies"
+                categoryItems={getHarmonies(
+                  dataStore.harmonies,
+                  dataStore
+                )}
+              />
+            ) : (
+              ""
+            )}
 
             <Category
               categoryName="Modifiers"
@@ -147,8 +148,7 @@ class SideNav extends Component {
                 dataStore.favorites,
                 dataStore.favoritesShortList,
                 dataStore,
-                this.handleClick,
-                minWidthReached
+                this.handleClick
               )}
             />
             <div className={styles.spacer} />

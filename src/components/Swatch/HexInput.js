@@ -42,6 +42,13 @@ class HexInput extends Component {
       return;
     }
 
+    if (value.length === 0) {
+      this.setState({
+        inputValue: "#"
+      });
+      return
+    }
+
     if (isValidHex === true && value !== inputValue) {
       const rgb = convert.hex.rgb(value);
       dataStore.palette.changeColorProperty(rgb[0], "red", uniqueIndex);

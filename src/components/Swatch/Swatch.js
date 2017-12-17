@@ -67,7 +67,7 @@ class Swatch extends Component {
           swatchDraggable: true
         })}
         leaveAnimation={"elevator"}
-        duration={200}
+        duration={250}
       >
         {minWidthReached === true && colorStore.selected === true ? (
           <span key={`swatch-${0}`} />

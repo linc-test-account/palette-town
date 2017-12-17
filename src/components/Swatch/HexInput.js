@@ -83,6 +83,7 @@ class HexInput extends Component {
         pattern="[a-fA-F\d]+"
         onChange={event => this.handleChange(event.target.value)}
         onBlur={this.handleOnBlur}
+        title="Click to edit"
       />
     );
   }

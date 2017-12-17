@@ -17,11 +17,11 @@ class Footer extends Component {
         <div className={styles["footerLeft"]}>
           <h2 className={styles["footerSubheading"]}>Harmony:</h2>
           <h2 className={styles["footerSubheadingValue"]}>
-            {dataStore.selectedHarmony.harmony}
+            {dataStore.selectedHarmony.name}
           </h2>
           <h2 className={styles["footerSubheading"]}>Modifier:</h2>
           <h2 className={styles["footerSubheadingValue"]}>
-            {dataStore.selectedModifier.modifier}
+            {dataStore.selectedModifier.name}
           </h2>
           <h2 className={styles["footerSubheading"]}>Favorites:</h2>
           <h2 className={styles["footerSubheadingValue"]}>

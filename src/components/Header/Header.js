@@ -27,7 +27,7 @@ class Header extends Component {
         <h1 className={styles.mobileHeading}>PT</h1>
         <HeaderButton
           dataStore={dataStore}
-          btnFunction={() => dataStore.getNext()}
+          btnFunction={() => dataStore.generateNewPalatte()}
           fontAwesomeIcon={"arrow-right"}
         />
         <HeaderButton

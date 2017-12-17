@@ -49,7 +49,7 @@ class App extends Component {
         if (this.state.showSideNav === true) {
           return;
         } else {
-          dataStore.getNext();
+          dataStore.generateNewPalatte();
         }
       }
     });
@@ -63,7 +63,7 @@ class App extends Component {
     if (this.state.showSideNav === true) {
       return;
     } else {
-      dataStore.getNext();
+      dataStore.generateNewPalatte();
     }
   };
 

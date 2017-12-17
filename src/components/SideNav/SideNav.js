@@ -11,11 +11,16 @@ import styles from "./SideNav.css";
 import ListItem from "./ListItem";
 
 function getHarmonies(harmonies, dataStore) {
-  const harmonyList = harmonies.map(({ harmony }, index) => (
+  const keys = Object.keys(harmonies);
+  return keys.map((harmony, index) => (
     <ListItem
       key={`harmony-${index}`}
-      action={() => dataStore.changeHarmony(index)}
-      selected={harmony === dataStore.selectedHarmony.harmony ? true : false}
+      action={() => dataStore.changeHarmony(harmonies[harmony])}
+      selected={
+        harmonies[harmony].name === dataStore.selectedHarmony.name
+          ? true
+          : false
+      }
       showControls={false}
     >
       {harmony}
@@ -26,29 +31,34 @@ function getHarmonies(harmonies, dataStore) {
       />
     </ListItem>
   ));
-  return harmonyList;
 }
 
 function getmodifiers(modifiers, dataStore) {
-  const harmonyList = modifiers.map(({ name }, index) => (
+  const keys = Object.keys(modifiers);
+  return keys.map((name, index) => (
     <ListItem
       key={`modifier-${index}`}
-      action={() => dataStore.changeModifier(index)}
+      action={() => dataStore.changeModifier(modifiers[name])}
       selected={name === dataStore.selectedModifier.name ? true : false}
       showControls={false}
     >
       {name}
     </ListItem>
   ));
-  return harmonyList;
+  // const harmonyList = modifiers.map(({ name }, index) => (
+  //   <ListItem
+  //     key={`modifier-${index}`}
+  //     action={() => dataStore.changeModifier(index)}
+  //     selected={name === dataStore.selectedModifier.name ? true : false}
+  //     showControls={false}
+  //   >
+  //     {name}
+  //   </ListItem>
+  // ));
+  // return harmonyList;
 }
 
-function getFavorites(
-  favorites,
-  favoritesShortList,
-  dataStore,
-  handleClick
-) {
+function getFavorites(favorites, favoritesShortList, dataStore, handleClick) {
   return favorites.map(({ name }, index) => (
     <ListItem
       key={`favorite-${index}`}
@@ -100,11 +110,7 @@ class SideNav extends Component {
   };
 
   render() {
-    const {
-      dataStore,
-      toggleSideNav,
-      showSideNav
-    } = this.props;
+    const { dataStore, toggleSideNav, showSideNav } = this.props;
     const { isShowingModal } = this.state;
     const style = {
       transform: showSideNav === false ? "translateX(-300px)" : "translateX(0)"
@@ -128,10 +134,7 @@ class SideNav extends Component {
             {dataStore.palette.length !== 0 ? (
               <Category
                 categoryName="Harmonies"
-                categoryItems={getHarmonies(
-                  dataStore.harmonies,
-                  dataStore
-                )}
+                categoryItems={getHarmonies(dataStore.harmonies, dataStore)}
               />
             ) : (
               ""

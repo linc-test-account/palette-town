@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import FontAwesome from "react-fontawesome";
+import classNames from "classnames";
 import styles from "./Category.css";
 
 class Category extends Component {
@@ -56,8 +57,11 @@ class Category extends Component {
         <h2 className={styles.heading} onClick={this.toggleIsExpanded}>
           {categoryName}
           <FontAwesome
-            className={styles.icon}
-            name={isExpanded === true ? "caret-up" : "caret-down"}
+            className={classNames({
+              [styles.icon]: true,
+              [styles.rotate]: isExpanded
+            })}
+            name="caret-right"
             size="2x"
           />
         </h2>

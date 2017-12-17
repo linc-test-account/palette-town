@@ -26,7 +26,11 @@
 
 .icon {
   font-size: 20px;
-  padding: 0 0 0 10px;
+  transition: 200ms ease all;
+}
+
+.rotate {
+  transform: rotate(90deg);
 }
 
 .content {

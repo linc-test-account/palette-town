@@ -1,38 +1,23 @@
-const analogous = require("./analogous");
-const split = require("./split");
-const square = require("./square");
-const tetradic = require("./tetradic");
-const triadic = require("./triadic");
-const pentagon = require("./pentagon");
-const uniqueRandom = require("./UniqueRandom");
+const generateHarmony = require("./generateHarmony");
+const uniqueRandom = require("./uniqueRandom");
 
 function getPalette(harmony, modifier) {
-  let info;
-  switch (harmony) {
-    case "analogous":
-      info = analogous(modifier);
-      break;
-    case "random":
-      info = uniqueRandom(modifier);
-      break;
-    case "split":
-      info = split(modifier);
-      break;
-    case "square":
-      info = square(modifier);
-      break;
-    case "tetradic":
-      info = tetradic(modifier);
-      break;
-    case "triadic":
-      info = triadic(modifier);
-      break;
-    case "pentagon":
-      info = pentagon(modifier);
-      break;
-    default:
+  const satMax = modifier.saturationMax;
+  const satMin = modifier.saturationMin;
+  const litMax = modifier.lightnessMax;
+  const litMin = modifier.lightnessMin;
+
+  if (harmony.length === 0) {
+    return uniqueRandom(modifier);
+  } else {
+    console.log(true)
+    const hues = generateHarmony(harmony);
+    return hues.map(hue => ({
+      hue: hue,
+      saturation: Math.floor(Math.random() * (satMax - satMin) + satMin),
+      lightness: Math.floor(Math.random() * (litMax - litMin) + litMin)
+    }));
   }
-  return info;
 }
 
 module.exports = getPalette;

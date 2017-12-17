@@ -9,16 +9,10 @@ const TRANSITION_TIME = 200;
 const MIN_WIDTH = 700;
 
 class Data {
-  colorSpaces = [
-    { colorSpace: "HSL" },
-    { colorSpace: "RGB" },
-    { colorSpace: "CMYK" }
-  ];
   harmonies = harmonies;
-  @observable selectedHarmony = this.harmonies[2];
-  @observable selectedColorSpace = this.colorSpaces[0];
+  @observable selectedHarmony = this.harmonies.random;
   @observable modifiers = modifiers;
-  @observable selectedModifier = this.modifiers[0];
+  @observable selectedModifier = this.modifiers.none;
   @observable palette = [];
   @observable cooldownactive = false;
   @observable favorites = [];
@@ -27,26 +21,14 @@ class Data {
   get minWidth() {
     return `(min-width: ${MIN_WIDTH}px)`;
   }
-
-  @computed
-  get transitionTime() {
-    return TRANSITION_TIME;
-  }
-
   @computed
   get miniPalettes() {
-    const miniPalettes = [];
-    for (let i = 0; i < this.harmonies.length; i++) {
-      const paletteData = getPalette(
-        this.harmonies[i].harmony,
+    return Object.keys(harmonies).map(harmony => ({
+      [harmony]: getPalette(
+        this.harmonies[harmony].coordinates,
         this.selectedModifier
-      );
-      const paletteName = this.harmonies[i].harmony;
-      miniPalettes.push({
-        [paletteName]: paletteData
-      });
-    }
-    return miniPalettes;
+      )
+    }));
   }
 
   @computed
@@ -62,11 +44,16 @@ class Data {
 
   // GENERATE PALETTE
   @action
+  @withCooldown(TRANSITION_TIME)
   generateNewPalatte() {
-    this.palette = new Palette(
-      this.selectedHarmony.harmony,
-      this.selectedModifier
-    );
+    if (this.cooldownactive === true) {
+      return;
+    } else {
+      this.palette = new Palette(
+        this.selectedHarmony.coordinates,
+        this.selectedModifier
+      );
+    }
   }
 
   @action
@@ -75,17 +62,6 @@ class Data {
       this.palette = this.favorites[index];
     } else {
       return;
-    }
-  }
-
-  // RETRIEVE NEXT COLOR PALATTE
-  @action
-  @withCooldown(TRANSITION_TIME)
-  getNext() {
-    if (this.cooldownactive === true) {
-      return;
-    } else {
-      this.generateNewPalatte();
     }
   }
 
@@ -138,18 +114,13 @@ class Data {
 
   // CHANGE SELECTED COLOR PALATTE HARMONY (TRIADIC, ANALOGOUS, ETC.)
   @action
-  changeHarmony(index) {
-    this.selectedHarmony = this.harmonies[index];
+  changeHarmony(value) {
+    this.selectedHarmony = value;
   }
 
   @action
-  changeColorSpace(index) {
-    this.selectedColorSpace = this.colorSpaces[index];
-  }
-
-  @action
-  changeModifier(index) {
-    this.selectedModifier = this.modifiers[index];
+  changeModifier(value) {
+    this.selectedModifier = value;
   }
 
   @action

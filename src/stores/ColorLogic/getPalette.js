@@ -10,7 +10,6 @@ function getPalette(harmony, modifier) {
   if (harmony.length === 0) {
     return uniqueRandom(modifier);
   } else {
-    console.log(true)
     const hues = generateHarmony(harmony);
     return hues.map(hue => ({
       hue: hue,

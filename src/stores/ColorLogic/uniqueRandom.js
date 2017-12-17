@@ -50,7 +50,6 @@ function getRandomArr(length, min, max, delta) {
 
 function uniqueRandom(modifier) {
   if (modifier.name !== "none") {
-    console.log(true)
     const info = getRandomArr(5, 0, 360, 0.1);
     return assembleColor(info, modifier);
   } else {

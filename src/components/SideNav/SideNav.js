@@ -9,6 +9,7 @@ import EditDetails from "../ModalContent/EditDetails";
 import Category from "./Category";
 import styles from "./SideNav.css";
 import ListItem from "./ListItem";
+import ErrorBoundry from "../ErrorBoundry/ErrorBoundry";
 
 function getHarmonies(harmonies, dataStore) {
   const keys = Object.keys(harmonies);
@@ -45,17 +46,6 @@ function getmodifiers(modifiers, dataStore) {
       {name}
     </ListItem>
   ));
-  // const harmonyList = modifiers.map(({ name }, index) => (
-  //   <ListItem
-  //     key={`modifier-${index}`}
-  //     action={() => dataStore.changeModifier(index)}
-  //     selected={name === dataStore.selectedModifier.name ? true : false}
-  //     showControls={false}
-  //   >
-  //     {name}
-  //   </ListItem>
-  // ));
-  // return harmonyList;
 }
 
 function getFavorites(favorites, favoritesShortList, dataStore, handleClick) {
@@ -171,11 +161,13 @@ class SideNav extends Component {
                 beforeClose: styles.modalOverlayBeforeClose
               }}
             >
+            <ErrorBoundry>
               <EditDetails
                 targetFavorite={this.state.targetFavorite}
                 dataStore={dataStore}
                 handleClose={this.handleClose}
               />
+            </ErrorBoundry>
             </Modal>
           </div>
         </OutsideAlerter>

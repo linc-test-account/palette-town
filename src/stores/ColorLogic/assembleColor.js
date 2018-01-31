@@ -9,12 +9,6 @@ function assembleColor(hues, modifier) {
       saturation: Math.floor(Math.random() * (SAT_MAX - SAT_MIN) + SAT_MIN),
       lightness: Math.floor(Math.random() * (LIT_MAX - LIT_MIN) + LIT_MIN)
     }));
-  } else {
-    return hues.map(hue => ({
-      hue: hue,
-      saturation: Math.floor(Math.random() * (0 - 100) + 100),
-      lightness: Math.floor(Math.random() * (0 - 100) + 100)
-    }));
   }
 }
 

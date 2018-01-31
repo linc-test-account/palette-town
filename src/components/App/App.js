@@ -8,6 +8,7 @@ import Palette from "../Palette/Palette";
 import Footer from "../Footer/Footer";
 import Modal from "react-modal";
 import ColorInfo from "../ModalContent/ColorInfo";
+import ErrorBoundry from "../ErrorBoundry/ErrorBoundry";
 import styles from "./App.css";
 
 @observer
@@ -53,6 +54,7 @@ class App extends Component {
         }
       }
     });
+
   }
 
   handleKeyPress = () => {
@@ -126,7 +128,9 @@ class App extends Component {
             <Loader />
           </div>
         ) : (
-          <Palette minWidthReached={minWidthReached} dataStore={dataStore} />
+          <ErrorBoundry>
+            <Palette minWidthReached={minWidthReached} dataStore={dataStore} />
+          </ErrorBoundry>
         )}
 
         <Footer dataStore={dataStore} />

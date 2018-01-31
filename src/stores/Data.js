@@ -7,6 +7,9 @@ useStrict(true);
 
 const TRANSITION_TIME = 200;
 const MIN_WIDTH = 700;
+const HSL = { hue: 360, saturation: 100, lightness: 100 };
+const RGB = { red: 255, green: 255, blue: 255 };
+const CMYK = { cyan: 100, magenta: 100, yellow: 100, key: 100 };
 
 class Data {
   harmonies = harmonies;
@@ -21,6 +24,7 @@ class Data {
   get minWidth() {
     return `(min-width: ${MIN_WIDTH}px)`;
   }
+
   @computed
   get miniPalettes() {
     return Object.keys(harmonies).map(harmony => ({
@@ -129,9 +133,6 @@ class Data {
   }
 
   validateInputs(value, name) {
-    const hsl = { hue: 360, saturation: 100, lightness: 100 };
-    const rgb = { red: 255, green: 255, blue: 255 };
-    const cmyk = { cyan: 100, magenta: 100, yellow: 100, key: 100 };
     value = parseInt(value);
 
     if (isNaN(value) === true) {
@@ -143,16 +144,16 @@ class Data {
     if (value < 0) {
       return false;
     }
-    if (name in hsl && value > hsl[name]) {
-      this.palette.changeColorProperty(hsl[name], name);
+    if (name in HSL && value > HSL[name]) {
+      this.palette.changeColorProperty(HSL[name], name);
       return true;
     }
-    if (name in rgb && value > rgb[name]) {
-      this.palette.changeColorProperty(rgb[name], name);
+    if (name in RGB && value > RGB[name]) {
+      this.palette.changeColorProperty(RGB[name], name);
       return true;
     }
-    if (name in cmyk && value > cmyk[name]) {
-      this.palette.changeColorProperty(cmyk[name], name);
+    if (name in CMYK && value > CMYK[name]) {
+      this.palette.changeColorProperty(CMYK[name], name);
       return true;
     }
     if (value >= 0) {

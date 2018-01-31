@@ -72,6 +72,24 @@ export default class Palette {
   }
 
   @action
+  changeAllColorProperties(value) {
+    const hues = this.colors.map(({ hue }) => hue);
+    let newVal;
+    hues.forEach((hue, index) => {
+      if (hue + value > 360) {
+        newVal = hue + value - 360;
+      }
+      if (hue + value < 0) {
+        newVal = 360 - hue + value;
+      }
+      if (hue + value >= 0 && hue + value <= 360) {
+        newVal = hue + value;
+      }
+      this.colors[index].setHue(newVal);
+    });
+  }
+
+  @action
   reversePalette() {
     const tempArray = this.colors.slice();
     const reversedArray = reverse(tempArray);

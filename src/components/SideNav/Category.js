@@ -70,7 +70,7 @@ class Category extends Component {
           className={styles.content}
           style={contentStyle}
         >
-          {categoryItems.length > 0 && categoryItems}
+            {categoryItems.length > 0 && categoryItems}
         </div>
       </div>
     );

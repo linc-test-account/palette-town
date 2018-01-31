@@ -22,8 +22,45 @@
   padding: 5px;
 }
 
+.overlay {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 999;
+  margin: 20px;
+  right: 0;
+}
+
+.overlayButtons {
+  background: white;
+  box-shadow: 0 0 10px 0 hsla(0, 0%, 0%, 0.281);
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: none;
+  color: var(--app-brand-color);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.overlayButtons:active {
+  color: hsl(310, 100%, 50%);
+}
+
+.overlayButtons:first-child {
+  margin: 0 0 10px 0;
+}
+
+.icon {
+  font-size: 18px;
+}
+
 @media screen and (max-width: 700px) {
   .container {
     flex-direction: column;
+  }
+
+  .overlay {
+    display: none;
   }
 }

@@ -117,17 +117,41 @@ class palette extends Component {
     const { minWidthReached, dataStore } = this.props;
     const { sorting } = this.state;
     return (
-      <SortableList
-        axis={minWidthReached === true ? "y" : "x"}
-        lockAxis={minWidthReached === true ? "y" : "x"}
-        dataStore={dataStore}
-        sorting={sorting}
-        onSortStart={this.handleSortStart}
-        onSortEnd={this.handleSortEnd}
-        pressDelay={0}
-        minWidthReached={minWidthReached}
-        shouldCancelStart={this.handleCancel}
-      />
+      <div>
+        <div className={styles.overlay}>
+          <button
+            className={styles.overlayButtons}
+            onClick={() => dataStore.palette.changeAllColorProperties(10)}
+          >
+            <FontAwesome
+              className={styles.icon}
+              name={"plus"}
+              size="2x"
+            />
+          </button>
+          <button
+            className={styles.overlayButtons}
+            onClick={() => dataStore.palette.changeAllColorProperties(-10)}
+          >
+            <FontAwesome
+              className={styles.icon}
+              name={"minus"}
+              size="2x"
+            />
+          </button>
+        </div>
+        <SortableList
+          axis={minWidthReached === true ? "y" : "x"}
+          lockAxis={minWidthReached === true ? "y" : "x"}
+          dataStore={dataStore}
+          sorting={sorting}
+          onSortStart={this.handleSortStart}
+          onSortEnd={this.handleSortEnd}
+          pressDelay={0}
+          minWidthReached={minWidthReached}
+          shouldCancelStart={this.handleCancel}
+        />
+      </div>
     );
   }
 }

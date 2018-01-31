@@ -1,12 +1,14 @@
 const assembleColor = require("./assembleColor");
 
-/*
+/** 
  * getRandomArr
  *
- * @param {length} limit - Length of the array to be generated
- * @param {min} limit - Inclusive lower limit on generated numbers 
- * @param {max} limit - Exclusive upper limit on generated numbers
- * @param {delta} limit - Enforced minimum delta between every value in array  */
+ * @param {number} length - Length of the array to be generated
+ * @param {number} min - Inclusive lower limit on generated numbers 
+ * @param {number} max - Exclusive upper limit on generated numbers
+ * @param {number} delta - Enforced minimum delta between every value in array
+ * 
+ * @returns {object}  */
 
 function getRandomArr(length, min, max, delta) {
   if (length === undefined || length <= 0) {

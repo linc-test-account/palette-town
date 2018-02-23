@@ -2,6 +2,8 @@
 
  [![Build Status](https://travis-ci.org/plexey/palette-town.svg?branch=master)](https://travis-ci.org/plexey/palette-town) 
 
+![Image of Yaktocat](https://i.imgur.com/3iG9kU9.png)
+
 Palette Town is a utility for creating highly customizable color palettes. Select from a list of color harmonies and modifiers to generate unique and attractive color schemes. Drag and drop swatches to reorder palettes. Save and name your palettes for future reference. Adjust the color of swatches, add new swatches or delete theme entirely.
 
 

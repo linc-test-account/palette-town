@@ -41,10 +41,12 @@ class ListItem extends Component {
         >
           <i
             className={classNames({
-              ["fas fa-cog"]: true,
               [styles.icon]: true,
+              ["material-icons"]: true
             })}
-          />
+          >
+            settings
+          </i>
         </div>
       </div>
     );

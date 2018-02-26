@@ -27,9 +27,9 @@ function template({ css, js }) {
       <link rel="shortcut icon" href="${publicPath}/favicon.ico">
       <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
-      <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css?family=Hammersmith+One" rel="stylesheet">
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
       ${css
         .map(fileName => `<link rel="stylesheet" href="${fileName}" />`)
         .join("\n")}

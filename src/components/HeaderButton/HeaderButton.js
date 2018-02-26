@@ -8,21 +8,23 @@ import classNames from "classnames";
 class HeaderButton extends Component {
   static propTypes = {
     btnFunction: PropTypes.func,
-    fontAwesomeIcon: PropTypes.string,
+    iconName: PropTypes.string,
     overlayValue: PropTypes.number,
     isActive: PropTypes.bool
   };
   render() {
-    const { btnFunction, fontAwesomeIcon, overlayValue, isActive } = this.props;
+    const { btnFunction, iconName, overlayValue, isActive } = this.props;
     return (
       <button className={styles.button} onClick={btnFunction}>
         <i
           className={classNames({
-            [fontAwesomeIcon]: true,
+            ["material-icons"]: true,
             [styles.icon]: true,
             [styles.active]: isActive
           })}
-        />
+        >
+          {iconName}
+        </i>
         {overlayValue > 0 ? (
           <p className={styles.overlay}>{overlayValue}</p>
         ) : (

@@ -126,10 +126,12 @@ class palette extends Component {
           >
             <i
               className={classNames({
-                ["fas fa-plus"]: true,
+                ["material-icons"]: true,
                 [styles.icon]: true
               })}
-            />
+            >
+              add
+            </i>
           </button>
           <button
             className={styles.overlayButtons}
@@ -137,10 +139,12 @@ class palette extends Component {
           >
             <i
               className={classNames({
-                ["fas fa-minus"]: true,
+                ["material-icons"]: true,
                 [styles.icon]: true
               })}
-            />
+            >
+              remove
+            </i>
           </button>
         </div>
         <SortableList

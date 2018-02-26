@@ -14,46 +14,46 @@ class Header extends Component {
 
   render() {
     const { toggleSideNav, modalHandleClick, dataStore } = this.props;
-    const heartType = dataStore.palette.favorited === true ? "fas fa-heart" : "far fa-heart"
+    const heartType = dataStore.palette.favorited === true ? "favorite" : "favorite_border"
     return (
       <div className={styles.container}>
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => toggleSideNav(true)}
-          fontAwesomeIcon={"fas fa-bars"}
+          iconName={"menu"}
         />
         <h1 className={styles.defaultHeading}>Palette Town</h1>
         <h1 className={styles.mobileHeading}>PT</h1>
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.generateNewPalatte()}
-          fontAwesomeIcon={"fas fa-arrow-right"}
+          iconName={"palette"}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.palette.addSwatch()}
-          fontAwesomeIcon={"fas fa-plus"}
+          iconName={"add"}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.palette.reversePalette()}
-          fontAwesomeIcon={"fas fa-exchange-alt"}
+          iconName={"compare_arrows"}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.palette.randomizePalette()}
-          fontAwesomeIcon={"fas fa-random"}
+          iconName={"shuffle"}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.pushToFavorites()}
-          fontAwesomeIcon={heartType}
+          iconName={heartType}
           isActive={dataStore.palette.favorited}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={modalHandleClick}
-          fontAwesomeIcon={"fas fa-download"}
+          iconName={"file_download"}
         />
       </div>
     );

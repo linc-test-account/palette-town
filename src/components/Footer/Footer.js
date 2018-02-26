@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
-import classNames from "classnames";
 import styles from "./Footer.css";
 
 @observer
@@ -41,11 +40,7 @@ class Footer extends Component {
             className={styles.footerLink}
             href="https://github.com/plexey/palette-town"
           >
-            <i
-              className={classNames({
-                ["fab fa-github"]: true,
-              })}
-            />
+            <i className="material-icons">code</i>
           </a>
         </div>
       </div>

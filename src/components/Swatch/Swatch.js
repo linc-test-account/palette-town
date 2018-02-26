@@ -107,11 +107,12 @@ class Swatch extends Component {
             >
               <i
                 className={classNames({
-                  ["fas fa-sliders-h"]: true,
+                  ["material-icons"]: true,
                   [styles.swatchButtonIcon]: true
                 })}
-              />
-
+              >
+                tune
+              </i>
             </div>
             <div
               style={buttonTextColor}
@@ -120,10 +121,12 @@ class Swatch extends Component {
             >
               <i
                 className={classNames({
-                  ["fas fa-trash-alt"]: true,
+                  ["material-icons"]: true,
                   [styles.swatchButtonIcon]: true
                 })}
-              />
+              >
+                delete
+              </i>
             </div>
           </div>
         )}

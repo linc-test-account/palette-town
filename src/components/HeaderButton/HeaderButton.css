@@ -27,7 +27,7 @@
   color: var(--app-brand-color);
   transition: 200ms cubic-bezier(.66,-0.06,.24,1.22) transform;
   pointer-events:none;
-  font-size: 20px;
+  font-size: 25px;
   transform: scale(1, 1);
 }
 
@@ -46,7 +46,7 @@
   z-index: 1;
   position: absolute;
   transform: scale(1, 1);
-  margin: -5px 0 0 24px;
+  /* margin: -5px 0 0 24px; */
   padding: 0;
   font-size: 11px;
   background: hsl(217, 63%, 52%);

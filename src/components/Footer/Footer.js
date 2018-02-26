@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
-import FontAwesome from "react-fontawesome";
+import classNames from "classnames";
 import styles from "./Footer.css";
 
 @observer
@@ -37,8 +37,15 @@ class Footer extends Component {
             Tom Trinca
           </a>
           -
-          <a className={styles.footerLink} href="https://github.com/plexey/palette-town">
-            <FontAwesome name="fab fa-github" />
+          <a
+            className={styles.footerLink}
+            href="https://github.com/plexey/palette-town"
+          >
+            <i
+              className={classNames({
+                ["fab fa-github"]: true,
+              })}
+            />
           </a>
         </div>
       </div>

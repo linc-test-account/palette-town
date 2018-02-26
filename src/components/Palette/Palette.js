@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import FlipMove from "react-flip-move";
 import Swatch from "../Swatch/Swatch";
-import FontAwesome from "react-fontawesome";
+import classNames from "classnames";
 import styles from "./Palette.css";
 
 const SortableItem = SortableElement(
@@ -51,11 +51,12 @@ const unwrappedPalette = observer(({ dataStore, sorting, minWidthReached }) => {
       {sortableSwatches.length === 0 ? (
         <div className={styles.placeholder}>
           Press{" "}
-          <FontAwesome
-            className={styles.placeholderIcon}
-            name="plus"
-            size="2x"
-          />{" "}
+          <i
+            className={classNames({
+              ["fas fa-plus"]: true,
+              [styles.placeholderIcon]: true
+            })}
+          />
           to add swatches
         </div>
       ) : (
@@ -123,20 +124,22 @@ class palette extends Component {
             className={styles.overlayButtons}
             onClick={() => dataStore.palette.changeAllColorProperties(10)}
           >
-            <FontAwesome
-              className={styles.icon}
-              name={"plus"}
-              size="2x"
+            <i
+              className={classNames({
+                ["fas fa-plus"]: true,
+                [styles.icon]: true
+              })}
             />
           </button>
           <button
             className={styles.overlayButtons}
             onClick={() => dataStore.palette.changeAllColorProperties(-10)}
           >
-            <FontAwesome
-              className={styles.icon}
-              name={"minus"}
-              size="2x"
+            <i
+              className={classNames({
+                ["fas fa-minus"]: true,
+                [styles.icon]: true
+              })}
             />
           </button>
         </div>

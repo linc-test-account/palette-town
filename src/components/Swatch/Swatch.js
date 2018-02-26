@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import PropTypes from "prop-types";
-import FontAwesome from "react-fontawesome";
 import FlipMove from "react-flip-move";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import styles from "./Swatch.css";
@@ -106,21 +105,24 @@ class Swatch extends Component {
               className={styles.swatchButton}
               onClick={() => dataStore.palette.selectSwatch(uniqueIndex)}
             >
-              <FontAwesome
-                className={styles.swatchButtonIcon}
-                name="sliders"
-                size="2x"
+              <i
+                className={classNames({
+                  ["fas fa-sliders-h"]: true,
+                  [styles.swatchButtonIcon]: true
+                })}
               />
+
             </div>
             <div
               style={buttonTextColor}
               className={styles.swatchButton}
               onClick={() => dataStore.palette.deleteSwatch(uniqueIndex)}
             >
-              <FontAwesome
-                className={styles.swatchButtonIcon}
-                name="trash"
-                size="2x"
+              <i
+                className={classNames({
+                  ["fas fa-trash-alt"]: true,
+                  [styles.swatchButtonIcon]: true
+                })}
               />
             </div>
           </div>

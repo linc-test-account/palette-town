@@ -14,36 +14,35 @@ class Header extends Component {
 
   render() {
     const { toggleSideNav, modalHandleClick, dataStore } = this.props;
-    const heartType =
-      dataStore.palette.favorited === true ? "heart" : "heart-o";
+    const heartType = dataStore.palette.favorited === true ? "fas fa-heart" : "far fa-heart"
     return (
       <div className={styles.container}>
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => toggleSideNav(true)}
-          fontAwesomeIcon={"bars"}
+          fontAwesomeIcon={"fas fa-bars"}
         />
         <h1 className={styles.defaultHeading}>Palette Town</h1>
         <h1 className={styles.mobileHeading}>PT</h1>
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.generateNewPalatte()}
-          fontAwesomeIcon={"arrow-right"}
+          fontAwesomeIcon={"fas fa-arrow-right"}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.palette.addSwatch()}
-          fontAwesomeIcon={"plus"}
+          fontAwesomeIcon={"fas fa-plus"}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.palette.reversePalette()}
-          fontAwesomeIcon={"exchange"}
+          fontAwesomeIcon={"fas fa-exchange-alt"}
         />
         <HeaderButton
           dataStore={dataStore}
           btnFunction={() => dataStore.palette.randomizePalette()}
-          fontAwesomeIcon={"random"}
+          fontAwesomeIcon={"fas fa-random"}
         />
         <HeaderButton
           dataStore={dataStore}
@@ -54,7 +53,7 @@ class Header extends Component {
         <HeaderButton
           dataStore={dataStore}
           btnFunction={modalHandleClick}
-          fontAwesomeIcon={"download"}
+          fontAwesomeIcon={"fas fa-download"}
         />
       </div>
     );

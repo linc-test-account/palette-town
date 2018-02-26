@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import styles from "./ListItem.css";
 import classNames from "classnames";
-import FontAwesome from "react-fontawesome";
 
 @observer
 class ListItem extends Component {
@@ -40,7 +39,12 @@ class ListItem extends Component {
             [styles.controlsVisible]: showControls
           })}
         >
-          <FontAwesome className={styles.icon} name={"cog"} size="2x" />
+          <i
+            className={classNames({
+              ["fas fa-cog"]: true,
+              [styles.icon]: true,
+            })}
+          />
         </div>
       </div>
     );

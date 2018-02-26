@@ -114,7 +114,7 @@ class SideNav extends Component {
               <HeaderButton
                 dataStore={dataStore}
                 btnFunction={() => toggleSideNav(false)}
-                fontAwesomeIcon={"bars"}
+                fontAwesomeIcon={"fas fa-bars"}
                 buttonText={"Menu"}
               />
               <h1 className={styles.defaultBrandName}>Palette Town</h1>

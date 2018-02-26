@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import FontAwesome from "react-fontawesome";
 import classNames from "classnames";
 import styles from "./Category.css";
 
@@ -56,13 +55,12 @@ class Category extends Component {
       <div className={styles.container}>
         <h2 className={styles.heading} onClick={this.toggleIsExpanded}>
           {categoryName}
-          <FontAwesome
+          <i
             className={classNames({
+              ["fas fa-caret-right"]: true,
               [styles.icon]: true,
               [styles.rotate]: isExpanded
             })}
-            name="caret-right"
-            size="2x"
           />
         </h2>
         <div
@@ -70,7 +68,7 @@ class Category extends Component {
           className={styles.content}
           style={contentStyle}
         >
-            {categoryItems.length > 0 && categoryItems}
+          {categoryItems.length > 0 && categoryItems}
         </div>
       </div>
     );

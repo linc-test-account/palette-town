@@ -60,11 +60,11 @@ class ColorInfo extends Component {
     const { dataStore, handleClose } = this.props;
     return (
       <div>
-        <div className={styles["paletteColorDataHeader"]}>
+        <div className={styles.paletteColorDataHeader}>
           {generateCategoryButtons(category, this.changeCategory)}
         </div>
-        <div className={styles["modalInner"]}>
-          <div className={styles["modalPaletteContainer"]}>
+        <div className={styles.modalInner}>
+          <div className={styles.modalPaletteContainer}>
             <MiniPalette
               swatchWidth={50}
               swatchHeight={20}

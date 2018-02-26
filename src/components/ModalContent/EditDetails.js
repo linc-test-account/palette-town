@@ -69,23 +69,23 @@ class EditDetails extends Component {
     return (
       <div>
         {content === "default" && (
-          <div className={styles["editDetailsContainer"]}>
-            <h1 className={styles["editDetailsHeading"]}>Edit Palette</h1>
+          <div className={styles.editDetailsContainer}>
+            <h1 className={styles.editDetailsHeading}>Edit Palette</h1>
             <MiniPalette
               swatchWidth={50}
               swatchHeight={20}
               swatchHover={true}
               harmony={dataStore.favorites[targetFavorite].colors}
             />
-            <h3 className={styles["editDetailsInputHeading"]}>Name</h3>
+            <h3 className={styles.editDetailsInputHeading}>Name</h3>
             <input
-              className={styles["editDetailsInput"]}
+              className={styles.editDetailsInput}
               type="text"
               value={nameInput}
               onChange={event => this.inputOnChange(event.target.value)}
             />
 
-            <div className={styles["editDetailsButtonContainer"]}>
+            <div className={styles.editDetailsButtonContainer}>
               <AppButton
                 buttonText="Save"
                 buttonType="confirm"
@@ -105,7 +105,7 @@ class EditDetails extends Component {
           </div>
         )}
         {content === "delete" && (
-          <div className={styles["editDetailsContainer"]}>
+          <div className={styles.editDetailsContainer}>
             <h1
               className={classNames({
                 [styles.editDetailsHeading]: true,
@@ -125,7 +125,7 @@ class EditDetails extends Component {
               <span className={styles.editDetailsTextSpan}>{nameInput}</span>{" "}
               from favorites?
             </h3>
-            <div className={styles["editDetailsButtonContainer"]}>
+            <div className={styles.editDetailsButtonContainer}>
               <AppButton
                 buttonText="Cancel"
                 buttonType="default"

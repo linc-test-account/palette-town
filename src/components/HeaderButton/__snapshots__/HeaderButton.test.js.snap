@@ -5,7 +5,7 @@ exports[`HeaderButton should render active 1`] = `
   onClick={[Function]}
 >
   <i
-    className="exampleIcon undefined"
+    className="material-icons undefined"
   />
   <p>
     1
@@ -18,7 +18,7 @@ exports[`HeaderButton should render in-active 1`] = `
   onClick={[Function]}
 >
   <i
-    className="exampleIcon"
+    className="material-icons"
   />
   <p>
     1

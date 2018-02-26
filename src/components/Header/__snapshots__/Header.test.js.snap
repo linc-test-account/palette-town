@@ -9,7 +9,7 @@ exports[`Header should render correctly 1`] = `
         "palette": Object {},
       }
     }
-    fontAwesomeIcon="fas fa-bars"
+    iconName="menu"
   />
   <h1>
     Palette Town
@@ -24,7 +24,7 @@ exports[`Header should render correctly 1`] = `
         "palette": Object {},
       }
     }
-    fontAwesomeIcon="fas fa-arrow-right"
+    iconName="palette"
   />
   <HeaderButton
     btnFunction={[Function]}
@@ -33,7 +33,7 @@ exports[`Header should render correctly 1`] = `
         "palette": Object {},
       }
     }
-    fontAwesomeIcon="fas fa-plus"
+    iconName="add"
   />
   <HeaderButton
     btnFunction={[Function]}
@@ -42,7 +42,7 @@ exports[`Header should render correctly 1`] = `
         "palette": Object {},
       }
     }
-    fontAwesomeIcon="fas fa-exchange-alt"
+    iconName="compare_arrows"
   />
   <HeaderButton
     btnFunction={[Function]}
@@ -51,7 +51,7 @@ exports[`Header should render correctly 1`] = `
         "palette": Object {},
       }
     }
-    fontAwesomeIcon="fas fa-random"
+    iconName="shuffle"
   />
   <HeaderButton
     btnFunction={[Function]}
@@ -60,7 +60,7 @@ exports[`Header should render correctly 1`] = `
         "palette": Object {},
       }
     }
-    fontAwesomeIcon="far fa-heart"
+    iconName="favorite_border"
   />
   <HeaderButton
     btnFunction={[Function]}
@@ -69,7 +69,7 @@ exports[`Header should render correctly 1`] = `
         "palette": Object {},
       }
     }
-    fontAwesomeIcon="fas fa-download"
+    iconName="file_download"
   />
 </div>
 `;

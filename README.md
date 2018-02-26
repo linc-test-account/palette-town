@@ -1,9 +1,6 @@
 # Palette Town
 
 [![Build Status](https://travis-ci.org/plexey/palette-town.svg?branch=master)](https://travis-ci.org/plexey/palette-town)
-[![Build Status](https://travis-ci.org/plexey/palette-town.svg?branch=master)](https://travis-ci.org/plexey/palette-town)
-
-![PaletteTown](https://i.imgur.com/3iG9kU9.png)
 
 Palette Town is a tool for creating and refining unique color palettes for your website or other project. With it, you can generate triadic, tetradic, square, pentagonal color harmonies or alternatively an entirely randomized color palette. Reorder a generated palette by dragging and dropping its swatches or by clicking the shuffle and reverse buttons. Modify a given swatch's color values within your preferred color space or, alternatively, add and remove swatches at will. With Palette Town you can save and name your palettes to the Favorites section and easily export its hex, rgb, hsl or cmyk color values to your project.
 

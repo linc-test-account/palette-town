@@ -57,11 +57,13 @@ class Category extends Component {
           {categoryName}
           <i
             className={classNames({
-              ["fas fa-caret-right"]: true,
+              ["material-icons"]: true,
               [styles.icon]: true,
               [styles.rotate]: isExpanded
             })}
-          />
+          >
+            arrow_drop_down
+          </i>
         </h2>
         <div
           ref={contentDiv => (this.contentDiv = contentDiv)}

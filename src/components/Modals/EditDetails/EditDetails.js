@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import MiniPalette from "../MiniPalette/MiniPalette";
+import MiniPalette from "../../MiniPalette/MiniPalette";
 import PropTypes from "prop-types";
-import AppButton from "../AppButton/AppButton";
+import AppButton from "../../AppButton/AppButton";
 import styles from "./EditDetails.css";
 import classNames from "classnames";
 
@@ -85,7 +85,7 @@ class EditDetails extends Component {
               onChange={event => this.inputOnChange(event.target.value)}
             />
 
-            <div className={styles.editDetailsButtonContainer}>
+            <div className={styles.buttonsContainer}>
               <AppButton
                 buttonText="Save"
                 buttonType="confirm"
@@ -125,7 +125,7 @@ class EditDetails extends Component {
               <span className={styles.editDetailsTextSpan}>{nameInput}</span>{" "}
               from favorites?
             </h3>
-            <div className={styles.editDetailsButtonContainer}>
+            <div className={styles.buttonsContainer}>
               <AppButton
                 buttonText="Cancel"
                 buttonType="default"

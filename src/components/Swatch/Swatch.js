@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import PropTypes from "prop-types";
 import FlipMove from "react-flip-move";
-import ColorPicker from "../ColorPicker/ColorPicker";
+import ColorPicker from "../Modals/ColorPicker/ColorPicker";
 import styles from "./Swatch.css";
 import HexInput from "./HexInput";
 import classNames from "classnames";
@@ -49,9 +49,7 @@ class Swatch extends Component {
 
     const flexGrowAmmount = minWidthReached === true ? 4 : 2;
     const style = {
-      background: `hsl(${colorStore.hue}, ${colorStore.saturation}%, ${
-        colorStore.lightness
-      }%)`,
+      background: colorStore.toString('hsl'),
       color: `hsla(0, 0%, ${colorStore.contrastYIQ}%, .4)`,
       flexGrow: colorStore.selected === false ? 1 : flexGrowAmmount
     };

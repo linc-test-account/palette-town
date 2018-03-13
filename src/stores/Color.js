@@ -71,10 +71,48 @@ export default class Color {
       }
     });
   }
+
+  toString = (colorSpace = this.colorSpace) => {
+    if (colorSpace === "hsl") {
+      return `hsl(${this.hue}, ${this.saturation}%, ${this.lightness}%)`;
+    }
+    if (colorSpace === "rgb") {
+      return `rgb(${this.red}, ${this.green}, ${this.blue})`;
+    }
+    if (colorSpace === "cmyk") {
+      return `cmyk(${this.cyan}%, ${this.magenta}%, ${this.yellow}%, ${
+        this.key
+      }%)`;
+    }
+    if (colorSpace === "hex") {
+      return `#${this.hex}`;
+    }
+  };
+
   @computed
   get colorName() {
     return namer(this.hex, { pick: ["ntc"] }).ntc[0].name;
   }
+
+  formatColorName = name => {
+    return name.toLowerCase().replace(/\s+/g, "-");
+  };
+
+  formatColor = (color, format) => {
+    switch (format) {
+      case "css":
+        return `--${color.name}: ${color.value};`;
+      case "less":
+        return `@${color.name}: ${color.value};`;
+      case "json":
+        return `"${color.name}": "${color.value}",`;
+      case "raw":
+        return `${color.value}`;
+      default:
+        break;
+    }
+  };
+
   @computed
   get contrastYIQ() {
     return getContrastYIQ(`#${this.hex}`);

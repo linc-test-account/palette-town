@@ -7,7 +7,7 @@ import Loader from "../Loader/Loader";
 import Palette from "../Palette/Palette";
 import Footer from "../Footer/Footer";
 import Modal from "react-modal";
-import ColorInfo from "../ModalContent/ColorInfo";
+import PaletteValues from "../Modals/PaletteValues/PaletteValues";
 import ErrorBoundry from "../ErrorBoundry/ErrorBoundry";
 import styles from "./App.css";
 
@@ -54,7 +54,6 @@ class App extends Component {
         }
       }
     });
-
   }
 
   handleKeyPress = () => {
@@ -151,7 +150,7 @@ class App extends Component {
             beforeClose: styles.modalOverlayBeforeClose
           }}
         >
-          <ColorInfo
+          <PaletteValues
             dataStore={dataStore}
             handleClose={this.handleClose}
             minWidthReached={minWidthReached}

@@ -5,7 +5,7 @@ import MiniPalette from "../MiniPalette/MiniPalette";
 import Modal from "react-modal";
 import HeaderButton from "../HeaderButton/HeaderButton";
 import OutsideAlerter from "../ClickOutside/ClickOutside";
-import EditDetails from "../ModalContent/EditDetails";
+import EditDetails from "../Modals/EditDetails/EditDetails";
 import Category from "./Category";
 import styles from "./SideNav.css";
 import ListItem from "./ListItem";

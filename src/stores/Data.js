@@ -1,9 +1,9 @@
-import { action, observable, computed, useStrict, toJS } from "mobx";
+import { action, observable, computed, configure, toJS } from "mobx";
 import { getPalette, harmonies, modifiers } from "./ColorLogic";
 import { localStorageRetreive, localStorageUpdate } from "./LocalStorage";
 import withCooldown from "./withCooldown";
 import Palette from "./Palette.js";
-useStrict(true);
+configure({ enforceActions: true })
 
 const TRANSITION_TIME = 200;
 const MIN_WIDTH = 700;

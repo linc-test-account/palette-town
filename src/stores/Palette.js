@@ -1,11 +1,12 @@
-import { action, observable, computed, useStrict } from "mobx";
+import { action, observable, computed, configure } from "mobx";
 import { getPalette, oneOff } from "./ColorLogic";
 import { arrayMove } from "react-sortable-hoc";
 import { shuffle, reverse } from "lodash";
 import shortid from "shortid";
 import pascalCase from "pascal-case";
 import Color from "./Color.js";
-useStrict(true);
+
+configure({ enforceActions: true })
 
 const SWATCH_LIMIT = 7;
 

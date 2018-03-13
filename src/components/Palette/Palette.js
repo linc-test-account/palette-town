@@ -114,6 +114,16 @@ class palette extends Component {
     }
   };
 
+  incrementAllColors = () => {
+    const { dataStore } = this.props;
+    dataStore.palette.changeAllColorProperties(10);
+  };
+
+  decrementAllColors = () => {
+    const { dataStore } = this.props;
+    dataStore.palette.changeAllColorProperties(-10);
+  };
+
   render() {
     const { minWidthReached, dataStore } = this.props;
     const { sorting } = this.state;
@@ -122,7 +132,7 @@ class palette extends Component {
         <div className={styles.overlay}>
           <button
             className={styles.overlayButtons}
-            onClick={() => dataStore.palette.changeAllColorProperties(10)}
+            onClick={this.incrementAllColors}
           >
             <i
               className={classNames({
@@ -135,7 +145,7 @@ class palette extends Component {
           </button>
           <button
             className={styles.overlayButtons}
-            onClick={() => dataStore.palette.changeAllColorProperties(-10)}
+            onClick={this.decrementAllColors}
           >
             <i
               className={classNames({

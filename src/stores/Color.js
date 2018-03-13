@@ -32,7 +32,9 @@ export default class Color {
     Object.keys(colorSpaces).forEach(colorSpace => {
       colorSpaces[colorSpace].forEach((name, index) => {
         extendObservable(this, {
-          [name]: computed(() => {
+          [name]: name,
+
+          get [name]() {
             if (this.colorSpace === colorSpace) {
               return this.properties[index];
             }
@@ -43,7 +45,20 @@ export default class Color {
               return result[index];
             }
             return result;
-          })
+          }
+
+          // [name]: computed(() => {
+          //   if (this.colorSpace === colorSpace) {
+          //     return this.properties[index];
+          //   }
+          //   const result = convert[this.colorSpace][colorSpace](
+          //     ...this.properties
+          //   );
+          //   if (Array.isArray(result)) {
+          //     return result[index];
+          //   }
+          //   return result;
+          // })
         });
         this[`set${pascalCase(name)}`] = value => {
           if (this.colorSpace === colorSpace) {
@@ -60,13 +75,23 @@ export default class Color {
       });
       if (this[colorSpace] === undefined) {
         extendObservable(this, {
-          [colorSpace]: computed(() => {
+          [colorSpace]: colorSpace,
+
+          get [colorSpace]() {
             const result = {};
             colorSpaces[colorSpace].forEach(key => {
               result[key] = this[key];
             });
             return result;
-          })
+          }
+
+          // computed(() => {
+          //   const result = {};
+          //   colorSpaces[colorSpace].forEach(key => {
+          //     result[key] = this[key];
+          //   });
+          //   return result;
+          // })
         });
       }
     });

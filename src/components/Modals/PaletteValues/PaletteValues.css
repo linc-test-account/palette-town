@@ -43,10 +43,21 @@
   border-radius: 0 0 3px 3px;
 }
 
+.notification {
+  margin: 10px 0 0 0;
+  color: rgb(216, 62, 62);
+}
+
 @media screen and (max-width: 700px) {
   .modalContentText {
     font-size: 13px;
     padding: 15px 10px 15px 10px;
+  }
+
+  .notification {
+    margin: 10px 0 0 0;
+    color: rgb(216, 62, 62);
+    font-size: 13px;
   }
 }
 
@@ -55,9 +66,4 @@
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
-}
-
-.notification {
-  margin: 10px 0 0 0;
-  color: rgb(216, 62, 62);
 }

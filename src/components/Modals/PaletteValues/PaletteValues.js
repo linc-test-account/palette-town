@@ -102,13 +102,6 @@ class PaletteValues extends Component {
           <div className={styles.modalContent}>{modalContent}</div>
 
           <div className={styles.buttonsContainer}>
-            <AppButton
-              buttonText="Done"
-              buttonIcon="check"
-              buttonType="confirm"
-              buttonAction={handleClose}
-            />
-
             <CopyToClipboard
               text={paletteStrings.join("\n")}
               onCopy={() => this.toggleCopied(true)}
@@ -121,6 +114,12 @@ class PaletteValues extends Component {
                 />
               </span>
             </CopyToClipboard>
+            <AppButton
+              buttonText="Done"
+              buttonIcon="check"
+              buttonType="default"
+              buttonAction={handleClose}
+            />
           </div>
           {copied === true ? (
             <p className={styles.notification}>Copied to clipboard!</p>

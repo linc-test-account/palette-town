@@ -1,147 +1,53 @@
-import React, { Component } from "react";
-import { observer } from "mobx-react";
-import MiniPalette from "../../MiniPalette/MiniPalette";
+import React from "react";
 import PropTypes from "prop-types";
 import AppButton from "../../AppButton/AppButton";
 import styles from "./EditDetails.css";
-import classNames from "classnames";
 
-@observer
-class EditDetails extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      nameInput: "",
-      content: "default"
-    };
-  }
-  static propTypes = {
-    targetFavorite: PropTypes.number,
-    dataStore: PropTypes.object,
-    handleClose: PropTypes.func
-  };
+const EditDetails = ({
+  nameInput,
+  inputOnChange,
+  confirmAction,
+  cancelAction,
+  switchContentAction
+}) => (
+  <div className={styles.container}>
+    <h1 className={styles.heading}>{nameInput}</h1>
+    <input
+      className={styles.input}
+      placeholder="Rename palette..."
+      type="text"
+      maxLength="50"
+      onChange={inputOnChange}
+    />
+    <div className={styles.buttonsContainer}>
+      <AppButton
+        buttonText="Save"
+        buttonIcon="save"
+        buttonType="confirm"
+        buttonAction={confirmAction}
+      />
+      <AppButton
+        buttonText="Done"
+        buttonIcon="check"
+        buttonType="default"
+        buttonAction={cancelAction}
+      />
+      <AppButton
+        buttonText="Delete"
+        buttonIcon="delete"
+        buttonType="danger"
+        buttonAction={switchContentAction}
+      />
+    </div>
+  </div>
+);
 
-  componentDidMount() {
-    const { dataStore, targetFavorite } = this.props;
-    this.setState({
-      nameInput: dataStore.favorites[targetFavorite].name
-    });
-  }
-
-  inputOnChange = val => {
-    // If input value exceeds length of 50
-    if (val.length > 50) {
-      return;
-    }
-    this.setState({
-      nameInput: val
-    });
-  };
-
-  confirm = () => {
-    const { nameInput } = this.state;
-    const { dataStore, targetFavorite, handleClose } = this.props;
-    dataStore.favorites[targetFavorite].changeName(nameInput);
-    dataStore.updateLocalStorage();
-    handleClose();
-  };
-
-  cancel = () => {
-    const { handleClose } = this.props;
-    handleClose();
-  };
-
-  delete = () => {
-    const { dataStore, targetFavorite, handleClose } = this.props;
-    dataStore.deleteFromFavorites(targetFavorite);
-    handleClose();
-  };
-
-  switchContent = val => {
-    this.setState({
-      content: val
-    });
-  };
-
-  render() {
-    const { nameInput, content } = this.state;
-    const { targetFavorite, dataStore } = this.props;
-    return (
-      <div>
-        {content === "default" && (
-          <div className={styles.editDetailsContainer}>
-            <h1 className={styles.editDetailsHeading}>Edit Palette</h1>
-            <MiniPalette
-              swatchWidth={50}
-              swatchHeight={20}
-              swatchHover={true}
-              harmony={dataStore.favorites[targetFavorite].colors}
-            />
-            <h3 className={styles.editDetailsInputHeading}>Name</h3>
-            <input
-              className={styles.editDetailsInput}
-              type="text"
-              value={nameInput}
-              onChange={event => this.inputOnChange(event.target.value)}
-            />
-
-            <div className={styles.buttonsContainer}>
-              <AppButton
-                buttonText="Save"
-                buttonType="confirm"
-                buttonAction={this.confirm}
-              />
-              <AppButton
-                buttonText="Cancel"
-                buttonType="default"
-                buttonAction={this.cancel}
-              />
-              <AppButton
-                buttonText="Delete"
-                buttonType="danger"
-                buttonAction={() => this.switchContent("delete")}
-              />
-            </div>
-          </div>
-        )}
-        {content === "delete" && (
-          <div className={styles.editDetailsContainer}>
-            <h1
-              className={classNames({
-                [styles.editDetailsHeading]: true,
-                [styles.editDetailsHeadingDelete]: true
-              })}
-            >
-              Delete Favorite
-            </h1>
-            <MiniPalette
-              swatchWidth={50}
-              swatchHeight={20}
-              swatchHover={true}
-              harmony={dataStore.favorites[targetFavorite].colors}
-            />
-            <h3 className={styles.editDetailsInputHeading}>
-              Delete{" "}
-              <span className={styles.editDetailsTextSpan}>{nameInput}</span>{" "}
-              from favorites?
-            </h3>
-            <div className={styles.buttonsContainer}>
-              <AppButton
-                buttonText="Cancel"
-                buttonType="default"
-                buttonAction={() => this.switchContent("default")}
-              />
-              <AppButton
-                buttonText="Delete"
-                buttonType="danger"
-                buttonAction={this.delete}
-              />
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
+EditDetails.propTypes = {
+  nameInput: PropTypes.string,
+  inputOnChange: PropTypes.func,
+  confirmAction: PropTypes.func,
+  cancelAction: PropTypes.func,
+  switchContentAction: PropTypes.func
+};
 
 export default EditDetails;

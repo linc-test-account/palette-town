@@ -10,6 +10,7 @@ import Modal from "react-modal";
 import PaletteValues from "../Modals/PaletteValues/PaletteValues";
 import ErrorBoundry from "../ErrorBoundry/ErrorBoundry";
 import styles from "./App.css";
+import modalStyles from "../Modals/ModalStyles.css";
 
 @observer
 class App extends Component {
@@ -140,14 +141,14 @@ class App extends Component {
           contentLabel="Color Info Modal"
           ariaHideApp={false}
           className={{
-            base: styles.colorModalDialog,
-            afterOpen: styles.colorModalDialogAfterOpen,
-            beforeClose: styles.colorModalDialogBeforeClose
+            base: modalStyles.container,
+            afterOpen: modalStyles.containerAfterOpen,
+            beforeClose: modalStyles.containerBeforeClose
           }}
           overlayClassName={{
-            base: styles.modalOverlay,
-            afterOpen: styles.modalOverlayAfterOpen,
-            beforeClose: styles.modalOverlayBeforeClose
+            base: modalStyles.overlay,
+            afterOpen: modalStyles.overlayAfterOpen,
+            beforeClose: modalStyles.overlayBeforeClose
           }}
         >
           <PaletteValues

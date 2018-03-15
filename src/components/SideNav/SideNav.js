@@ -5,9 +5,10 @@ import MiniPalette from "../MiniPalette/MiniPalette";
 import Modal from "react-modal";
 import HeaderButton from "../HeaderButton/HeaderButton";
 import OutsideAlerter from "../ClickOutside/ClickOutside";
-import EditDetails from "../Modals/EditDetails/EditDetails";
+import PaletteSettings from "../Modals/PaletteSettings/PaletteSettings";
 import Category from "./Category";
 import styles from "./SideNav.css";
+import modalStyles from "../Modals/ModalStyles.css";
 import ListItem from "./ListItem";
 import ErrorBoundry from "../ErrorBoundry/ErrorBoundry";
 
@@ -76,14 +77,6 @@ class SideNav extends Component {
     };
   }
 
-  static propTypes = {
-    dataStore: PropTypes.object,
-    showSideNav: PropTypes.bool,
-    toggleSideNav: PropTypes.func,
-    toggleSideNavVisibility: PropTypes.func,
-    minWidthReached: PropTypes.bool
-  };
-
   handleClick = val => {
     const { toggleSideNavVisibility } = this.props;
     toggleSideNavVisibility();
@@ -151,23 +144,23 @@ class SideNav extends Component {
               contentLabel="Color Info Modal"
               ariaHideApp={false}
               className={{
-                base: styles.colorModalDialog,
-                afterOpen: styles.colorModalDialogAfterOpen,
-                beforeClose: styles.colorModalDialogBeforeClose
+                base: modalStyles.container,
+                afterOpen: modalStyles.containerAfterOpen,
+                beforeClose: modalStyles.containerBeforeClose
               }}
               overlayClassName={{
-                base: styles.modalOverlay,
-                afterOpen: styles.modalOverlayAfterOpen,
-                beforeClose: styles.modalOverlayBeforeClose
+                base: modalStyles.overlay,
+                afterOpen: modalStyles.overlayAfterOpen,
+                beforeClose: modalStyles.overlayBeforeClose
               }}
             >
-            <ErrorBoundry>
-              <EditDetails
-                targetFavorite={this.state.targetFavorite}
-                dataStore={dataStore}
-                handleClose={this.handleClose}
-              />
-            </ErrorBoundry>
+              <ErrorBoundry>
+                <PaletteSettings
+                  targetFavorite={this.state.targetFavorite}
+                  dataStore={dataStore}
+                  handleClose={this.handleClose}
+                />
+              </ErrorBoundry>
             </Modal>
           </div>
         </OutsideAlerter>
@@ -175,5 +168,13 @@ class SideNav extends Component {
     );
   }
 }
+
+SideNav.propTypes = {
+  dataStore: PropTypes.object,
+  showSideNav: PropTypes.bool,
+  toggleSideNav: PropTypes.func,
+  toggleSideNavVisibility: PropTypes.func,
+  minWidthReached: PropTypes.bool
+};
 
 export default SideNav;

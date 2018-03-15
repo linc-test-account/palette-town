@@ -1,19 +1,18 @@
 .button {
   color: hsl(0, 0%, 14%);
-  background: hsl(0, 0%, 93%);
+  background: hsl(0, 0%, 85%);
   font-family: "Varela Round", sans-serif;
   font-family: var(--app-font);
   cursor: pointer;
   font-size: 16px;
-  margin: 0;
   border: none;
   padding: 10px 15px 10px 15px;
   border-radius: 3px;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-content: center;
-  margin: 0 5px 0 5px;
+  align-items: center;
+  width: 100%;
 }
 
 .icon {

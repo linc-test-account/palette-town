@@ -1,0 +1,54 @@
+.container {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) scale(.7,.7);
+    position: absolute;
+    border: none;
+    transition: .3s ease all;
+    background: hsl(0, 0%, 95%);
+    color: hsl(0, 0%, 0%);
+    opacity: 0;
+    border-radius: 3px;
+    box-shadow: 0 0 20px 0 hsla(0, 0%, 0%, 0.3);
+    z-index: 99;
+    font-family: "Varela Round", sans-serif;
+    font-family: var(--app-font);
+  }
+  .containerAfterOpen {
+    transform: translate(-50%, -50%) scale(1,1);
+    opacity: 1;
+  }
+  
+  .containerBeforeClose {
+    opacity: 0;
+  }
+  
+  .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: black;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    background: hsla(231, 47%, 23%, 0);
+    z-index: 98;
+    transition: .3s ease all;
+  }
+  
+  .overlayAfterOpen {
+    background: hsla(230, 44%, 17%, 0.7);
+  }
+  
+  .overlayBeforeClose {
+    background: hsla(231, 47%, 23%, 0);
+  }
+
+  

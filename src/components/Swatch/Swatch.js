@@ -61,7 +61,10 @@ class Swatch extends Component {
         className={classNames({
           [styles.container]: true,
           [styles.swatchFlexTransition]: sorting === false ? true : false,
-          swatchDraggable: true
+          swatchDraggable: true,
+          [styles.grabbable]: true,
+          [styles.grabActive]: sorting === true ? true : false,
+          [styles.noselect]: true
         })}
         leaveAnimation={"elevator"}
         duration={250}

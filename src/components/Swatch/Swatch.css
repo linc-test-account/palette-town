@@ -113,6 +113,22 @@
   }
 }
 
+/* Grabbable styling */
+
+.grabbable {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabActive { 
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
 /* 
   Applying transition to flex on sortable items contained
   within an instance of react-sortable-hoc appears to break
